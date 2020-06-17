@@ -51,6 +51,8 @@ all_game_items.append(fishing_rod)
 wood = item(110,"wood",2,False,False,False,False,False,0,"","")
 all_game_items.append(wood)
 
+tinder_box = item(110,"tinder box",2,False,False,False,False,False,0,"","")
+all_game_items.append(tinder_box)
 #########################################
 
 #edible poisonous items
@@ -171,6 +173,8 @@ all_ground_game_items.append(ground_fishing_rod)
 ground_wood = item(110,"wood",2,False,False,False,False,False,0,"","")
 all_ground_game_items.append(ground_wood)
 
+ground_tinder_box = item(110,"tinder box",2,False,False,False,False,False,0,"","")
+all_ground_game_items.append(ground_tinder_box)
 #########################################
 
 #edible poisonous ground_items

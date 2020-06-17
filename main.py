@@ -1,5 +1,27 @@
 
-from intro import *
+# TBA
+
+version = "a2.0"
+
+dev_mode = 1
+
+grid_mode = 0
+toggle_music = 0
+
+if dev_mode >= 1:
+    gen_sea = 0
+    run_intro = False
+else:
+    gen_sea = 1
+    run_intro = True
+
+if run_intro == True:
+    from intro import *
+else:
+    player_class_string = "1"
+    player_name_string = "dev character"
+
+########### import modules ##############
 
 import random # default python module
 from time import sleep # default python module
@@ -20,8 +42,10 @@ pygame.font.init() # you have to call this at the start if you want to use fonts
 myfont = pygame.font.SysFont('candara', 16, bold=True, italic=False) # you have to call this at the start if you want to use fonts
 gridfont = pygame.font.SysFont('MS Comic Sans', 16) # you have to call this at the start if you want to use fonts
 
-fontlist = pygame.font.get_fonts()
-print(fontlist)
+
+if dev_mode >= 2:
+    fontlist = pygame.font.get_fonts()
+    print(fontlist)
 
 pygame.key.set_repeat(0,1) # held key repeat timer
 
@@ -39,19 +63,7 @@ from party_member_module import *
 
 ###########################----GLOBAL_VARIABLES-----####################
 
-version = "a2.0"
 
-dev_mode = 1
-
-gen_sea = 0
-if dev_mode >= 1:
-    gen_sea = 0
-else:
-    gen_sea = 1
-
-grid_mode = 0
-
-toggle_music = 1
 
 tick_delay_time = 50
 
@@ -62,7 +74,7 @@ check_for_combat = True
 restock_shops = False
 restock_ticks = 0
 
-steps_x = 0
+steps_x = 6
 steps_y = 0
 steps_z = 0
 
@@ -76,7 +88,7 @@ step_counter2 = 5
 step_counter_max = 10
 
 prev_x = 6
-prev_y = 2
+prev_y = 0
 prev_z = 0
 
 npc_fight = False
@@ -228,20 +240,6 @@ shields_shop_table = []
 spells_shop_table = []
 
 items_shop_table = []
-
-weapons_shop_table.extend(weapons_drop_table)
-
-
-armor_shop_table.extend(armor_drop_table)
-armor_shop_table.extend(magic_armor_drop_table)
-
-helmets_shop_table.extend(helmets_drop_table)
-
-shields_shop_table.extend(shields_drop_table)
-
-items_shop_table.extend(items_drop_table)
-items_shop_table.extend(healing_drop_table)
-
 
 ##################################--PLAYER--############################################
 
@@ -682,6 +680,19 @@ big_slug.spellbook.append(slime)
 big_slug.spellbook.append(slime)
 big_slug.spellbook.append(slime)
 
+for enemy_stats in all_game_enemies:
+    for spell in all_game_spells:
+        if spell.level >= enemy_stats.level // 2  and spell.level <= enemy_stats.level * 2:
+            spell_equip_chance = random.randint(1,2)
+            if spell_equip_chance == 1:
+                enemy_stats.spellbook.append(spell)
+                random.shuffle(enemy_stats.spellbook)
+    if dev_mode >= 3:
+        print("\n\n" + enemy_stats.name + " :\n")
+        for spell in enemy_stats.spellbook:
+            print(spell.print_name + " " + spell.print_attribute)
+
+
 #################################------PLACE GROUND_ITEMS IN WORLD------#######################################
 
 forest_1.scene_inventory.append(ground_oak_key)
@@ -728,78 +739,7 @@ equiped_helmet = []
 equiped_shield = []
 equiped_spells = []
 
-####################################################################
 
-#dev loadout
-if dev_mode >= 2:
-
-    equiped_helmet.append(leather_armor)
-    equiped_shield.append(wooden_round_shield)
-    equiped_weapon.append(iron_sword)
-    equiped_armor.append(iron_chain_mail)
-
-    equiped_spells.append(str_up)
-    equiped_spells.append(str_up_heal)
-    equiped_spells.append(str_down)
-    equiped_spells.append(str_down_damage)
-    equiped_spells.append(str_down_aoe)
-    equiped_spells.append(str_down_damage_aoe)
-    equiped_spells.append(def_up)
-    equiped_spells.append(def_up_heal)
-
-    spell_inventory.append(fireblast)
-    spell_inventory.append(snare)
-
-    weapon_inventory.append(super_bird_sword)
-    weapon_inventory.append(gladius)
-
-    armor_inventory.append(iron_chain_mail)
-    armor_inventory.append(steel_chain_mail)
-
-    helmet_inventory.append(iron_helmet)
-    helmet_inventory.append(steel_helmet)
-
-    shield_inventory.append(iron_square_shield)
-    shield_inventory.append(steel_square_shield)
-
-    inventory.append(super_hp_potion)
-    inventory.append(hp_potion)
-    inventory.append(meat)
-
-    for item in inventory:
-        item.amount = 10
-
-    inventory.append(tent)
-    inventory.append(rope)
-    inventory.append(torch)
-
-else:
-    if player_class_string == "1":
-        equiped_shield.append(wooden_round_shield)
-        equiped_weapon.append(iron_sword)
-        equiped_armor.append(cloth_armor)
-
-        equiped_spells.append(str_up)
-    elif player_class_string == "2":
-        equiped_weapon.append(short_dagger)
-        equiped_armor.append(cloth_armor)
-
-        equiped_spells.append(atk_down)
-    elif player_class_string == "3":
-
-        equiped_weapon.append(wooden_staff)
-        equiped_armor.append(rags)
-
-        equiped_spells.append(fire_bolt)
-        equiped_spells.append(ice_bolt)
-
-
-    inventory.append(pendant)
-    inventory.append(hp_potion)
-    inventory.append(meat)
-
-    for item in inventory:
-        item.amount = 1
 
 
 
@@ -865,6 +805,7 @@ txt_search = myfont.render('search', False, (0, 0, 0))
 
 spr_house = pygame.image.load("house1.png")
 spr_house2 = pygame.image.load("house2.png")
+spr_dungeon = pygame.image.load("dungeon1.png")
 
 spr_player_n = pygame.image.load("player_n1.png")
 spr_player_e = pygame.image.load("player_r1.png")
@@ -931,7 +872,6 @@ def func_choose_music():
 
         if music_playing == 0 and toggle_music == 1:
             pygame.mixer.music.play(-1)
-
 
 ##############################--GUI / GRAPHICS FUNCTIONS--#################################
 
@@ -1263,7 +1203,6 @@ def func_refresh_pygame(battle_intro,animation):
         if scene_type.zpos == steps_z:
 
             win_map.blit(scene_type.tile_sprite, ( ((cx-16) + ((scene_type.xpos - steps_x)*32)), ((cy-16) + ((scene_type.ypos - steps_y)*32)) )  )
-            # win_map.blit(scene_type.tile_sprite, ( ((cx-16) + ((scene_type.xpos - steps_x)*32)), ((cy-16) + ((scene_type.ypos - steps_y)*32)) )  )
 
 
             if scene_type.has_tp == True and scene_type.indoors == True and scene_type.zpos == 0:
@@ -1271,6 +1210,8 @@ def func_refresh_pygame(battle_intro,animation):
                     win_map.blit(spr_house, ( ((cx-16) + ((scene_type.xpos - steps_x)*32)), ((cy-14) + ((scene_type.ypos - steps_y)*32)) )  )
                 if scene_type.biome == "road" or scene_type.biome == "town":
                     win_map.blit(spr_house2, ( ((cx-16) + ((scene_type.xpos - steps_x)*32)), ((cy-18) + ((scene_type.ypos - steps_y)*32)) )  )
+                if scene_type.biome == "dungeon":
+                    win_map.blit(spr_dungeon, ( ((cx-16) + ((scene_type.xpos - steps_x)*32)), ((cy-18) + ((scene_type.ypos - steps_y)*32)) )  )
 
             if scene_type.has_tp == True and scene_type.indoors == False and scene_type.zpos == 0:
                 if scene_type.biome == "grassy" or scene_type.biome == "forest":
@@ -1279,11 +1220,11 @@ def func_refresh_pygame(battle_intro,animation):
                     win_map.blit(spr_cave, ( ((cx-16) + ((scene_type.xpos - steps_x)*32)), ((cy-14) + ((scene_type.ypos - steps_y)*32)) )  )
 
             if scene_type.has_tp == True and scene_type.indoors == False and scene_type.zpos <= -1000:
-                win_map.blit(spr_cave, ( ((cx-16) + ((scene_type.xpos - steps_x)*32)), ((cy-14) + ((scene_type.ypos - steps_y)*32)) )  )
+                win_map.blit(spr_dungeon, ( ((cx-16) + ((scene_type.xpos - steps_x)*32)), ((cy-14) + ((scene_type.ypos - steps_y)*32)) )  )
+
+
             if scene_type.has_tp == True and scene_type.indoors == False and scene_type.zpos > -1000 and scene_type.zpos < 0:
                 win_map.blit(spr_cave, ( ((cx-16) + ((scene_type.xpos - steps_x)*32)), ((cy-14) + ((scene_type.ypos - steps_y)*32)) )  )
-
-
 
 
             #treasure and items
@@ -1320,6 +1261,8 @@ def func_refresh_pygame(battle_intro,animation):
                     pygame.draw.rect(win_map, (204,0,0), ( ((cx-12) + ((scene_type.xpos - steps_x)*32)), ((cy-12) + ((scene_type.ypos - steps_y)*32)), map_tile_width-24, map_tile_height-24))
 
 
+            win_map.blit(spr_player,(cx-16, cy-16,))
+
         ##########################---LIGHTING---#################################
 
             if scene_type.xpos > steps_x:
@@ -1336,45 +1279,70 @@ def func_refresh_pygame(battle_intro,animation):
             if scene_type.ypos == steps_y:
                 distance_from_player_y = scene_type.ypos - steps_y
 
-            total_distance = distance_from_player_y + distance_from_player_x
+            light_intensity = 1
+            total_distance = (distance_from_player_y + light_intensity) + (distance_from_player_x * light_intensity)
 
             player_has_torch = False
+            player_has_lantern = False
             player_underground = False
             for item in inventory:
                 if item.name == "torch":
                     player_has_torch = True
+                if item.name == "lantern":
+                    player_has_torch = True
+                    player_has_lantern = True
 
             if scene_type.zpos < 0:
                 player_underground = True
 
 
             time_val = (time//10)
+            light_radius = total_distance
 
             if player_has_torch == True:
-                total_distance = (total_distance ** 2)
+                light_radius = (light_radius ** 2.8)
+                if player_has_lantern == True:
+                    light_radius = (light_radius ** 2)
             else:
-                total_distance = (total_distance ** 3)
+                light_radius = (light_radius ** 3)
 
             if player_underground == False:
-                total_distance -= time_val
+                light_radius -= time_val
 
-            if total_distance >= 255:
-                total_distance = 255
-            if total_distance <= 0:
-                total_distance = 0
+                brightness = 105 - time_val
+                if total_distance < 3 and time <= 1200:
+                    brightness -= 255
+            else:
+                light_radius -= 50
+
+                brightness = 105 - 50
+                if total_distance < 3:
+                    brightness -= 255
+
+
+            if light_radius >= 255:
+                light_radius = 255
+            if light_radius <= 0:
+                light_radius = 0
+
+            if brightness >= 105:
+                brightness = 105
+            if brightness <= 0:
+                brightness = 0
 
 
             #lighting
             if player_underground == True:
-                pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (10,10,10,total_distance))
+                pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (light_radius,0,0,brightness))
+                pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (10,10,10,light_radius))
             else:
-
-                pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (10,10,10,total_distance))
-
-
+                pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (light_radius,15,205,brightness))
+                pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (10,10,10,light_radius))
 
 
-    win_map.blit(spr_player,(cx-16, cy-16,))
+
+
+
     if grid_mode >= 1:
         grid_x = -30
         grid_y = -30
@@ -1436,7 +1404,7 @@ def func_refresh_pygame(battle_intro,animation):
 
             battle_intro_ticks += 1
             pygame.display.update()
-            print("/")
+            print("ENTERING COMBAT")
 
         if battle_intro_ticks >= 18:
             battle_intro = False
@@ -4682,20 +4650,20 @@ def func_equip(gear,player_gear_inv,current_gear):
     for gear in player_gear_inv: #def. list to print in gui
         if gear in all_game_weapons:
             in_menu_weapon = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + gear.type + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
+            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + gear.type + " || lvl: " + str(gear.level) + " || ATK: " + str(gear.attack_bonus) + " || STR: " + str(gear.strength_bonus) + " || MGK: " + str(gear.magic_bonus) + " || DEF: " + str(gear.defence_bonus) + " || HP: " + str(gear.maxhp_bonus) + " || " + str(gear.value) + " gp. ")
         if gear in all_game_armor:
             in_menu_armor = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + gear.type + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
+            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + gear.type + " || lvl: " + str(gear.level) + " || ATK: " + str(gear.attack_bonus) + " || STR: " + str(gear.strength_bonus) + " || MGK: " + str(gear.magic_bonus) + " || DEF: " + str(gear.defence_bonus) + " || HP: " + str(gear.maxhp_bonus) + " || " + str(gear.value) + " gp. ")
         if gear in all_game_helmets:
             in_menu_helmet = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + gear.type + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
+            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + gear.type + " || lvl: " + str(gear.level) + " || ATK: " + str(gear.attack_bonus) + " || STR: " + str(gear.strength_bonus) + " || MGK: " + str(gear.magic_bonus) + " || DEF: " + str(gear.defence_bonus) + " || HP: " + str(gear.maxhp_bonus) + " || " + str(gear.value) + " gp. ")
         if gear in all_game_shields:
             in_menu_shield = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + gear.type + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
+            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + gear.type + " || lvl: " + str(gear.level) + " || ATK: " + str(gear.attack_bonus) + " || STR: " + str(gear.strength_bonus) + " || MGK: " + str(gear.magic_bonus) + " || DEF: " + str(gear.defence_bonus) + " || HP: " + str(gear.maxhp_bonus) + " || " + str(gear.value) + " gp. ")
         if gear in all_game_spells:
             in_menu_spell = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
-
+            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || PWR: " + str(gear.damage) + " || " + str(gear.value) + " gp. ")
+            print(gear.spell_desc + "\n")
     print("\nwhat do you want to equip\n")
 
     in_submenu2 = True
@@ -4995,7 +4963,7 @@ def func_check_level():
             print("\nyour defence level is now: ", player_stats.defence)
             func_check_level()
 
-        if player_stats.xp >= (player_stats.level ** 2):
+        if player_stats.xp >= (player_stats.level ** 3):
             player_stats.level += 1
             print("\nLEVELED UP \nyou are now level: ", player_stats.level)
             func_basic_droptables()
@@ -5120,7 +5088,7 @@ def func_scene_gen_args(gen_scene_type,relative_xpos,relative_ypos,chunk_number)
             print(str(tiles_left))
         del free_tiles[:]
 
-    print("/")
+    # print("/")
     # func_refresh_pygame(False,0)
     if chunk_number != 99:
         tile_wall_chance = random.randint(1,step_counter)
@@ -5171,6 +5139,55 @@ def func_scene_gen_args(gen_scene_type,relative_xpos,relative_ypos,chunk_number)
             if tile_safe_chance != 1:
                 gen_scene_type.safe = False
 
+
+            if tile_stairs_chance == 1:
+                if tp_counter == 0:
+                    gen_scene_type.safe = True
+                    gen_scene_type.has_tp = True
+                    gen_scene_type.treasure = False
+
+            if tile_treasure_chance == 1:
+                gen_scene_type.has_tp == False
+                gen_scene_type.safe = True
+                gen_scene_type.treasure = True
+                gen_scene_type.passable = False
+
+def func_scene_gen_args_experimental(gen_scene_type,relative_xpos,relative_ypos,chunk_number):
+    free_tiles = []
+    tp_counter = 0
+
+    for scene_type in all_scene_types:
+        if scene_type.zpos == steps_z:
+            if scene_type.has_tp == True:
+                tp_counter += 1
+
+    if dev_mode >= 4:
+        for scene_type in all_scene_types:
+            if scene_type.use_gen == True and scene_type.zpos == steps_z:
+                free_tiles.append(scene_type)
+        tiles_left = len(free_tiles)
+        if dev_mode >= 4:
+            print(str(tiles_left))
+        del free_tiles[:]
+
+
+    if chunk_number != 99:
+
+        tile_wall_chance = random.randint(1,4)
+        if tile_wall_chance == 1:
+            gen_scene_type.passable = False
+
+        if tile_wall_chance == 0:
+
+            tile_safe_chance = random.randint(1,50)
+            tile_treasure_chance = random.randint(1,30)
+            tile_stairs_chance = 0
+
+            if gen_scene_type.xpos <= -6 or gen_scene_type.xpos >= 6 or gen_scene_type.ypos <= -6 or gen_scene_type.ypos >= 6:
+                tile_stairs_chance = random.randint(1,10)
+
+            if tile_safe_chance != 1:
+                gen_scene_type.safe = False
 
             if tile_stairs_chance == 1:
                 if tp_counter == 0:
@@ -5300,6 +5317,67 @@ def func_dungeon_gen():
             chunk_chance = random.randint(1,2)
             if chunk_chance == 1:
                 func_gen_chunk(-5,-27,12)
+
+        smoothing_count = 3
+        while smoothing_count > 0:
+            for scene_type in all_scene_types:
+                if scene_type.zpos == steps_z and scene_type.passable == False:
+                    current_tile_x = scene_type.xpos
+                    current_tile_y = scene_type.ypos
+                    wall_n = False
+                    wall_s = False
+                    wall_e = False
+                    wall_w = False
+                    wall_nw = False
+                    wall_se = False
+                    wall_ne = False
+                    wall_sw = False
+
+                    wall_count = 0
+
+                    for scene_type in all_scene_types:
+                        if scene_type.zpos == steps_z and scene_type.passable == False:
+                            if scene_type.xpos == current_tile_x and scene_type.ypos == current_tile_y - 1:
+                                wall_n = True
+                                wall_count += 1
+
+                            if scene_type.xpos == current_tile_x and scene_type.ypos == current_tile_y + 1:
+                                wall_s = True
+                                wall_count += 1
+
+                            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y:
+                                wall_e = True
+                                wall_count += 1
+
+                            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y:
+                                wall_w = True
+                                wall_count += 1
+
+                            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y - 1:
+                                wall_nw = True
+                                wall_count += 1
+
+                            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y + 1:
+                                wall_sw = True
+                                wall_count += 1
+
+                            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y - 1:
+                                wall_ne = True
+                                wall_count += 1
+
+                            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y + 1:
+                                wall_se = True
+                                wall_count += 1
+
+
+                    if wall_count > 3:
+                        scene_type.passable = False
+                    else:
+                        scene_type.passable = True
+
+
+            smoothing_count -= 1
+            print("smoothing_count "+ str(smoothing_count))
 
 
 #######################---PLAYER LOCATION---#######################
@@ -5692,43 +5770,113 @@ def func_check_quest_items():
                             quest.finished_message_displayed = True
 
 ##########--pre game stat calcutions--#########
-if player_class_string == "1":
-    for player_stats in players:
-        player_stats.level = 1
-        player_stats.xp = 40
-        player_stats.strength = 1
-        player_stats.attack = 1
-        player_stats.magic = 1
-        player_stats.defence = 1
-        player_stats.strength_xp = 100
-        player_stats.attack_xp = 10
-        player_stats.magic_xp = 10
-        player_stats.defence_xp = 200
-elif player_class_string == "2":
-    for player_stats in players:
-        player_stats.level = 1
-        player_stats.xp = 35
-        player_stats.strength = 1
-        player_stats.attack = 1
-        player_stats.magic = 1
-        player_stats.defence = 1
-        player_stats.strength_xp = 200
-        player_stats.attack_xp = 100
-        player_stats.magic_xp = 10
-        player_stats.defence_xp = 10
-elif player_class_string == "3":
-    for player_stats in players:
-        player_stats.level = 1
-        player_stats.xp = 50
-        player_stats.strength = 1
-        player_stats.attack = 1
-        player_stats.magic = 1
-        player_stats.defence = 1
-        player_stats.strength_xp = 10
-        player_stats.attack_xp = 10
-        player_stats.magic_xp = 200
-        player_stats.defence_xp = 10
 
+def func_gen_class_stats(player_class_string):
+    if player_class_string == "1":
+        for player_stats in players:
+            player_stats.level = 1
+            player_stats.xp = 40
+            player_stats.strength = 1
+            player_stats.attack = 1
+            player_stats.magic = 1
+            player_stats.defence = 1
+            player_stats.strength_xp = 100
+            player_stats.attack_xp = 10
+            player_stats.magic_xp = 10
+            player_stats.defence_xp = 200
+    elif player_class_string == "2":
+        for player_stats in players:
+            player_stats.level = 1
+            player_stats.xp = 35
+            player_stats.strength = 1
+            player_stats.attack = 1
+            player_stats.magic = 1
+            player_stats.defence = 1
+            player_stats.strength_xp = 200
+            player_stats.attack_xp = 100
+            player_stats.magic_xp = 10
+            player_stats.defence_xp = 10
+    elif player_class_string == "3":
+        for player_stats in players:
+            player_stats.level = 1
+            player_stats.xp = 50
+            player_stats.strength = 1
+            player_stats.attack = 1
+            player_stats.magic = 1
+            player_stats.defence = 1
+            player_stats.strength_xp = 10
+            player_stats.attack_xp = 10
+            player_stats.magic_xp = 200
+            player_stats.defence_xp = 10
+
+
+    ####################################################################
+
+    #dev loadout
+    if dev_mode >= 2:
+
+        equiped_helmet.append(leather_armor)
+        equiped_shield.append(wooden_round_shield)
+        equiped_weapon.append(iron_sword)
+        equiped_armor.append(iron_chain_mail)
+
+        spell_inventory.append(fireblast)
+        spell_inventory.append(snare)
+
+        weapon_inventory.append(super_bird_sword)
+        weapon_inventory.append(gladius)
+
+        armor_inventory.append(iron_chain_mail)
+        armor_inventory.append(steel_chain_mail)
+
+        helmet_inventory.append(iron_helmet)
+        helmet_inventory.append(steel_helmet)
+
+        shield_inventory.append(iron_square_shield)
+        shield_inventory.append(steel_square_shield)
+
+        inventory.append(super_hp_potion)
+        inventory.append(hp_potion)
+        inventory.append(meat)
+
+        for item in inventory:
+            item.amount = 10
+
+        inventory.append(tent)
+        inventory.append(rope)
+        inventory.append(torch)
+
+    else:
+        if player_class_string == "1":
+            equiped_shield.append(wooden_round_shield)
+            equiped_weapon.append(iron_sword)
+            equiped_armor.append(cloth_armor)
+
+            equiped_spells.append(str_up)
+        elif player_class_string == "2":
+            equiped_weapon.append(short_dagger)
+            equiped_armor.append(cloth_armor)
+
+            equiped_spells.append(atk_down)
+        elif player_class_string == "3":
+
+            equiped_weapon.append(wooden_staff)
+            equiped_armor.append(rags)
+
+            equiped_spells.append(fire_bolt)
+            equiped_spells.append(ice_bolt)
+
+
+        inventory.append(pendant)
+        inventory.append(hp_potion)
+        inventory.append(meat)
+
+        for item in inventory:
+            item.amount = 1
+
+#####################################
+
+func_gen_class_stats(player_class_string)
 func_check_stat_bonus()
 func_check_level()
 player_keys_check()
@@ -5791,9 +5939,9 @@ while game_start == 1:
             for scene_type in location:
                 if scene_type.safe == False:
                     if in_fight == False:
-                        if time >= 12:
+                        if time >= 1200 and steps_z >= - 1000:
                             combat_chance = random.randint(0,50)
-                        if time < 12:
+                        if time < 1200 or steps_z <= - 1000:
                             combat_chance = random.randint(0,100)
 
                         if dev_mode >= 3:
@@ -5828,6 +5976,7 @@ while game_start == 1:
                     add_to_table = random.randint(0,20)
                     if add_to_table == 20 and item not in enemy_stats.drop_table_items and item.value >= (enemy_stats.level * 2) and item.value <= (enemy_stats.level * 100):
                         enemy_stats.drop_table_items.append(item)
+                        random.shuffle(enemy_stats.drop_table_items)
                 if dev_mode >= 1:
                     for item in enemy_stats.drop_table_items:
                         print(item.print_name)
@@ -5839,6 +5988,7 @@ while game_start == 1:
                     if weapon not in enemy_stats.drop_table_weapons:
                         if weapon.level <= (enemy_stats.level + 10) and weapon.level >= (enemy_stats.level - 30) and enemy_stats.attribute == weapon.attribute:
                             enemy_stats.drop_table_weapons.append(weapon)
+                            random.shuffle(enemy_stats.drop_table_weapons)
                 if dev_mode >= 1:
                     for weapon in enemy_stats.drop_table_weapons:
                         print(weapon.print_name)
@@ -5850,6 +6000,7 @@ while game_start == 1:
                     if armor not in enemy_stats.drop_table_armor:
                         if armor.level <= (enemy_stats.level + 10) and armor.level >= (enemy_stats.level - 30) and enemy_stats.attribute == armor.attribute:
                             enemy_stats.drop_table_armor.append(armor)
+                            random.shuffle(enemy_stats.drop_table_armor)
                 if dev_mode >= 1:
                     for armor in enemy_stats.drop_table_armor:
                         print(armor.print_name)
@@ -5861,6 +6012,7 @@ while game_start == 1:
                     if helmet not in enemy_stats.drop_table_helmets:
                         if helmet.level <= (enemy_stats.level + 10)and helmet.level >= (enemy_stats.level - 30) and enemy_stats.attribute == helmet.attribute:
                             enemy_stats.drop_table_helmets.append(helmet)
+                            random.shuffle(enemy_stats.drop_table_helmets)
                 if dev_mode >= 1:
                     for helmet in enemy_stats.drop_table_helmets:
                         print(helmet.print_name)
@@ -5872,16 +6024,17 @@ while game_start == 1:
                     if shield not in enemy_stats.drop_table_shields:
                         if shield.level <= (enemy_stats.level + 10) and shield.level >= (enemy_stats.level - 30) and enemy_stats.attribute == shield.attribute:
                             enemy_stats.drop_table_shields.append(shield)
+                            random.shuffle(enemy_stats.drop_table_shields)
                 if dev_mode >= 1:
                     for shield in enemy_stats.drop_table_shields:
                         print(shield.print_name)
 
                 if dev_mode >= 1:
                     print("modifying enemy stats")
-                enemy_stats.maxhp += (random.randint(0,10) * enemy_stats.level)
+                enemy_stats.maxhp += (random.randint(20,100) * enemy_stats.level)
                 enemy_stats.hp = (0 + enemy_stats.maxhp)
                 enemy_stats.gp += ((random.randint(0,10) * enemy_stats.maxhp) // 1000) * enemy_stats.level
-                enemy_stats.xp += random.randint(0,enemy_stats.level)
+                enemy_stats.xp = random.randint((enemy_stats.level // 2),(enemy_stats.level * 3)) + (enemy_stats.maxhp // 100)
                 if dev_mode >= 1:
                     print("enemy stats have been calculated")
 
@@ -6024,9 +6177,10 @@ while game_start == 1:
                                 func_check_enemy_dead()
                                 func_check_level()
 
-                            elif combat_cursor_pos == 555:
-                                in_fight = False
-                                game_start = 0
+                            elif combat_cursor_pos == 6:
+                                if dev_mode >= 1:
+                                    player_turns = 0
+                                    player1.hp = player1.maxhp
 
 
                             else:
@@ -6527,6 +6681,7 @@ while game_start == 1:
 
 
                 pickup_loop = True
+                #pickup items
                 while pickup_loop == True and len(scene_type.scene_inventory) != 0 or len(scene_type.scene_weapon_inventory) != 0 or len(scene_type.scene_armor_inventory) != 0 or len(scene_type.scene_helmet_inventory) != 0 or len(scene_type.scene_shield_inventory) != 0:
                     has_item = False
                     has_item_multiple = False
@@ -7665,8 +7820,8 @@ while game_start == 1:
 
 
 #######################################################################################
-    if dev_mode >= 1:
-        time_var = 20
+    if dev_mode >= 2:
+        time_var = 100
     else:
         time_var = 10
 

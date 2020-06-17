@@ -47,7 +47,8 @@ class spell:
 ############--COMBAT SPELLS--#############
 
 #### status 0 spells DAMAGE - combat spells, also used for turns where enemy does nothing by doing 0 damage.
-slime = spell("slime",5,5,5,True,0,"slime",0,0,0,"slurms mackenzie")
+slime = spell("slime",1,5,5,True,0,"slime",0,0,0,"slurms mackenzie")
+splash = spell("splash",1,5,5,True,0,"water",0,0,0,"splashes water")
 
 #low level damage spells
 fire_bolt = spell("fire bolt",4,25,50,False,80,"fire",100,0,0,"fire damage")
@@ -97,51 +98,53 @@ toxic = spell("toxic",22,5,500,True,5,"earth",70,6,0,"badly poisons the enemy")
 ##############//BUFFS//#########
 
 #### status 10 spells STR UP
-str_up = spell("STR UP",5,5,50,True,5,"fire",70,10,0,"STR UP")
-str_up_aoe = spell("STR UP aoe",5,5,50,True,5,"fire",70,10,1,"STR UP aoe")
-str_up_heal = spell("STR UP and heal",5,5,50,False,5,"fire",70,10,0,"STR UP and heal")
-str_up_heal_aoe = spell("STR UP and heal aoe",5,5,50,False,5,"fire",70,10,1,"STR UP and heal aoe")
+str_up = spell("Meba",5,5,50,True,5,"fire",70,10,0,"STR UP")
+str_up_aoe = spell("Mebana",10,5,50,True,5,"fire",70,10,1,"STR UP aoe")
+str_up_heal = spell("Mebapo",15,5,50,False,5,"fire",70,10,0,"STR UP and heal")
+str_up_heal_aoe = spell("Mebanapo",25,5,50,False,5,"fire",70,10,1,"STR UP and heal aoe")
 #### status 11 spells ATK UP
-atk_up = spell("ATK UP",5,5,50,True,5,"fire",70,10,0,"ATK UP")
-atk_up_aoe = spell("ATK UP aoe",5,5,50,True,5,"fire",70,10,1,"ATK UP aoe")
-atk_up_heal = spell("ATK UP and heal",5,5,50,False,5,"fire",70,11,0,"ATK UP and heal")
-atk_up_heal_aoe = spell("ATK UP and heal aoe",5,5,50,False,5,"fire",70,11,1,"ATK UP and heal aoe")
+atk_up = spell("Meda",5,5,50,True,5,"fire",70,10,0,"ATK UP")
+atk_up_aoe = spell("Medana",10,5,50,True,5,"fire",70,10,1,"ATK UP aoe")
+atk_up_heal = spell("Medapo",15,5,50,False,5,"fire",70,11,0,"ATK UP and heal")
+atk_up_heal_aoe = spell("Medanapo",25,5,50,False,5,"fire",70,11,1,"ATK UP and heal aoe")
 
 #### status 12 spells MGK UP
-mgk_up = spell("MGK UP",5,5,50,True,5,"fire",70,10,0,"MGK UP")
-mgk_up_aoe = spell("MGK UP aoe",5,5,50,True,5,"fire",70,10,1,"MGK UP aoe")
-mgk_up_heal = spell("MGK UP and heal",5,5,50,False,5,"fire",70,12,0,"MGK UP and heal")
-mgk_up_heal_aoe = spell("MGK UP and heal aoe",5,5,50,False,5,"fire",70,12,1,"MGK UP and heal aoe")
+mgk_up = spell("Mera",5,5,50,True,5,"fire",70,10,0,"MGK UP")
+mgk_up_aoe = spell("Merana",10,5,50,True,5,"fire",70,10,1,"MGK UP aoe")
+mgk_up_heal = spell("Merapo",15,5,50,False,5,"fire",70,12,0,"MGK UP and heal")
+mgk_up_heal_aoe = spell("Meranapo",25,5,50,False,5,"fire",70,12,1,"MGK UP and heal aoe")
 
 #### status 13 spells DEF UP
-def_up = spell("DEF UP",5,5,50,True,5,"fire",70,10,0,"DEF UP")
-def_up_aoe = spell("DEF UP aoe",5,5,50,True,5,"fire",70,10,1,"DEF UP aoe")
-def_up_heal = spell("DEF UP and heal",5,5,50,False,5,"fire",70,13,0,"DEF UP and heal")
-def_up_heal_aoe = spell("DEF UP and heal aoe",5,5,50,False,5,"fire",70,13,1,"DEF UP and heal aoe")
+def_up = spell("Meza",5,5,50,True,5,"fire",70,10,0,"DEF UP")
+def_up_aoe = spell("Mezana",10,5,50,True,5,"fire",70,10,1,"DEF UP aoe")
+def_up_heal = spell("Mezapo",15,5,50,False,5,"fire",70,13,0,"DEF UP and heal")
+def_up_heal_aoe = spell("Mezanapo",25,5,50,False,5,"fire",70,13,1,"DEF UP and heal aoe")
 
 ##############//DE-BUFFS//###################
 
+#fire
+
 #### status 20 spells STR down 1
-str_down = spell("STR down",5,5,50,True,5,"fire",70,20,0,"STR down")
-str_down_aoe = spell("STR down aoe",5,5,50,True,5,"fire",70,20,1,"STR down aoe")
-str_down_damage = spell("STR down and damage",5,5,50,False,5,"fire",70,20,0,"STR down and damage")
-str_down_damage_aoe = spell("STR down and damage aoe",5,5,50,False,5,"fire",70,20,1,"STR down and damage aoe")
+str_down = spell("Koba",5,5,50,True,5,"fire",70,20,0,"STR down")
+str_down_aoe = spell("Kobana",10,5,50,True,5,"fire",70,20,1,"STR down aoe")
+str_down_damage = spell("Kobajo",15,5,50,False,5,"fire",70,20,0,"STR down and damage")
+str_down_damage_aoe = spell("Kobanajo",25,5,50,False,5,"fire",70,20,1,"STR down and damage aoe")
 
 #### status 21 spells ATK down 1
-atk_down = spell("ATK down",5,5,50,True,5,"fire",70,10,0,"ATK down")
-atk_down_damage = spell("ATK down aoe",5,5,50,True,5,"fire",70,21,0,"ATK down aoe")
-atk_down_damage = spell("ATK down and damage",5,5,50,False,5,"fire",70,21,0,"ATK down and damage")
-atk_down_damage_aoe = spell("ATK down and damage aoe",5,5,50,False,5,"fire",70,21,1,"ATK down and damage aoe")
+atk_down = spell("Koda",5,5,50,True,5,"fire",70,10,0,"ATK down")
+atk_down_aoe = spell("Kodana",10,5,50,True,5,"fire",70,21,1,"ATK down aoe")
+atk_down_damage = spell("Kodajo",15,5,50,False,5,"fire",70,21,0,"ATK down and damage")
+atk_down_damage_aoe = spell("Kodanajo",25,5,50,False,5,"fire",70,21,1,"ATK down and damage aoe")
 #### status 22 spells MGK down 1
-mgk_down = spell("MGK down",5,5,50,True,5,"fire",70,10,0,"MGK down")
-mgk_down_damage = spell("MGK down aoe",5,5,50,True,5,"fire",70,22,0,"MGK down aoe")
-mgk_down_damage = spell("MGK down and damage",5,5,50,False,5,"fire",70,22,0,"MGK down and damage")
-mgk_down_damage_aoe = spell("MGK down and damage aoe",5,5,50,False,5,"fire",70,22,1,"MGK down and damage aoe")
+mgk_down = spell("Kora",5,5,50,True,5,"fire",70,10,0,"MGK down")
+mgk_down_aoe = spell("Korana",10,5,50,True,5,"fire",70,22,1,"MGK down aoe")
+mgk_down_damage = spell("Korajo",15,5,50,False,5,"fire",70,22,0,"MGK down and damage")
+mgk_down_damage_aoe = spell("Koranajo",25,5,50,False,5,"fire",70,22,1,"MGK down and damage aoe")
 #### status 23 spells DEF down 1
-def_down = spell("DEF down",5,5,50,True,5,"fire",70,10,0,"DEF down")
-def_down_damage = spell("DEF down aoe",5,5,50,True,5,"fire",70,23,0,"DEF down aoe")
-def_down_damage = spell("DEF down and damage",5,5,50,False,5,"fire",70,23,0,"DEF down and damage")
-def_down_damage_aoe = spell("DEF down and damage aoe",5,5,50,False,5,"fire",70,23,1,"DEF down and damage aoe")
+def_down = spell("Koza",5,5,50,True,5,"fire",70,10,0,"DEF down")
+def_down_aoe = spell("Kozana",10,5,50,True,5,"fire",70,23,1,"DEF down aoe")
+def_down_damage = spell("Kozajo",15,5,50,False,5,"fire",70,23,0,"DEF down and damage")
+def_down_damage_aoe = spell("Kozanajo",25,5,50,False,5,"fire",70,23,1,"DEF down and damage aoe")
 
 ##################--BUFF/HEALING SPELLS--##############################
 
