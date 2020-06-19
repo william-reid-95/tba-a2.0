@@ -3,7 +3,7 @@
 
 version = "a2.0"
 
-dev_mode = 1
+dev_mode = 0
 
 grid_mode = 0
 toggle_music = 0
