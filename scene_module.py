@@ -125,6 +125,17 @@ class scene_type:
         if self.zpos >= -10:
             self.safe = True
 
+        if self.biome == "water":
+            self.can_fish = True
+        else:
+            self.can_fish = False
+
+        if self.biome == "town":
+            self.can_steal = True
+        else:
+            self.can_steal = False
+
+
         if self.biome == "seaside":
             self.name = (Fore.CYAN + Style.NORMAL + self.name + Style.RESET_ALL)
 

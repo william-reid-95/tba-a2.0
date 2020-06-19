@@ -21,13 +21,26 @@ else:
     player_class_string = "1"
     player_name_string = "dev character"
 
+
+
 ########### import modules ##############
 
 import random # default python module
 from time import sleep # default python module
 
+
+
+import subprocess
+import sys
+
 ##########--3RD PARTY MODULES--###############
-import shelve
+
+# def install(package):
+#     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+#
+# install(package)
+
+
 from tkinter import *
 
 from colorama import init
@@ -746,8 +759,11 @@ equiped_spells = []
 ##########--PYGAME--############
 
 sfx_cursor_move = pygame.mixer.Sound('sfx_cursor_move16.wav')
+
 sfx_cursor_select = pygame.mixer.Sound('sfx_cursor_select16.wav')
 
+sfx_player_move = sfx_cursor_move
+sfx_player_select = sfx_cursor_select
 
  ######################
 
@@ -2981,11 +2997,11 @@ def func_enemy_status_check():
         print("\n" + enemy_stats.name + " is active")
         if enemy_stats.is_active == True:
             combat_wait_count = 0
-            while combat_wait_count < 3:#how many times to loop the combat_animation
+            while combat_wait_count < 1:#how many times to loop the combat_animation
                 combat_wait_count += 1
-                func_refresh_pygame(False,1)
 
-            if combat_wait_count >= 3:
+
+            if combat_wait_count >= 1:
                 enemy_stats.is_active = False
 
 
@@ -5267,6 +5283,7 @@ def func_gen_ow(x_min,y_min):
 
 def func_dungeon_gen():
     if steps_z <= -1000:
+        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLOADING, PLEASE WAIT...")
         func_gen_chunk(-5,-5,0)
 
         chunk_chance = 1
@@ -5889,6 +5906,7 @@ if dev_mode >= 2:
     player1.xp = 4000
 
 if gen_sea == 1:
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLOADING, PLEASE WAIT...")
     func_gen_ow(-18,-11)
 
 for scene_type in all_scene_types:
@@ -5903,7 +5921,7 @@ print(Fore.RED + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 
 print("\nversion: " + version + " \n")
 
-print("\n  Controls:\n  W,A,S,D: Move \n  SPACE: Menu\n  E: Select \n  Q: Back")
+print("\n  Controls:\n  W,A,S,D: Move \n  SPACE: Menu\n  E: Select/Use/Pickup\n  R: Talk/Interact \n  Q: Back")
 
 print("\npress any key to start! \n")
 # if dev_mode == 0:
@@ -6609,6 +6627,7 @@ while game_start == 1:
                 print("grid mode " + str(grid_mode))
 
             if event.key == pygame.K_w:
+                sfx_player_move.play()
 
                 if player_direction == 0:
                     has_moved = True
@@ -6626,7 +6645,7 @@ while game_start == 1:
 
 
             if event.key == pygame.K_s:
-
+                sfx_player_move.play()
                 if player_direction == 2:
                     has_moved = True
                     for scene_type in location_south:
@@ -6642,8 +6661,7 @@ while game_start == 1:
                 check_player_direction()
 
             if event.key == pygame.K_d:
-
-
+                sfx_player_move.play()
                 if player_direction == 1:
                     has_moved = True
                     for scene_type in location_east:
@@ -6659,7 +6677,7 @@ while game_start == 1:
                 check_player_direction()
 
             if event.key == pygame.K_a:
-
+                sfx_player_move.play()
                 if player_direction == 3:
                     has_moved = True
                     for scene_type in location_west:
@@ -6676,7 +6694,7 @@ while game_start == 1:
 
 
             if event.key == pygame.K_e:
-
+                sfx_player_select.play()
                 check_player_direction()
 
 
@@ -6898,7 +6916,7 @@ while game_start == 1:
 
 
             if event.key == pygame.K_r:
-
+                sfx_player_select.play()
                 del nearby_npc_list [:]
 
                 # for scene_type in location:
@@ -7275,8 +7293,8 @@ while game_start == 1:
                 break
 
 
-
             if event.key == pygame.K_SPACE:
+                sfx_player_select.play()
                 func_reset_cursor_pos()
                 in_menu = True
 
