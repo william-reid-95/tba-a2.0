@@ -3,7 +3,8 @@
 
 version = "a2.0"
 
-dev_mode = 0
+dev_mode = 1
+lighting_mode = 0
 
 grid_mode = 0
 toggle_music = 0
@@ -1280,80 +1281,80 @@ def func_refresh_pygame(battle_intro,animation):
             win_map.blit(spr_player,(cx-16, cy-16,))
 
         ##########################---LIGHTING---#################################
+            if lighting_mode == 1:
+                if scene_type.xpos > steps_x:
+                    distance_from_player_x = scene_type.xpos - steps_x
+                if scene_type.xpos < steps_x:
+                    distance_from_player_x = ((scene_type.xpos - steps_x) * -1)
+                if scene_type.xpos == steps_x:
+                    distance_from_player_x = scene_type.xpos - steps_x
 
-            if scene_type.xpos > steps_x:
-                distance_from_player_x = scene_type.xpos - steps_x
-            if scene_type.xpos < steps_x:
-                distance_from_player_x = ((scene_type.xpos - steps_x) * -1)
-            if scene_type.xpos == steps_x:
-                distance_from_player_x = scene_type.xpos - steps_x
+                if scene_type.ypos > steps_y:
+                    distance_from_player_y = scene_type.ypos - steps_y
+                if scene_type.ypos < steps_y:
+                    distance_from_player_y = ((scene_type.ypos - steps_y) * -1)
+                if scene_type.ypos == steps_y:
+                    distance_from_player_y = scene_type.ypos - steps_y
 
-            if scene_type.ypos > steps_y:
-                distance_from_player_y = scene_type.ypos - steps_y
-            if scene_type.ypos < steps_y:
-                distance_from_player_y = ((scene_type.ypos - steps_y) * -1)
-            if scene_type.ypos == steps_y:
-                distance_from_player_y = scene_type.ypos - steps_y
+                light_intensity = 1
+                total_distance = (distance_from_player_y + light_intensity) + (distance_from_player_x * light_intensity)
 
-            light_intensity = 1
-            total_distance = (distance_from_player_y + light_intensity) + (distance_from_player_x * light_intensity)
+                player_has_torch = False
+                player_has_lantern = False
+                player_underground = False
+                for item in inventory:
+                    if item.name == "torch":
+                        player_has_torch = True
+                    if item.name == "lantern":
+                        player_has_torch = True
+                        player_has_lantern = True
 
-            player_has_torch = False
-            player_has_lantern = False
-            player_underground = False
-            for item in inventory:
-                if item.name == "torch":
-                    player_has_torch = True
-                if item.name == "lantern":
-                    player_has_torch = True
-                    player_has_lantern = True
-
-            if scene_type.zpos < 0:
-                player_underground = True
-
-
-            time_val = (time//10)
-            light_radius = total_distance
-
-            if player_has_torch == True:
-                light_radius = (light_radius ** 2.8)
-                if player_has_lantern == True:
-                    light_radius = (light_radius ** 2)
-            else:
-                light_radius = (light_radius ** 3)
-
-            if player_underground == False:
-                light_radius -= time_val
-
-                brightness = 105 - time_val
-                if total_distance < 3 and time <= 1200:
-                    brightness -= 255
-            else:
-                light_radius -= 50
-
-                brightness = 105 - 50
-                if total_distance < 3:
-                    brightness -= 255
+                if scene_type.zpos < 0:
+                    player_underground = True
 
 
-            if light_radius >= 255:
-                light_radius = 255
-            if light_radius <= 0:
-                light_radius = 0
+                time_val = (time//10)
+                light_radius = total_distance
 
-            if brightness >= 105:
-                brightness = 105
-            if brightness <= 0:
-                brightness = 0
+                if player_has_torch == True:
+                    light_radius = (light_radius ** 2.8)
+                    if player_has_lantern == True:
+                        light_radius = (light_radius ** 2)
+                else:
+                    light_radius = (light_radius ** 3)
+
+                if player_underground == False:
+                    light_radius -= time_val
+
+                    brightness = 105 - time_val
+                    if total_distance < 3 and time <= 1200:
+                        brightness -= 255
+                else:
+                    light_radius -= 50
+
+                    brightness = 105 - 50
+                    if total_distance < 3:
+                        brightness -= 255
 
 
-            #lighting
-            if player_underground == True:
-                pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (light_radius,0,0,brightness))
-                pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (10,10,10,light_radius))
-            else:
-                pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (light_radius,15,205,brightness))
-                pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (10,10,10,light_radius))
+                if light_radius >= 255:
+                    light_radius = 255
+                if light_radius <= 0:
+                    light_radius = 0
+
+                if brightness >= 105:
+                    brightness = 105
+                if brightness <= 0:
+                    brightness = 0
+
+
+                #lighting
+                if player_underground == True:
+                    pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (light_radius,0,0,brightness))
+                    pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (10,10,10,light_radius))
+                else:
+                    pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (light_radius,15,205,brightness))
+                    pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (10,10,10,light_radius))
 
 
 
@@ -1932,6 +1933,26 @@ def func_refresh_pygame(battle_intro,animation):
 
     pygame.display.update()
 
+def func_refresh_pygame_dev():
+    win_map.fill((10,10,10))
+    print("func_refresh_pygame_dev() was called!\n")
+    for scene_type in all_scene_types:
+        if scene_type.zpos == steps_z:
+
+            win_map.blit(scene_type.tile_sprite, ( ((cx-16) + ((scene_type.xpos - steps_x)*32)), ((cy-16) + ((scene_type.ypos - steps_y)*32)) )  )
+
+            #walls
+            if scene_type.passable == False and scene_type.treasure == False and len(scene_type.npc_list) == 0 and scene_type.biome == "grassy":
+                win_map.blit(spr_boulder, ( ((cx-18) + ((scene_type.xpos - steps_x)*32)), ((cy-14) + ((scene_type.ypos - steps_y)*32)) )  )
+
+            if scene_type.passable == False and scene_type.treasure == False and len(scene_type.npc_list) == 0:
+                if scene_type.biome == "dungeon" or scene_type.biome == "cave" or scene_type.biome == "house":
+                    win_map.blit(spr_brick_wall, ( ((cx-16) + ((scene_type.xpos - steps_x)*32)), ((cy-16) + ((scene_type.ypos - steps_y)*32)) )  )
+
+
+
+
+    pygame.display.update()
 #########################################################################################
 ##############################--SHOP INVENTORY FUNCTIONS--##############################
 
@@ -5086,7 +5107,7 @@ def func_choose_input_option():
 
 #######################--- MAP GENERATION ---#######################
 
-def func_scene_gen_args(gen_scene_type,relative_xpos,relative_ypos,chunk_number):
+def func_scene_gen_args_old(gen_scene_type,relative_xpos,relative_ypos,chunk_number):
     free_tiles = []
     tp_counter = 0
 
@@ -5107,7 +5128,7 @@ def func_scene_gen_args(gen_scene_type,relative_xpos,relative_ypos,chunk_number)
     # print("/")
     # func_refresh_pygame(False,0)
     if chunk_number != 99:
-        tile_wall_chance = random.randint(1,step_counter)
+        tile_wall_chance = random.randint(0,1)
 
         ### inner walls
         if gen_scene_type.ypos == -5 or gen_scene_type.ypos == 5 or gen_scene_type.ypos == -6 or gen_scene_type.ypos == 6:
@@ -5168,11 +5189,11 @@ def func_scene_gen_args(gen_scene_type,relative_xpos,relative_ypos,chunk_number)
                 gen_scene_type.treasure = True
                 gen_scene_type.passable = False
 
-def func_scene_gen_args_experimental(gen_scene_type,relative_xpos,relative_ypos,chunk_number):
+def func_scene_gen_args(gen_scene_type,relative_xpos,relative_ypos,chunk_number):
     free_tiles = []
     tp_counter = 0
 
-    for scene_type in all_scene_types:
+    for scene_type in all_scene_types: #ensures a teleport ot the next level
         if scene_type.zpos == steps_z:
             if scene_type.has_tp == True:
                 tp_counter += 1
@@ -5189,21 +5210,21 @@ def func_scene_gen_args_experimental(gen_scene_type,relative_xpos,relative_ypos,
 
     if chunk_number != 99:
 
-        tile_wall_chance = random.randint(1,4)
+        tile_wall_chance = random.randint(0,1)
         if tile_wall_chance == 1:
             gen_scene_type.passable = False
 
         if tile_wall_chance == 0:
-
-            tile_safe_chance = random.randint(1,50)
-            tile_treasure_chance = random.randint(1,30)
+            gen_scene_type.passable = True
+            tile_safe_chance = 1
+            tile_treasure_chance = 0
             tile_stairs_chance = 0
 
-            if gen_scene_type.xpos <= -6 or gen_scene_type.xpos >= 6 or gen_scene_type.ypos <= -6 or gen_scene_type.ypos >= 6:
-                tile_stairs_chance = random.randint(1,10)
+            if gen_scene_type.xpos <= -15 or gen_scene_type.xpos >= 15 or gen_scene_type.ypos <= -15 or gen_scene_type.ypos >= 15:
+                tile_stairs_chance = random.randint(1,2)
 
-            if tile_safe_chance != 1:
-                gen_scene_type.safe = False
+            if tile_safe_chance == 1:
+                gen_scene_type.safe = True
 
             if tile_stairs_chance == 1:
                 if tp_counter == 0:
@@ -5281,116 +5302,112 @@ def func_gen_ow(x_min,y_min):
             if dev_mode >= 4:
                 print("grid gen y: " + str(gen_grid_y))
 
+def func_celluar_automata_walls(current_tile_x,current_tile_y):
+    wall_count = 0
+    for scene_type in all_scene_types:
+        if scene_type.zpos == steps_z and scene_type.passable == False:
+            if scene_type.xpos == current_tile_x and scene_type.ypos == current_tile_y - 1:
+                wall_count += 1
+
+            if scene_type.xpos == current_tile_x and scene_type.ypos == current_tile_y + 1:
+                wall_count += 1
+
+            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y:
+                wall_count += 1
+
+            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y:
+                wall_count += 1
+
+            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y - 1:
+                wall_count += 1
+
+            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y + 1:
+                wall_count += 1
+
+            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y - 1:
+                wall_count += 1
+
+            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y + 1:
+                wall_count += 1
+
+    return wall_count
+
+
+def func_celluar_automata_floors(current_tile_x,current_tile_y):
+    floor_count = 0
+    for scene_type in all_scene_types:
+        if scene_type.zpos == steps_z and scene_type.passable == True:
+            if scene_type.xpos == current_tile_x and scene_type.ypos == current_tile_y - 1:
+                floor_count += 1
+
+            if scene_type.xpos == current_tile_x and scene_type.ypos == current_tile_y + 1:
+                floor_count += 1
+
+            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y:
+                floor_count += 1
+
+            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y:
+                floor_count += 1
+
+            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y - 1:
+                floor_count += 1
+
+            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y + 1:
+                floor_count += 1
+
+            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y - 1:
+                floor_count += 1
+
+            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y + 1:
+                floor_count += 1
+
+    return floor_count
+
 def func_dungeon_gen():
     if steps_z <= -1000:
-        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLOADING, PLEASE WAIT...")
+        print("LOADING, PLEASE WAIT...")
         func_gen_chunk(-5,-5,0)
 
-        chunk_chance = 1
+        load_full_dungeon = 1
 
-
-        if chunk_chance == 1:
+        if load_full_dungeon == 1:
             func_gen_chunk(6,-5,1)
-
-            chunk_chance = random.randint(1,2)
-            if chunk_chance == 1:
-                func_gen_chunk(6,-16,8)
-            chunk_chance = random.randint(1,2)
-            if chunk_chance == 1:
-                func_gen_chunk(6,6,6)
-            chunk_chance = random.randint(1,2)
-            if chunk_chance == 1:
-                func_gen_chunk(17,-5,9)
-
-
-        chunk_chance = random.randint(1,2)
-        if chunk_chance == 1:
+            func_gen_chunk(6,-16,8)
+            func_gen_chunk(6,6,6)
+            func_gen_chunk(17,-5,9)
             func_gen_chunk(-5,6,2)
-
-            chunk_chance = random.randint(1,2)
-            if chunk_chance == 1:
-                func_gen_chunk(-5,17,11)
-
-
-        chunk_chance = 1
-        if chunk_chance == 1:
+            func_gen_chunk(-5,17,11)
             func_gen_chunk(-16,-5,3)
-
-            chunk_chance = random.randint(1,2)
-            if chunk_chance == 1:
-                func_gen_chunk(-27,-5,10)
-            chunk_chance = random.randint(1,2)
-            if chunk_chance == 1:
-                func_gen_chunk(-16,6,7)
-            chunk_chance = random.randint(1,2)
-            if chunk_chance == 1:
-                func_gen_chunk(-16,-16,5)
-
-
-        chunk_chance = random.randint(1,2)
-        if chunk_chance == 1:
+            func_gen_chunk(-27,-5,10)
+            func_gen_chunk(-16,6,7)
+            func_gen_chunk(-16,-16,5)
             func_gen_chunk(-5,-16,4)
-
-            chunk_chance = random.randint(1,2)
-            if chunk_chance == 1:
-                func_gen_chunk(-5,-27,12)
+            func_gen_chunk(-5,-27,12)
 
         smoothing_count = 3
         while smoothing_count > 0:
+            func_refresh_pygame_dev()
             for scene_type in all_scene_types:
-                if scene_type.zpos == steps_z and scene_type.passable == False:
-                    current_tile_x = scene_type.xpos
-                    current_tile_y = scene_type.ypos
-                    wall_n = False
-                    wall_s = False
-                    wall_e = False
-                    wall_w = False
-                    wall_nw = False
-                    wall_se = False
-                    wall_ne = False
-                    wall_sw = False
+                if scene_type.zpos == steps_z:
+                    generation_threshold_walls = 6
+                    generation_threshold_floors = 5
+                    if scene_type.passable == True:
+                        total_wall_count = func_celluar_automata_walls(scene_type.xpos,scene_type.ypos)
 
-                    wall_count = 0
-
-                    for scene_type in all_scene_types:
-                        if scene_type.zpos == steps_z and scene_type.passable == False:
-                            if scene_type.xpos == current_tile_x and scene_type.ypos == current_tile_y - 1:
-                                wall_n = True
-                                wall_count += 1
-
-                            if scene_type.xpos == current_tile_x and scene_type.ypos == current_tile_y + 1:
-                                wall_s = True
-                                wall_count += 1
-
-                            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y:
-                                wall_e = True
-                                wall_count += 1
-
-                            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y:
-                                wall_w = True
-                                wall_count += 1
-
-                            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y - 1:
-                                wall_nw = True
-                                wall_count += 1
-
-                            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y + 1:
-                                wall_sw = True
-                                wall_count += 1
-
-                            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y - 1:
-                                wall_ne = True
-                                wall_count += 1
-
-                            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y + 1:
-                                wall_se = True
-                                wall_count += 1
+                        if total_wall_count >= generation_threshold_walls:
+                            scene_type.passable = False
+                        else:
+                            scene_type.passable = True
+                        func_refresh_pygame_dev()
 
 
-                    if wall_count > 3:
-                        scene_type.passable = False
                     else:
-                        scene_type.passable = True
+                        total_floor_count = func_celluar_automata_floors(scene_type.xpos,scene_type.ypos)
+                        if total_floor_count >= generation_threshold_floors:
+                            scene_type.passable = True
+                        else:
+                            scene_type.passable = False
+                        func_refresh_pygame_dev()
 
 
             smoothing_count -= 1
@@ -5922,6 +5939,9 @@ print(Fore.RED + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 print("\nversion: " + version + " \n")
 
 print("\n  Controls:\n  W,A,S,D: Move \n  SPACE: Menu\n  E: Select/Use/Pickup\n  R: Talk/Interact \n  Q: Back")
+
+print("\n  Function Keys:\n  F1: Dev Window (WINDOWS ONLY DO NOT OPEN ON MAC OS) \n  F2: player stats\n  F3: equipment\n  F4: dev_mode value + 1 (default = 0) \n  F5: Toggle grid_mode \n  F6: Toggle lighting_mode")
+
 
 print("\npress any key to start! \n")
 # if dev_mode == 0:
@@ -6625,6 +6645,12 @@ while game_start == 1:
                 if grid_mode > 2:
                     grid_mode = 0
                 print("grid mode " + str(grid_mode))
+
+            if event.key == pygame.K_F6:
+                lighting_mode += 1
+                if lighting_mode > 1:
+                    lighting_mode = 0
+                print("lighting mode " + str(lighting_mode))
 
             if event.key == pygame.K_w:
                 sfx_player_move.play()

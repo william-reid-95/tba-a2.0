@@ -366,8 +366,8 @@ dungeon_floor_7_entrance_4 = scene_type(1,0,-1006,"the dungeon","","",True,False
 dungeon_floor_7_entrance_5 = scene_type(0,1,-1006,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
 dungeon_floor_7_entrance_2 = scene_type(-1,0,-1006,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
 dungeon_floor_7_entrance_1 = scene_type(0,0,-1006,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_7_entrance_6 = scene_type(-2,0,-1006,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_7_entrance_7 = scene_type(-3,0,-1006,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",True,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
+
+
 
 #tavern
 tavern_interior_10 = scene_type(3,3,-1,"tavern interior","","",True,False,False,False,False,True,False,5,"house","",True,False,"","tavern interior",[],[],[],[],[],use_gen=False)
