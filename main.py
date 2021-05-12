@@ -4,7 +4,7 @@
 version = "a2.0"
 
 dev_mode = 1
-lighting_mode = 1
+lighting_mode = 0
 
 grid_mode = 0
 toggle_music = 0
@@ -1215,7 +1215,7 @@ def func_refresh_pygame(battle_intro,animation):
         win_map.fill((10,10,10))
 
 
-    for scene_type in all_scene_types:
+    for scene_type in active_scene_types:
         if scene_type.zpos == steps_z:
 
             win_map.blit(scene_type.tile_sprite, ( ((cx-16) + ((scene_type.xpos - steps_x)*32)), ((cy-16) + ((scene_type.ypos - steps_y)*32)) )  )
@@ -1935,7 +1935,7 @@ def func_refresh_pygame(battle_intro,animation):
 def func_refresh_pygame_dev():
     win_map.fill((10,10,10))
     print("func_refresh_pygame_dev() was called!\n")
-    for scene_type in all_scene_types:
+    for scene_type in active_scene_types:
         if scene_type.zpos == steps_z:
 
             win_map.blit(scene_type.tile_sprite, ( ((cx-16) + ((scene_type.xpos - steps_x)*32)), ((cy-16) + ((scene_type.ypos - steps_y)*32)) )  )
@@ -4148,9 +4148,17 @@ def func_tp(x,y,z):
     global steps_y
     global steps_z
 
+    old_z = steps_z
+
     steps_x = x
     steps_y = y
     steps_z = z
+
+    if z != old_z:
+        active_scene_types.clear()
+        for scene_type in all_scene_types:
+            if scene_type.zpos == steps_z:
+                active_scene_types.append(scene_type)
 
     if dev_mode >= 1:
         print("you teleported to: ",x,y,z)
@@ -5371,22 +5379,22 @@ def func_dungeon_gen():
 
         if load_full_dungeon == 1:
             func_gen_chunk(6,-5,1)
-            func_gen_chunk(6,-16,8)
-            func_gen_chunk(6,6,6)
-            func_gen_chunk(17,-5,9)
+            #func_gen_chunk(6,-16,8)
+            #func_gen_chunk(6,6,6)
+            #func_gen_chunk(17,-5,9)
             func_gen_chunk(-5,6,2)
-            func_gen_chunk(-5,17,11)
+            #func_gen_chunk(-5,17,11)
             func_gen_chunk(-16,-5,3)
-            func_gen_chunk(-27,-5,10)
-            func_gen_chunk(-16,6,7)
-            func_gen_chunk(-16,-16,5)
+            #func_gen_chunk(-27,-5,10)
+            #func_gen_chunk(-16,6,7)
+            #func_gen_chunk(-16,-16,5)
             func_gen_chunk(-5,-16,4)
-            func_gen_chunk(-5,-27,12)
+            #func_gen_chunk(-5,-27,12)
 
         smoothing_count = 3
         while smoothing_count > 0:
-            func_refresh_pygame_dev()
-            for scene_type in all_scene_types:
+            #func_refresh_pygame_dev()
+            for scene_type in active_scene_types:
                 if scene_type.zpos == steps_z:
                     generation_threshold_walls = 6
                     generation_threshold_floors = 5
@@ -5397,7 +5405,7 @@ def func_dungeon_gen():
                             scene_type.passable = False
                         else:
                             scene_type.passable = True
-                        func_refresh_pygame_dev()
+                        #func_refresh_pygame_dev()
 
 
                     else:
@@ -5406,7 +5414,7 @@ def func_dungeon_gen():
                             scene_type.passable = True
                         else:
                             scene_type.passable = False
-                        func_refresh_pygame_dev()
+                        #func_refresh_pygame_dev()
 
 
             smoothing_count -= 1
@@ -5947,6 +5955,11 @@ print("\npress any key to start! \n")
 #     name = raw_input("Please enter your name: \n")
 #     for player_stats in players:
 #         player_stats.name = name
+
+active_scene_types = []
+for scene_type in all_scene_types:
+    if scene_type.zpos == steps_z:
+        active_scene_types.append(scene_type)
 
 while game_start == 1:
 
