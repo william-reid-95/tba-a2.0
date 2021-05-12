@@ -1112,79 +1112,79 @@ solid_dungeon_ground = scene_type(993,993,993,"a solid dungeon floor","","",Fals
 
 ############## SEA ###################
 
-sea_tile_count = 3200
-current_sea_tiles = 0
-
-while current_sea_tiles < sea_tile_count:
-    open_sea_1 = scene_type(1000,1000,0,"the open sea","salty","cloudy",True,False,False,False,False,False,False,0,"water","river",False,False,"The river is too deep to pass", "a wide river, i can't see the other side...",[],[],[],[],[],use_gen=True)
-    current_sea_tiles += 1
+# sea_tile_count = 3200
+# current_sea_tiles = 0
+#
+# while current_sea_tiles < sea_tile_count:
+#     open_sea_1 = scene_type(1000,1000,0,"the open sea","salty","cloudy",True,False,False,False,False,False,False,0,"water","river",False,False,"The river is too deep to pass", "a wide river, i can't see the other side...",[],[],[],[],[],use_gen=True)
+#     current_sea_tiles += 1
 
 #################  DUNGEON (Z <= -1000) ############
-
-#f1
-dungeon_f1_tile_count = 3200
-current_dungeon_f1_tiles = 0
-
-while current_dungeon_f1_tiles < dungeon_f1_tile_count:
-    dungeon_floor_1 = scene_type(1000,1000,-1000,"the dungeon - f1","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
-    current_dungeon_f1_tiles += 1
-
-
-#f2
-dungeon_f2_tile_count = 3200
-current_dungeon_f2_tiles = 0
-
-while current_dungeon_f2_tiles < dungeon_f2_tile_count:
-    dungeon_floor_2 = scene_type(1000,1000,-1001,"the dungeon - f2","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
-    current_dungeon_f2_tiles += 1
-
-
-#f3
-dungeon_f3_tile_count = 3200
-current_dungeon_f3_tiles = 0
-
-while current_dungeon_f3_tiles < dungeon_f3_tile_count:
-    dungeon_floor_3 = scene_type(1000,1000,-1002,"the dungeon - f3","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
-    current_dungeon_f3_tiles += 1
-
-
-#f4
-dungeon_f4_tile_count = 3200
-current_dungeon_f4_tiles = 0
-
-while current_dungeon_f4_tiles < dungeon_f4_tile_count:
-    dungeon_floor_4 = scene_type(1000,1000,-1004,"the dungeon - f4","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
-    current_dungeon_f4_tiles += 1
-
-#f5
-dungeon_f5_tile_count = 3200
-current_dungeon_f5_tiles = 0
-
-while current_dungeon_f5_tiles < dungeon_f5_tile_count:
-    dungeon_floor_5 = scene_type(1000,1000,-1004,"the dungeon - f5","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
-    current_dungeon_f5_tiles += 1
-
-#f6
-dungeon_f6_tile_count = 3200
-current_dungeon_f6_tiles = 0
-
-while current_dungeon_f6_tiles < dungeon_f6_tile_count:
-    dungeon_floor_6 = scene_type(1000,1000,-1005,"the dungeon - f6","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
-    current_dungeon_f6_tiles += 1
-
-#f7
-dungeon_f7_tile_count = 3200
-current_dungeon_f7_tiles = 0
-
-while current_dungeon_f7_tiles < dungeon_f7_tile_count:
-    dungeon_floor_7 = scene_type(1000,1000,-1006,"the dungeon - f7","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
-    current_dungeon_f7_tiles += 1
-
-
-#f8
-dungeon_f8_tile_count = 3200
-current_dungeon_f8_tiles = 0
-
-while current_dungeon_f8_tiles < dungeon_f8_tile_count:
-    dungeon_floor_8 = scene_type(1000,1000,-1007,"the dungeon - f8","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
-    current_dungeon_f8_tiles += 1
+#
+# #f1
+# dungeon_f1_tile_count = 3200
+# current_dungeon_f1_tiles = 0
+#
+# while current_dungeon_f1_tiles < dungeon_f1_tile_count:
+#     dungeon_floor_1 = scene_type(1000,1000,-1000,"the dungeon - f1","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
+#     current_dungeon_f1_tiles += 1
+#
+#
+# #f2
+# dungeon_f2_tile_count = 3200
+# current_dungeon_f2_tiles = 0
+#
+# while current_dungeon_f2_tiles < dungeon_f2_tile_count:
+#     dungeon_floor_2 = scene_type(1000,1000,-1001,"the dungeon - f2","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
+#     current_dungeon_f2_tiles += 1
+#
+#
+# #f3
+# dungeon_f3_tile_count = 3200
+# current_dungeon_f3_tiles = 0
+#
+# while current_dungeon_f3_tiles < dungeon_f3_tile_count:
+#     dungeon_floor_3 = scene_type(1000,1000,-1002,"the dungeon - f3","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
+#     current_dungeon_f3_tiles += 1
+#
+#
+# #f4
+# dungeon_f4_tile_count = 3200
+# current_dungeon_f4_tiles = 0
+#
+# while current_dungeon_f4_tiles < dungeon_f4_tile_count:
+#     dungeon_floor_4 = scene_type(1000,1000,-1004,"the dungeon - f4","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
+#     current_dungeon_f4_tiles += 1
+#
+# #f5
+# dungeon_f5_tile_count = 3200
+# current_dungeon_f5_tiles = 0
+#
+# while current_dungeon_f5_tiles < dungeon_f5_tile_count:
+#     dungeon_floor_5 = scene_type(1000,1000,-1004,"the dungeon - f5","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
+#     current_dungeon_f5_tiles += 1
+#
+# #f6
+# dungeon_f6_tile_count = 3200
+# current_dungeon_f6_tiles = 0
+#
+# while current_dungeon_f6_tiles < dungeon_f6_tile_count:
+#     dungeon_floor_6 = scene_type(1000,1000,-1005,"the dungeon - f6","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
+#     current_dungeon_f6_tiles += 1
+#
+# #f7
+# dungeon_f7_tile_count = 3200
+# current_dungeon_f7_tiles = 0
+#
+# while current_dungeon_f7_tiles < dungeon_f7_tile_count:
+#     dungeon_floor_7 = scene_type(1000,1000,-1006,"the dungeon - f7","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
+#     current_dungeon_f7_tiles += 1
+#
+#
+# #f8
+# dungeon_f8_tile_count = 3200
+# current_dungeon_f8_tiles = 0
+#
+# while current_dungeon_f8_tiles < dungeon_f8_tile_count:
+#     dungeon_floor_8 = scene_type(1000,1000,-1007,"the dungeon - f8","cold","damp",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","dark dungeon",[],[],[],[],[],use_gen=True)
+#     current_dungeon_f8_tiles += 1

@@ -4,7 +4,7 @@
 version = "a2.0"
 
 dev_mode = 1
-lighting_mode = 0
+lighting_mode = 1
 
 grid_mode = 0
 toggle_music = 0
@@ -41,8 +41,8 @@ import sys
 #
 # install(package)
 
+#from tkinter import *
 
-from tkinter import *
 
 from colorama import init
 from colorama import Fore, Back, Style
@@ -78,8 +78,7 @@ from party_member_module import *
 ###########################----GLOBAL_VARIABLES-----####################
 
 
-
-tick_delay_time = 50
+tick_delay_time = 50 #global clock
 
 music_playing = 0
 
@@ -1337,10 +1336,10 @@ def func_refresh_pygame(battle_intro,animation):
                         brightness -= 255
 
 
-                if light_radius >= 255:
-                    light_radius = 255
-                if light_radius <= 0:
-                    light_radius = 0
+                if light_radius >= 254:
+                    light_radius = 254
+                if light_radius <= 1:
+                    light_radius = 1
 
                 if brightness >= 105:
                     brightness = 105
@@ -1350,10 +1349,10 @@ def func_refresh_pygame(battle_intro,animation):
 
                 #lighting
                 if player_underground == True:
-                    pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (light_radius,0,0,brightness))
+                    #pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (light_radius,0,0,brightness))
                     pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (10,10,10,light_radius))
                 else:
-                    pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (light_radius,15,205,brightness))
+                    #pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (light_radius,15,205,brightness))
                     pygame.gfxdraw.box(win_map, pygame.Rect(((cx-16) + ((scene_type.xpos - steps_x)*32)),((cy-16) + ((scene_type.ypos - steps_y)*32)),32,32), (10,10,10,light_radius))
 
 
