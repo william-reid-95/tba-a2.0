@@ -3,7 +3,7 @@
 
 version = "a2.0"
 
-dev_mode = 1
+dev_mode = 0
 lighting_mode = 0
 
 grid_mode = 0
@@ -41,7 +41,7 @@ import sys
 #
 # install(package)
 
-#from tkinter import *
+from tkinter import *
 
 
 from colorama import init
@@ -68,7 +68,9 @@ pygame.key.set_repeat(0,1) # held key repeat timer
 from scene_module import *
 from npc_module import *
 
+#import item_module as items_module
 from item_module import *
+
 from equipment_module import *
 from spell_module import *
 
@@ -277,6 +279,7 @@ class player_stats:
         self.magic_xp = 1
         self.defence_xp = 1
         self.status_effect = 1
+
         self.magic_bonus = 1
         self.strength_bonus = 1
         self.attack_bonus = 1
@@ -898,11 +901,11 @@ def func_blit_enemy_list(gui_val):
         blit_text = myfont.render(enemy_stats.name, False, (0, 0, 0))
         win_map.blit(blit_text,(32+((gui_val-1)*200),(list_object_number*16)))
 
-def func_blit_list(list_object,list,gui_val,is_stackable):
+def func_blit_list(list,gui_val,is_stackable):
     list_object_number = 0
     for list_object in list:
         list_object_number += 1
-        if is_stackable == True:
+        if is_stackable == True: #if is stackable check for amount
             blit_text = myfont.render(list_object.name + " x " + str(list_object.amount), False, (0, 0, 0))
         else:
             blit_text = myfont.render(list_object.name, False, (0, 0, 0))
@@ -1433,7 +1436,7 @@ def func_refresh_pygame(battle_intro,animation):
         pygame.draw.rect(win_map, (100,100,100), (0, 0, 200, 500))
         pygame.draw.rect(win_map, (125,125,125), (10,10, 180, 480))
 
-        func_blit_list(combat_option,combat_option_list,1,False)
+        func_blit_list(combat_option_list,1,False)
         func_blit_combat_cursor(1)
         func_blit_title("Battle:",1)
 
@@ -1443,7 +1446,7 @@ def func_refresh_pygame(battle_intro,animation):
             pygame.draw.rect(win_map, (100,100,100), (0, 0, 200, 500))
             pygame.draw.rect(win_map, (125,125,125), (10,10, 180, 480))
 
-            func_blit_list(spell,equiped_spells,1,False)
+            func_blit_list(equiped_spells,1,False)
 
             func_blit_combat_cursor(1)
             func_blit_title("Cast:",1)
@@ -1454,7 +1457,7 @@ def func_refresh_pygame(battle_intro,animation):
             pygame.draw.rect(win_map, (100,100,100), (0, 0, 200, 500))
             pygame.draw.rect(win_map, (125,125,125), (10,10, 180, 480))
 
-            func_blit_list(item,inventory,1,True)
+            func_blit_list(inventory,1,True)
 
             func_blit_combat_cursor(1)
             func_blit_title("Use item:",1)
@@ -1464,7 +1467,7 @@ def func_refresh_pygame(battle_intro,animation):
             pygame.draw.rect(win_map, (100,100,100), (0, 0, 200, 500))
             pygame.draw.rect(win_map, (125,125,125), (10,10, 180, 480))
 
-            func_blit_list(combat_option,combat_option_list,1,False)
+            func_blit_list(combat_option_list,1,False)
             func_blit_title("Battle:",1)
 
             pygame.draw.rect(win_map, (100,100,100), (200, 0, 200, 500))
@@ -1499,7 +1502,7 @@ def func_refresh_pygame(battle_intro,animation):
         func_blit_player_stats(2)
         func_blit_player_gear(3)
         func_blit_player_gear2(4)
-        func_blit_list(spell,equiped_spells,5,False)
+        func_blit_list(equiped_spells,5,False)
 
         # win_map.blit(txt_pickup,(32,(1*16)))
         # win_map.blit(txt_talk,(32,(2*16)))
@@ -1565,7 +1568,7 @@ def func_refresh_pygame(battle_intro,animation):
                 pygame.draw.rect(win_map, (100,100,100), (814, 0, 200, 500))
                 pygame.draw.rect(win_map, (125,125,125), (824,10, 180, 480))
 
-                func_blit_list(item,inventory,2,True)
+                func_blit_list(inventory,2,True)
 
                 func_blit_menu_cursor(2)
                 func_blit_title("Cook:",2)
@@ -1608,7 +1611,7 @@ def func_refresh_pygame(battle_intro,animation):
             pygame.draw.rect(win_map, (100,100,100), (814, 0, 200, 500))
             pygame.draw.rect(win_map, (125,125,125), (824,10, 180, 480))
 
-            func_blit_list(quest,quest_list,1,False)
+            func_blit_list(quest_list,1,False)
             func_blit_menu_cursor(1)
             func_blit_title("Quests:",1)
 
@@ -1629,7 +1632,7 @@ def func_refresh_pygame(battle_intro,animation):
             pygame.draw.rect(win_map, (100,100,100), (814, 0, 200, 500))
             pygame.draw.rect(win_map, (125,125,125), (824,10, 180, 480))
 
-            func_blit_list(spell,equiped_spells,1,False)
+            func_blit_list(equiped_spells,1,False)
             func_blit_menu_cursor(1)
 
 
@@ -1678,15 +1681,15 @@ def func_refresh_pygame(battle_intro,animation):
                 pygame.draw.rect(win_map, (125,125,125), (824,10, 180, 480))
 
                 if in_menu_weapon == True:
-                    func_blit_list(weapon,weapon_inventory,2,True)
+                    func_blit_list(weapon_inventory,2,True)
                 if in_menu_armor == True:
-                    func_blit_list(armor,armor_inventory,2,True)
+                    func_blit_list(armor_inventory,2,True)
                 if in_menu_helmet == True:
-                    func_blit_list(helmet,helmet_inventory,2,True)
+                    func_blit_list(helmet_inventory,2,True)
                 if in_menu_shield == True:
-                    func_blit_list(shield,shield_inventory,2,True)
+                    func_blit_list(shield_inventory,2,True)
                 if in_menu_spell == True:
-                    func_blit_list(spell,spell_inventory,2,True)
+                    func_blit_list(spell_inventory,2,True)
 
                 func_blit_menu_cursor(2)
                 func_blit_title("Equip:",2)
@@ -1785,17 +1788,17 @@ def func_refresh_pygame(battle_intro,animation):
                         pygame.draw.rect(win_map, (125,125,125), (824,10, 180, 480))
                         if in_menu_item == True:
                             if len(inventory) != 0:
-                                func_blit_list(item,inventory,4,True)
+                                func_blit_list(inventory,4,True)
                         if in_menu_weapon == True:
-                            func_blit_list(weapon,weapon_inventory,4,True)
+                            func_blit_list(weapon_inventory,4,True)
                         if in_menu_armor == True:
-                            func_blit_list(armor,armor_inventory,4,True)
+                            func_blit_list(armor_inventory,4,True)
                         if in_menu_helmet == True:
-                            func_blit_list(helmet,helmet_inventory,4,True)
+                            func_blit_list(helmet_inventory,4,True)
                         if in_menu_shield == True:
-                            func_blit_list(shield,shield_inventory,4,True)
+                            func_blit_list(shield_inventory,4,True)
                         if in_menu_spell == True:
-                            func_blit_list(spell,spell_inventory,4,True)
+                            func_blit_list(spell_inventory,4,True)
 
                         func_blit_menu_cursor(4)
                         func_blit_title("Sell 4:",4)
@@ -1821,15 +1824,15 @@ def func_refresh_pygame(battle_intro,animation):
                         if in_menu_item == True:
                             func_blit_npc_item_list(3)
                         if in_menu_weapon == True:
-                            func_blit_list(weapon,npc.npc_weapon_inventory,3,False)
+                            func_blit_list(npc.npc_weapon_inventory,3,False)
                         if in_menu_armor == True:
-                            func_blit_list(armor,npc.npc_armor_inventory,3,False)
+                            func_blit_list(npc.npc_armor_inventory,3,False)
                         if in_menu_helmet == True:
-                            func_blit_list(helmet,npc.npc_helmet_inventory,3,False)
+                            func_blit_list(npc.npc_helmet_inventory,3,False)
                         if in_menu_shield == True:
-                            func_blit_list(shield,npc.npc_shield_inventory,3,False)
+                            func_blit_list(npc.npc_shield_inventory,3,False)
                         if in_menu_spell == True:
-                            func_blit_list(spell,npc.npc_spell_inventory,3,False)
+                            func_blit_list(npc.npc_spell_inventory,3,False)
 
                     func_blit_menu_cursor(3)
                     func_blit_title("Buy 3:",3)
@@ -1880,22 +1883,22 @@ def func_refresh_pygame(battle_intro,animation):
 
                 if in_menu_item == True:
                     if len(inventory) != 0:
-                        func_blit_list(item,inventory,2,True)
+                        func_blit_list(inventory,2,True)
                 if in_menu_weapon == True:
                     if len(weapon_inventory) != 0:
-                        func_blit_list(weapon,weapon_inventory,2,True)
+                        func_blit_list(weapon_inventory,2,True)
                 if in_menu_armor == True:
                     if len(armor_inventory) != 0:
-                        func_blit_list(armor,armor_inventory,2,True)
+                        func_blit_list(armor_inventory,2,True)
                 if in_menu_helmet == True:
                     if len(helmet_inventory) != 0:
-                        func_blit_list(helmet,helmet_inventory,2,True)
+                        func_blit_list(helmet_inventory,2,True)
                 if in_menu_shield == True:
                     if len(shield_inventory) != 0:
-                        func_blit_list(shield,shield_inventory,2,True)
+                        func_blit_list(shield_inventory,2,True)
                 if in_menu_spell == True:
                     if len(spell_inventory) != 0:
-                        func_blit_list(spell,spell_inventory,2,True)
+                        func_blit_list(spell_inventory,2,True)
 
                 func_blit_menu_cursor(2)
                 func_blit_title("Drop 2:",2)
@@ -2616,6 +2619,7 @@ def func_player_spell(status_mgk):
                         print("\nyou heal for:" + Fore.GREEN + Style.BRIGHT + str(player_healing))
                         player1.magic_xp += (player1.magic + spell.xp + spell.damage)
                         break
+
                 if spell.effect == 11:
                     spell_healing = spell.damage
                     print("you cast " + spell.print_name)
@@ -2633,6 +2637,7 @@ def func_player_spell(status_mgk):
                         print("\nyou heal for:" + Fore.GREEN + Style.BRIGHT + str(player_healing))
                         player1.magic_xp += (player1.magic + spell.xp + spell.damage)
                         break
+
                 if spell.effect == 12:
                     spell_healing = spell.damage
                     print("you cast " + spell.print_name)
@@ -2650,6 +2655,7 @@ def func_player_spell(status_mgk):
                         print("\nyou heal for:" + Fore.GREEN + Style.BRIGHT + str(player_healing))
                         player1.magic_xp += (player1.magic + spell.xp + spell.damage)
                         break
+
                 if spell.effect == 13:
                     spell_healing = spell.damage
                     print("you cast " + spell.print_name)
