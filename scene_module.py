@@ -21,7 +21,6 @@ spr_waterdefault = pygame.image.load("sprites/map/cow1.png")
 
 spr_waterfall = pygame.image.load("sprites/map/waterfall1.png")
 
-
 spr_cliffs1 = pygame.image.load("sprites/map/cliffs1.png")
 
 spr_river = pygame.image.load("sprites/map/river/river_m.png")
@@ -285,88 +284,6 @@ class scene_type:
             self.tile_r = 255
             self.tile_g = 0
             self.tile_b = 0
-
-
-dev_1area31 = scene_type(1,-1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area32 = scene_type(1,0,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area33 = scene_type(1,1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-
-
-dev_1area1 = scene_type(0,-1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area2 = scene_type(2,-1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area3 = scene_type(3,-1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area4 = scene_type(4,-1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area5 = scene_type(5,-1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area6 = scene_type(6,-1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area7 = scene_type(7,-1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area8 = scene_type(8,-1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area9 = scene_type(9,-1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-
-dev_1area11 = scene_type(0,1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area12 = scene_type(2,1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area13 = scene_type(3,1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area14 = scene_type(4,1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area15 = scene_type(5,1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area16 = scene_type(6,1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area17 = scene_type(7,1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area18 = scene_type(8,1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_1area19 = scene_type(9,1,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-
-
-dev_2area21 = scene_type(0,0,1000,"the dev zone","","",True,True,True,True,True,True,False,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_2area22 = scene_type(2,0,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_2area23 = scene_type(3,0,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_2area24 = scene_type(4,0,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_2area25 = scene_type(5,0,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_2area26 = scene_type(6,0,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_2area27 = scene_type(7,0,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_2area28 = scene_type(8,0,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-dev_2area29 = scene_type(9,0,1000,"the dev zone","","",True,True,True,True,True,True,True,0,"grassy","",False,False,"","the dev zone, very green hills",[],[],[],[],[],use_gen=False)
-
-
-# dungeon
-dungeon_floor_1_entrance_3 = scene_type(0,-1,-1000,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_1_entrance_4 = scene_type(0,1,-1000,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_1_entrance_5 = scene_type(-1,0,-1000,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_1_entrance_2 = scene_type(1,0,-1000,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_1_entrance_1 = scene_type(0,0,-1000,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-
-dungeon_floor_2_entrance_3 = scene_type(0,-1,-1001,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_2_entrance_4 = scene_type(1,0,-1001,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_2_entrance_5 = scene_type(-1,0,-1001,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_2_entrance_2 = scene_type(1,0,-1001,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_2_entrance_1 = scene_type(0,0,-1001,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-
-dungeon_floor_3_entrance_3 = scene_type(0,-1,-1002,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_3_entrance_4 = scene_type(1,0,-1002,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_3_entrance_5 = scene_type(0,1,-1002,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_3_entrance_2 = scene_type(-1,0,-1002,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_3_entrance_1 = scene_type(0,0,-1002,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-
-dungeon_floor_4_entrance_3 = scene_type(0,-1,-1003,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_4_entrance_4 = scene_type(1,0,-1003,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_4_entrance_5 = scene_type(0,1,-1003,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_4_entrance_2 = scene_type(-1,0,-1003,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_4_entrance_1 = scene_type(0,0,-1003,"the dungeon","","",True,False,False,False,False,True,False,0,"dungeon","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-
-dungeon_floor_5_entrance_3 = scene_type(0,-1,-1004,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_5_entrance_4 = scene_type(1,0,-1004,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_5_entrance_5 = scene_type(0,1,-1004,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_5_entrance_2 = scene_type(-1,0,-1004,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_5_entrance_1 = scene_type(0,0,-1004,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-
-dungeon_floor_6_entrance_3 = scene_type(0,-1,-1005,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_6_entrance_4 = scene_type(1,0,-1005,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_6_entrance_5 = scene_type(0,1,-1005,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_6_entrance_2 = scene_type(-1,0,-1005,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_6_entrance_1 = scene_type(0,0,-1005,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-
-dungeon_floor_7_entrance_3 = scene_type(0,-1,-1006,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_7_entrance_4 = scene_type(1,0,-1006,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_7_entrance_5 = scene_type(0,1,-1006,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_7_entrance_2 = scene_type(-1,0,-1006,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-dungeon_floor_7_entrance_1 = scene_type(0,0,-1006,"the dungeon","","",True,False,False,False,False,True,False,0,"dirt","",False,False,"","rolling green hills",[],[],[],[],[],use_gen=False)
-
 
 
 #tavern

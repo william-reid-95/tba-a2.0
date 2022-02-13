@@ -3,7 +3,7 @@
 
 version = "a2.0"
 
-dev_mode = 0
+dev_mode = 4
 lighting_mode = 0
 
 grid_mode = 0
@@ -77,6 +77,7 @@ from spell_module import *
 from enemy_module import *
 from party_member_module import *
 
+from maps_module import *
 ###########################----GLOBAL_VARIABLES-----####################
 
 
@@ -2372,8 +2373,6 @@ def func_player_melee(status_str,status_atk): #add spell bonus, status effect bu
                     enemy_status_def = (-4) - (2 * status_condition.scalar)
 
 
-
-
             player_weapon_level = 0
             for weapon in equiped_weapon:
                 player_weapon_level = weapon.level
@@ -4169,20 +4168,6 @@ def func_tp(x,y,z):
     if dev_mode >= 1:
         print("you teleported to: ",x,y,z)
 
-    can_gen = False
-    gen_done = False
-
-    if gen_done == False:
-        for scene_type in all_scene_types:
-            if scene_type.zpos == steps_z and scene_type.use_gen == True:
-                can_gen = True
-
-    if can_gen == True:
-        func_dungeon_gen()
-
-    can_gen = False
-    gen_done = True
-
     location_desc()
 
 def func_drop(gear,player_gear_inv):
@@ -5120,312 +5105,43 @@ def func_choose_input_option():
 
 #######################--- MAP GENERATION ---#######################
 
-def func_scene_gen_args_old(gen_scene_type,relative_xpos,relative_ypos,chunk_number):
-    free_tiles = []
-    tp_counter = 0
-
-    for scene_type in all_scene_types:
-        if scene_type.zpos == steps_z:
-            if scene_type.has_tp == True:
-                tp_counter += 1
-
-    if dev_mode >= 4:
-        for scene_type in all_scene_types:
-            if scene_type.use_gen == True and scene_type.zpos == steps_z:
-                free_tiles.append(scene_type)
-        tiles_left = len(free_tiles)
-        if dev_mode >= 4:
-            print(str(tiles_left))
-        del free_tiles[:]
-
-    # print("/")
-    # func_refresh_pygame(False,0)
-    if chunk_number != 99:
-        tile_wall_chance = random.randint(0,1)
-
-        ### inner walls
-        if gen_scene_type.ypos == -5 or gen_scene_type.ypos == 5 or gen_scene_type.ypos == -6 or gen_scene_type.ypos == 6:
-            tile_wall_chance = 1
-
-        if gen_scene_type.xpos == -5 or gen_scene_type.xpos == 5 or gen_scene_type.xpos == -6 or gen_scene_type.xpos == 6:
-            tile_wall_chance = 1
-
-        if gen_scene_type.ypos == -16 or gen_scene_type.ypos == 16 or gen_scene_type.ypos == -17 or gen_scene_type.ypos == 17:
-            tile_wall_chance = 1
-        if gen_scene_type.xpos == -16 or gen_scene_type.xpos == 16 or gen_scene_type.xpos == -17 or gen_scene_type.xpos == 17:
-            tile_wall_chance = 1
-
-
-        ### doors
-        if gen_scene_type.xpos == 0 or gen_scene_type.xpos == 0 or gen_scene_type.ypos == 0 or gen_scene_type.ypos == 0:
-            tile_wall_chance = 0
-
-        if gen_scene_type.xpos == 11 or gen_scene_type.xpos == -11 or gen_scene_type.ypos == 11 or gen_scene_type.ypos == -11:
-            tile_wall_chance = 0
-
-        if gen_scene_type.xpos == 22 or gen_scene_type.xpos == -22 or gen_scene_type.ypos == 22 or gen_scene_type.ypos == -22:
-            tile_wall_chance = 0
-
-        ### border walls
-        if gen_scene_type.ypos == -27 or gen_scene_type.ypos == 27:
-            tile_wall_chance = 1
-
-        if gen_scene_type.xpos == -27 or gen_scene_type.xpos == 27:
-            tile_wall_chance = 1
-
-        if tile_wall_chance == 1:
-            gen_scene_type.passable = False
-
-        if tile_wall_chance == 0:
-
-            tile_safe_chance = random.randint(1,50)
-            tile_treasure_chance = random.randint(1,30)
-            tile_stairs_chance = 0
-            if gen_scene_type.xpos <= -6 or gen_scene_type.xpos >= 6 or gen_scene_type.ypos <= -6 or gen_scene_type.ypos >= 6:
-                # tile_treasure_chance = 0
-                tile_stairs_chance = random.randint(1,10)
-
-
-            if tile_safe_chance != 1:
-                gen_scene_type.safe = False
-
-
-            if tile_stairs_chance == 1:
-                if tp_counter == 0:
-                    gen_scene_type.safe = True
-                    gen_scene_type.has_tp = True
-                    gen_scene_type.treasure = False
-
-            if tile_treasure_chance == 1:
-                gen_scene_type.has_tp == False
-                gen_scene_type.safe = True
-                gen_scene_type.treasure = True
-                gen_scene_type.passable = False
-
-def func_scene_gen_args(gen_scene_type,relative_xpos,relative_ypos,chunk_number):
-    free_tiles = []
-    tp_counter = 0
-
-    for scene_type in all_scene_types: #ensures a teleport ot the next level
-        if scene_type.zpos == steps_z:
-            if scene_type.has_tp == True:
-                tp_counter += 1
-
-    if dev_mode >= 4:
-        for scene_type in all_scene_types:
-            if scene_type.use_gen == True and scene_type.zpos == steps_z:
-                free_tiles.append(scene_type)
-        tiles_left = len(free_tiles)
-        if dev_mode >= 4:
-            print(str(tiles_left))
-        del free_tiles[:]
-
-
-    if chunk_number != 99:
-
-        tile_wall_chance = random.randint(0,1)
-        if tile_wall_chance == 1:
-            gen_scene_type.passable = False
-
-        if tile_wall_chance == 0:
-            gen_scene_type.passable = True
-            tile_safe_chance = 1
-            tile_treasure_chance = 0
-            tile_stairs_chance = 0
-
-            if gen_scene_type.xpos <= -15 or gen_scene_type.xpos >= 15 or gen_scene_type.ypos <= -15 or gen_scene_type.ypos >= 15:
-                tile_stairs_chance = random.randint(1,2)
-
-            if tile_safe_chance == 1:
-                gen_scene_type.safe = True
-
-            if tile_stairs_chance == 1:
-                if tp_counter == 0:
-                    gen_scene_type.safe = True
-                    gen_scene_type.has_tp = True
-                    gen_scene_type.treasure = False
-
-            if tile_treasure_chance == 1:
-                gen_scene_type.has_tp == False
-                gen_scene_type.safe = True
-                gen_scene_type.treasure = True
-                gen_scene_type.passable = False
-
-def func_place_tile(relative_xpos,relative_ypos,chunk_number):
-    for scene_type in all_scene_types:
-        if scene_type.use_gen == True and scene_type.zpos == steps_z:
-            scene_type.ypos = relative_ypos
-            scene_type.xpos = relative_xpos
-            if dev_mode >= 4:
-                print("PLACED TILE AT " + str(relative_xpos) + ", " + str(relative_ypos))
-
-            scene_type.use_gen = False
-            func_scene_gen_args(scene_type,relative_xpos,relative_ypos,chunk_number)
-            break
-
-def func_check_tile_exists(relative_xpos,relative_ypos):
-    check_location_found = False
-    for scene_type in all_scene_types:
-        if relative_ypos == scene_type.ypos and relative_xpos == scene_type.xpos and steps_z == scene_type.zpos:
-            check_location_found = True
-            break
-    return check_location_found
-
-def func_gen_chunk(x_min,y_min,chunk_number):
-    x_max = x_min + 10
-    y_max = y_min + 10
-    gen_grid_x = x_min
-    gen_grid_y = y_min
-
-    tile_occupied = False
-
-    while gen_grid_x <= x_max and gen_grid_x >= x_min and gen_grid_y <= y_max and gen_grid_y >= y_min:
-        tile_occupied = func_check_tile_exists(gen_grid_x,gen_grid_y)
-        if tile_occupied == False:
-                func_place_tile(gen_grid_x,gen_grid_y,chunk_number)
-
-        gen_grid_x += 1
-        if dev_mode >= 4:
-            print( str(chunk_number) + "grid gen x: " + str(gen_grid_x))
-        if gen_grid_x > x_max:
-            gen_grid_x = x_min
-            gen_grid_y += 1
-            if dev_mode >= 4:
-                print( str(chunk_number) + "grid gen y: " + str(gen_grid_y))
-
-def func_gen_ow(x_min,y_min):
-    x_max = x_min + 60
-    y_max = y_min + 60
-    gen_grid_x = x_min
-    gen_grid_y = y_min
-
-    tile_occupied = False
-
-    while gen_grid_x <= x_max and gen_grid_x >= x_min and gen_grid_y <= y_max and gen_grid_y >= y_min:
-        tile_occupied = func_check_tile_exists(gen_grid_x,gen_grid_y)
-        if tile_occupied == False:
-                func_place_tile(gen_grid_x,gen_grid_y,99)
-
-        gen_grid_x += 1
-        if dev_mode >= 4:
-            print("grid gen x: " + str(gen_grid_x))
-        if gen_grid_x > x_max:
-            gen_grid_x = x_min
-            gen_grid_y += 1
-            if dev_mode >= 4:
-                print("grid gen y: " + str(gen_grid_y))
-
-def func_celluar_automata_walls(current_tile_x,current_tile_y):
-    wall_count = 0
-    for scene_type in all_scene_types:
-        if scene_type.zpos == steps_z and scene_type.passable == False:
-            if scene_type.xpos == current_tile_x and scene_type.ypos == current_tile_y - 1:
-                wall_count += 1
-
-            if scene_type.xpos == current_tile_x and scene_type.ypos == current_tile_y + 1:
-                wall_count += 1
-
-            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y:
-                wall_count += 1
-
-            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y:
-                wall_count += 1
-
-            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y - 1:
-                wall_count += 1
-
-            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y + 1:
-                wall_count += 1
-
-            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y - 1:
-                wall_count += 1
-
-            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y + 1:
-                wall_count += 1
-
-    return wall_count
-
-
-def func_celluar_automata_floors(current_tile_x,current_tile_y):
-    floor_count = 0
-    for scene_type in all_scene_types:
-        if scene_type.zpos == steps_z and scene_type.passable == True:
-            if scene_type.xpos == current_tile_x and scene_type.ypos == current_tile_y - 1:
-                floor_count += 1
-
-            if scene_type.xpos == current_tile_x and scene_type.ypos == current_tile_y + 1:
-                floor_count += 1
-
-            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y:
-                floor_count += 1
-
-            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y:
-                floor_count += 1
-
-            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y - 1:
-                floor_count += 1
-
-            if scene_type.xpos == current_tile_x - 1 and scene_type.ypos == current_tile_y + 1:
-                floor_count += 1
-
-            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y - 1:
-                floor_count += 1
-
-            if scene_type.xpos == current_tile_x + 1 and scene_type.ypos == current_tile_y + 1:
-                floor_count += 1
-
-    return floor_count
-
-def func_dungeon_gen():
-    if steps_z <= -1000:
-        print("LOADING, PLEASE WAIT...")
-        func_gen_chunk(-5,-5,0)
-
-        load_full_dungeon = 1
-
-        if load_full_dungeon == 1:
-            func_gen_chunk(6,-5,1)
-            #func_gen_chunk(6,-16,8)
-            #func_gen_chunk(6,6,6)
-            #func_gen_chunk(17,-5,9)
-            func_gen_chunk(-5,6,2)
-            #func_gen_chunk(-5,17,11)
-            func_gen_chunk(-16,-5,3)
-            #func_gen_chunk(-27,-5,10)
-            #func_gen_chunk(-16,6,7)
-            #func_gen_chunk(-16,-16,5)
-            func_gen_chunk(-5,-16,4)
-            #func_gen_chunk(-5,-27,12)
-
-        smoothing_count = 3
-        while smoothing_count > 0:
-            #func_refresh_pygame_dev()
-            for scene_type in active_scene_types:
-                if scene_type.zpos == steps_z:
-                    generation_threshold_walls = 6
-                    generation_threshold_floors = 5
-                    if scene_type.passable == True:
-                        total_wall_count = func_celluar_automata_walls(scene_type.xpos,scene_type.ypos)
-
-                        if total_wall_count >= generation_threshold_walls:
-                            scene_type.passable = False
-                        else:
-                            scene_type.passable = True
-                        #func_refresh_pygame_dev()
-
-
-                    else:
-                        total_floor_count = func_celluar_automata_floors(scene_type.xpos,scene_type.ypos)
-                        if total_floor_count >= generation_threshold_floors:
-                            scene_type.passable = True
-                        else:
-                            scene_type.passable = False
-                        #func_refresh_pygame_dev()
-
-
-            smoothing_count -= 1
-            print("smoothing_count "+ str(smoothing_count))
-
+def func_map_tiles(generated_map):
+
+    #takes a map object and places tiles in the world
+    relative_ypos = 0
+    for y in generated_map.map:
+        relative_xpos = 0
+        for x in y:
+            for scene_type in all_scene_types:
+                if scene_type.use_gen == True and scene_type.zpos == generated_map.z:
+                    scene_type.ypos = relative_ypos
+                    scene_type.xpos = relative_xpos
+                    if dev_mode >= 4:
+                        print("PLACED TILE AT " + str(relative_xpos) + ", " + str(relative_ypos))
+
+                    if x == ".":
+                        scene_type.passable = True
+                        scene_type.safe = False
+
+                    if x == "X":
+                        scene_type.passable = False
+
+                    if x == "D":
+                        scene_type.passable = True
+                        scene_type.has_tp = True
+                        scene_type.safe = True
+
+                    if x == "$":
+                        scene_type.has_tp == False
+                        scene_type.safe = True
+                        scene_type.treasure = True
+                        scene_type.passable = False
+
+
+                    scene_type.use_gen = False
+                    break
+            relative_xpos += 1
+        relative_ypos += 1
 
 #######################---PLAYER LOCATION---#######################
 
@@ -5935,9 +5651,8 @@ if dev_mode >= 2:
     player1.gp = 12400
     player1.xp = 4000
 
-if gen_sea == 1:
-    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLOADING, PLEASE WAIT...")
-    func_gen_ow(-18,-11)
+for game_map in all_maps:
+    func_map_tiles(game_map)
 
 for scene_type in all_scene_types:
     scene_type.func_generate_sprite_positions()
@@ -6884,11 +6599,11 @@ while game_start == 1:
                         is_entrance = True
                     if scene_type.has_tp == True and scene_type.zpos <= -1000 and is_entrance == False:
                         new_floor_zpos = scene_type.zpos - 1
-                        func_tp(0,0,new_floor_zpos)
+                        func_tp(1,1,new_floor_zpos)
 
                     #dungeon area tp
                     if scene_type.xpos == 6 and scene_type.ypos == 0 and scene_type.zpos == 0:
-                        func_tp(0,0,-1000)
+                        func_tp(1,1,-1000)
 
                     #tavern
                     if scene_type.xpos == 5 and scene_type.ypos == 1 and scene_type.zpos == 0:
