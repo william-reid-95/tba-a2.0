@@ -8,11 +8,11 @@ pygame.init()
 init(autoreset=True)
 
 
-spr_npc_cow1 = pygame.image.load("cow1.png")
-spr_npc_sheep1 = pygame.image.load("sheep1.png")
-spr_npc_male1 = pygame.image.load("npc_m1.png")
-spr_npc_male2 = pygame.image.load("npc_m2.png")
-spr_npc_guard1 = pygame.image.load("npc_mg1.png")
+spr_npc_cow1 = pygame.image.load("sprites/cow1.png")
+spr_npc_sheep1 = pygame.image.load("sprites/sheep1.png")
+spr_npc_male1 = pygame.image.load("sprites/npc_m1.png")
+spr_npc_male2 = pygame.image.load("sprites/npc_m2.png")
+spr_npc_guard1 = pygame.image.load("sprites/npc_mg1.png")
 
 class dialouge_option:
     def __init__(self, text, is_quit, is_buy_item, is_buy_weapon, is_buy_armor, is_buy_helmet, is_buy_shield, is_buy_spell, is_sell, is_talk, is_assault, is_give, is_quest, quest_name, is_heal):

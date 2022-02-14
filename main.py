@@ -56,11 +56,6 @@ pygame.font.init() # you have to call this at the start if you want to use fonts
 myfont = pygame.font.SysFont('candara', 16, bold=True, italic=False) # you have to call this at the start if you want to use fonts
 gridfont = pygame.font.SysFont('MS Comic Sans', 16) # you have to call this at the start if you want to use fonts
 
-
-if dev_mode >= 2:
-    fontlist = pygame.font.get_fonts()
-    print(fontlist)
-
 pygame.key.set_repeat(0,1) # held key repeat timer
 
 #################--IMPORT_GAME_MODULES--####################
@@ -756,15 +751,10 @@ equiped_helmet = []
 equiped_shield = []
 equiped_spells = []
 
-
-
-
-
 ##########--PYGAME--############
 
-sfx_cursor_move = pygame.mixer.Sound('sfx_cursor_move16.wav')
-
-sfx_cursor_select = pygame.mixer.Sound('sfx_cursor_select16.wav')
+sfx_cursor_move = pygame.mixer.Sound('sound/sfx_cursor_move16.wav')
+sfx_cursor_select = pygame.mixer.Sound('sound/sfx_cursor_select16.wav')
 
 sfx_player_move = sfx_cursor_move
 sfx_player_select = sfx_cursor_select
@@ -823,25 +813,25 @@ txt_search = myfont.render('search', False, (0, 0, 0))
 
 ###################### SPRITES ##############################
 
-spr_house = pygame.image.load("house1.png")
-spr_house2 = pygame.image.load("house2.png")
-spr_dungeon = pygame.image.load("dungeon1.png")
+spr_house = pygame.image.load("sprites/house1.png")
+spr_house2 = pygame.image.load("sprites/house2.png")
+spr_dungeon = pygame.image.load("sprites/dungeon1.png")
 
-spr_player_n = pygame.image.load("player_n1.png")
-spr_player_e = pygame.image.load("player_r1.png")
-spr_player_s = pygame.image.load("player_s1.png")
-spr_player_w = pygame.image.load("player_l1.png")
+spr_player_n = pygame.image.load("sprites/player_n1.png")
+spr_player_e = pygame.image.load("sprites/player_r1.png")
+spr_player_s = pygame.image.load("sprites/player_s1.png")
+spr_player_w = pygame.image.load("sprites/player_l1.png")
 
 spr_player = spr_player_s
 
-spr_chest = pygame.image.load("chest1.png")
-spr_ground_item1 = pygame.image.load("ground_item1.png")
-spr_ground_item2 = pygame.image.load("ground_item2.png")
+spr_chest = pygame.image.load("sprites/chest1.png")
+spr_ground_item1 = pygame.image.load("sprites/ground_item1.png")
+spr_ground_item2 = pygame.image.load("sprites/ground_item2.png")
 
 
-spr_cave = pygame.image.load("cave1.png")
-spr_boulder = pygame.image.load("boulder1.png")
-spr_brick_wall = pygame.image.load("brickwall1.png")
+spr_cave = pygame.image.load("sprites/cave1.png")
+spr_boulder = pygame.image.load("sprites/boulder1.png")
+spr_brick_wall = pygame.image.load("sprites/brickwall1.png")
 
 ################################################################
 
@@ -883,10 +873,10 @@ def func_choose_music():
         music_playing = pygame.mixer.music.get_busy()
 
         if in_fight == True and music_playing == 0:
-            music_battle1 = pygame.mixer.music.load('music_mystical1.wav')
+            music_battle1 = pygame.mixer.music.load('sound/music_mystical1.wav')
 
         elif in_fight == False and music_playing == 0:
-            music_ow1 = pygame.mixer.music.load('music_overworld1.wav')
+            music_ow1 = pygame.mixer.music.load('sound/music_overworld1.wav')
 
         music_playing = pygame.mixer.music.get_busy()
 
