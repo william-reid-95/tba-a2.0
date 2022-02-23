@@ -5771,10 +5771,13 @@ while game_start == 1:
                                     current_menu = current_menu.children[menu_cursor_pos-1]
                                     func_reset_cursor_pos()
                                 else:
-                                    if isinstance(current_menu.data[0],item):
-                                        func_use(inventory)
+                                    if current_menu.data: 
+                                        #checking that the list is not empty before referencing it prevents error
+                                        if isinstance(current_menu.data[0],item):
+                                            #intereract with the object stored in the list  
+                                            func_use(inventory)
                                     
-                                    #intereract with the object store in the list
+                                    
 
                                 continue
                                 if menu_cursor_pos == 4:
