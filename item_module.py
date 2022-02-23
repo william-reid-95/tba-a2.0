@@ -91,7 +91,7 @@ cup_of_tea = item(108,"cup of tea",5,True,False,False,False,False,800,"","")
 all_game_items.append(cup_of_tea)
 
 
-meat = item(111,"meat",5,True,False,False,False,False,500,"","")
+meat = item(111,"meat",5,True,False,False,False,False,500,"a piece of cooked meat","")
 all_game_items.append(meat)
 
 hp_potion = item(111,"hp potion",20,True,False,False,False,False,1000,"","")
