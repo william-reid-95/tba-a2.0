@@ -8,11 +8,9 @@ pygame.init()
 init(autoreset=True)
 
 
-spr_npc_cow1 = pygame.image.load("sprites/cow1.png")
-spr_npc_sheep1 = pygame.image.load("sprites/sheep1.png")
-spr_npc_male1 = pygame.image.load("sprites/character.png")
-spr_npc_male2 = pygame.image.load("sprites/character.png")
-spr_npc_guard1 = pygame.image.load("sprites/character.png")
+
+spr_npc = pygame.image.load("sprites/character.png")
+
 
 class dialouge_option:
     def __init__(self, text, is_quit, is_buy_item, is_buy_weapon, is_buy_armor, is_buy_helmet, is_buy_shield, is_buy_spell, is_sell, is_talk, is_assault, is_give, is_quest, quest_name, is_heal):
@@ -87,17 +85,17 @@ class npc:
         self.npc_shield_inventory = []
 
         self.sprite_val = sprite_val
-        self.npc_sprite = spr_npc_male1
+        self.npc_sprite = spr_npc
         if self.sprite_val == "m1":
-            self.npc_sprite = spr_npc_male1
+            self.npc_sprite = spr_npc
         if self.sprite_val == "m2":
-            self.npc_sprite = spr_npc_male2
+            self.npc_sprite = spr_npc
         if self.sprite_val == "g1":
-            self.npc_sprite = spr_npc_guard1
+            self.npc_sprite = spr_npc
         if self.sprite_val == "cow":
-            self.npc_sprite = spr_npc_cow1
+            self.npc_sprite = spr_npc
         if self.sprite_val == "sheep":
-            self.npc_sprite = spr_npc_sheep1
+            self.npc_sprite = spr_npc
 
 
         self.is_dead = False

@@ -52,10 +52,6 @@ spr_ghast = pygame.image.load("sprites/enemy/Outline31.png")
 spr_scorpion = pygame.image.load("sprites/enemy/Outline32.png")
 
 
-spr_cast1 = [pygame.image.load("sprites/combat_animations/spell_cast1.png"),pygame.image.load("sprites/combat_animations/spell_cast2.png"),pygame.image.load("sprites/combat_animations/spell_cast3.png"),pygame.image.load("sprites/combat_animations/spell_cast4.png"),pygame.image.load("sprites/combat_animations/spell_cast5.png"),]
-spr_cast_fire1 = [pygame.image.load("sprites/combat_animations/fire1.png"),pygame.image.load("sprites/combat_animations/fire2.png"),pygame.image.load("sprites/combat_animations/fire3.png"),pygame.image.load("sprites/combat_animations/fire4.png"),pygame.image.load("sprites/combat_animations/fire5.png"),]
-
-
 
 class enemy_stats:
     def __init__(self, name, print_name, level, xp, maxhp, maxmp, magic, strength, attack, defence, gp, attribute, weakness, spellbook = [], is_npc = False, sprite = spr_no_sprite, drop_table_items_always = [], drop_table_weapons_always = [], drop_table_armor_always= [], drop_table_helmets_always= [], drop_table_shields_always= []):
@@ -106,7 +102,7 @@ class enemy_stats:
         self.total_defence = 0
 
         self.enemy_sprite = self.sprite
-        self.cast_sprite = spr_cast1
+        self.cast_sprite = None
 
         self.is_active = False
         #self.print_name = (Fore.RED + Style.DIM + self.name + Style.RESET_ALL)
