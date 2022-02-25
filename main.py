@@ -2,6 +2,7 @@
 # TBA
 
 from distutils.log import debug
+
 import time as systime
 
 version = "a2.0"
@@ -5776,6 +5777,26 @@ while game_start == 1:
                                         if isinstance(current_menu.data[0],item):
                                             #intereract with the object stored in the list  
                                             func_use(inventory)
+                                        elif isinstance(current_menu.data[0],weapon):
+                                            #intereract with the object stored in the list
+                                            pass
+                                            #func_equip(inventory)
+                                        elif isinstance(current_menu.data[0],armor):
+                                            #intereract with the object stored in the list
+                                            pass
+                                            #func_equip(inventory)
+                                        elif isinstance(current_menu.data[0],helmet):
+                                            #intereract with the object stored in the list
+                                            pass
+                                            #func_equip(inventory)
+                                        elif isinstance(current_menu.data[0],shield):
+                                            #intereract with the object stored in the list
+                                            pass
+                                            #func_equip(inventory)
+                                        elif isinstance(current_menu.data[0],spell):
+                                            #intereract with the object stored in the list
+                                            pass
+                                            #func_equip(inventory)
                                     
                                     
 
