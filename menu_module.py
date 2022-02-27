@@ -17,7 +17,7 @@ class MenuNode:
 root = MenuNode("Menu")
 
 skills = MenuNode("Skills")
-items = MenuNode("Items",stackable_data = True)
+items = MenuNode("Items", stackable_data = True)
 cast = MenuNode("Cast")
 equip = MenuNode("Equip")
 quests = MenuNode("Quests")

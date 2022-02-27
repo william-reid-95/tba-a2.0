@@ -1504,12 +1504,36 @@ def func_refresh_pygame(battle_intro, animation):
         func_blit_enemy_HUD(1)
 
     if current_menu:
-        #pygame.draw.rect(win_map, (80,100,100), (0, 0, 1024, 512))
+        #bg
+        pygame.draw.rect(win_map, (80,100,100), (0, 0, 1024, 512))
 
+        #panel 1
         pygame.draw.rect(win_map, (100,100,100), (14, 0, 200, 500))
         pygame.draw.rect(win_map, (125,125,125), (24, 10, 180, 480))
+        
+        #panel 2
+        pygame.draw.rect(win_map, (100,100,100), (214, 0, 200, 500))
+        pygame.draw.rect(win_map, (125,125,125), (224,10, 180, 480))
+        
+        #panel 3
+        pygame.draw.rect(win_map, (100,100,100), (414, 0, 200, 500))
+        pygame.draw.rect(win_map, (125,125,125), (424,10, 180, 480))
+
+        #panel 4
+        pygame.draw.rect(win_map, (100,100,100), (614, 0, 200, 500))
+        pygame.draw.rect(win_map, (125,125,125), (624,10, 180, 480))
+
+        #panel 5
+        pygame.draw.rect(win_map, (100,100,100), (814, 0, 200, 500))
+        pygame.draw.rect(win_map, (125,125,125), (824,10, 180, 480))
+
+        func_blit_player_stats(2)
+        func_blit_player_gear(3)
+        func_blit_player_gear2(4)
+        func_blit_list(equiped_spells,5,False)
 
         func_blit_menu_cursor(1) 
+
         if current_menu.children:# if menu is a node print children
             func_blit_list(current_menu.children,1,False) 
         else:# if menu is a leaf print leaf data
@@ -1521,27 +1545,6 @@ def func_refresh_pygame(battle_intro, animation):
     if in_menu == True and in_submenu == False and False:
 
         pygame.draw.rect(win_map, (80,100,100), (0, 0, 1024, 512))
-
-
-        pygame.draw.rect(win_map, (100,100,100), (14, 0, 200, 500))
-        pygame.draw.rect(win_map, (125,125,125), (24, 10, 180, 480))
-
-        pygame.draw.rect(win_map, (100,100,100), (214, 0, 200, 500))
-        pygame.draw.rect(win_map, (125,125,125), (224,10, 180, 480))
-
-        pygame.draw.rect(win_map, (100,100,100), (414, 0, 200, 500))
-        pygame.draw.rect(win_map, (125,125,125), (424,10, 180, 480))
-
-        pygame.draw.rect(win_map, (100,100,100), (614, 0, 200, 500))
-        pygame.draw.rect(win_map, (125,125,125), (624,10, 180, 480))
-
-        pygame.draw.rect(win_map, (100,100,100), (814, 0, 200, 500))
-        pygame.draw.rect(win_map, (125,125,125), (824,10, 180, 480))
-
-        func_blit_player_stats(2)
-        func_blit_player_gear(3)
-        func_blit_player_gear2(4)
-        func_blit_list(equiped_spells,5,False)
 
         win_map.blit(txt_skills,(32,(1*16)))
         win_map.blit(txt_items,(32,(2*16)))
@@ -2040,8 +2043,7 @@ def func_refresh_pygame(battle_intro, animation):
         current_anim_index += 1
         if current_anim_index > anim_index_max:
             current_anim_index = 0
-    
-        
+           
 #########################################################################################
 ##############################--SHOP INVENTORY FUNCTIONS--##############################
 
@@ -2817,7 +2819,6 @@ def check_quit(event):
         func_close_all_menus()
 
 def check_cursor_moved(event):
-    print(menu_cursor_pos)
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_w:
             func_move_cursor(True)
@@ -3909,230 +3910,49 @@ def func_create_item(ing1_name,ing2_name,ingreq_1,ingreq_2,skill_lvl_req,made_it
     else:
         has_cooked = False
 
-def func_equip(gear,player_gear_inv,current_gear):
-    global menu_cursor_pos
-    global in_submenu2
-    global in_submenu
-    global in_submenu_equip
-    global in_submenu_equip2
-    global in_menu_item
-    global in_menu_weapon
-    global in_menu_armor
-    global in_menu_helmet
-    global in_menu_shield
-    global in_menu_spell
-    target_gear = "0"
+def func_equip(player_gear_inv,equip_slot):
+    '''
+    player_gear_inv = the list to equip from,
+    equip_slot = the list to equip to
+    '''
     has_level = False
     has_space = False
+    # for gear in player_gear_inv: #def. list to print in gui
+    #     print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + gear.type + " || lvl: " + str(gear.level) + " || ATK: " + str(gear.attack_bonus) + " || STR: " + str(gear.strength_bonus) + " || MGK: " + str(gear.magic_bonus) + " || DEF: " + str(gear.defence_bonus) + " || HP: " + str(gear.maxhp_bonus) + " || " + str(gear.value) + " gp. ")
+        
+    #     if gear in all_game_spells:
+    #         in_menu_spell = True
+    #         print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || PWR: " + str(gear.damage) + " || " + str(gear.value) + " gp. ")
+    #         print(gear.spell_desc + "\n")
 
-    func_reset_cursor_pos()
+    # print("\nwhat do you want to equip\n")
 
-    for gear in player_gear_inv: #def. list to print in gui
-        if gear in all_game_weapons:
-            in_menu_weapon = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + gear.type + " || lvl: " + str(gear.level) + " || ATK: " + str(gear.attack_bonus) + " || STR: " + str(gear.strength_bonus) + " || MGK: " + str(gear.magic_bonus) + " || DEF: " + str(gear.defence_bonus) + " || HP: " + str(gear.maxhp_bonus) + " || " + str(gear.value) + " gp. ")
-        if gear in all_game_armor:
-            in_menu_armor = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + gear.type + " || lvl: " + str(gear.level) + " || ATK: " + str(gear.attack_bonus) + " || STR: " + str(gear.strength_bonus) + " || MGK: " + str(gear.magic_bonus) + " || DEF: " + str(gear.defence_bonus) + " || HP: " + str(gear.maxhp_bonus) + " || " + str(gear.value) + " gp. ")
-        if gear in all_game_helmets:
-            in_menu_helmet = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + gear.type + " || lvl: " + str(gear.level) + " || ATK: " + str(gear.attack_bonus) + " || STR: " + str(gear.strength_bonus) + " || MGK: " + str(gear.magic_bonus) + " || DEF: " + str(gear.defence_bonus) + " || HP: " + str(gear.maxhp_bonus) + " || " + str(gear.value) + " gp. ")
-        if gear in all_game_shields:
-            in_menu_shield = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + gear.type + " || lvl: " + str(gear.level) + " || ATK: " + str(gear.attack_bonus) + " || STR: " + str(gear.strength_bonus) + " || MGK: " + str(gear.magic_bonus) + " || DEF: " + str(gear.defence_bonus) + " || HP: " + str(gear.maxhp_bonus) + " || " + str(gear.value) + " gp. ")
-        if gear in all_game_spells:
-            in_menu_spell = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || PWR: " + str(gear.damage) + " || " + str(gear.value) + " gp. ")
-            print(gear.spell_desc + "\n")
-    print("\nwhat do you want to equip\n")
+    unequiped_gear = None
+    equiped_gear = player_gear_inv[menu_cursor_pos - 1]
+    #TODO: CHECK LEVEL REQUIREMENT BEFORE EQUIPPING!
 
-    in_submenu2 = True
-    in_submenu_equip2 = True
+    if equiped_gear.level <= player1.level:
 
-    while in_submenu_equip2 == True:
+        if equip_slot:
+            unequiped_gear = equip_slot[0]
 
-        #pygame.time.delay(tick_delay_time)
+            if unequiped_gear not in player_gear_inv:
+                unequiped_gear.amount = 1
+                player_gear_inv.append(unequiped_gear)
+            else:
+                for gear in player_gear_inv:
+                    if gear.name == unequiped_gear.name:
+                        gear.amount += 1
 
-        func_check_level()
-        func_refresh_pygame(False,0)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                game_start = 0
-                in_fight = False
-                in_menu_item = False
-                in_menu_weapon = False
-                in_menu_armor = False
-                in_menu_helmet = False
-                in_menu_shield = False
-                in_menu_spell = False
-                in_submenu2 = False
-                in_submenu_equip2 == False
-                in_submenu = False
-                in_submenu_equip == False
-                in_menu = False
-
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w:
-                    func_move_cursor(True)
-                if event.key == pygame.K_s:
-                    func_move_cursor(False, limit = len(player_gear_inv))
-                if event.key == pygame.K_q:
-                    func_reset_cursor_pos()
-                    in_menu_item = False
-                    in_menu_weapon = False
-                    in_menu_armor = False
-                    in_menu_helmet = False
-                    in_menu_shield = False
-                    in_menu_spell = False
-                    in_submenu_equip2 = False
-                    in_submenu2 = False
-                    print("equip2 menu quit")
-                    break
-
-                if event.key == pygame.K_e:
-
-                    func_reset_cursor_pos()
-
-                    sfx_cursor_select.play()
-
-                    has_gear = False
-
-                    val_dropped_item = menu_cursor_pos
-                    val_drop = val_dropped_item - 1
-                    for gear in player_gear_inv:
-                        if val_drop == player_gear_inv.index(gear):
-                            target_gear = gear.name
-
-                    for gear in player_gear_inv:
-                        if player_gear_inv.index(gear) == (menu_cursor_pos - 1):
-                            has_gear = True #player has the selected gear in their inv
+            del equip_slot[:]
+        
+        equip_slot.append(equiped_gear)
+        
 
 
-                            if player1.level < gear.level:
-                                print("You are not high enough level to equip " + gear.print_name + " ...")
-                                has_level = False
-                            else:
-                                has_level = True
+    else:
+        print(f"not high enough level to equip {equiped_gear.name}")
 
-                            if gear in equiped_weapon:
-                                has_space = False
-                            elif gear in equiped_armor:
-                                has_space = False
-                            elif gear in equiped_helmet:
-                                has_space = False
-                            elif gear in equiped_shield:
-                                has_space = False
-                            elif gear in equiped_spells:
-                                has_space = False
-                            else:
-                                has_space = True
-
-                            if has_level == True and has_space == True:
-                                if gear in all_game_weapons:
-                                    gear.amount -= 1
-                                    if gear.amount <= 0:
-                                        weapon_inventory.remove(gear)
-                                if gear in all_game_armor:
-                                    gear.amount -= 1
-                                    if gear.amount <= 0:
-                                        armor_inventory.remove(gear)
-                                if gear in all_game_helmets:
-                                    gear.amount -= 1
-                                    if gear.amount <= 0:
-                                        helmet_inventory.remove(gear)
-                                if gear in all_game_shields:
-                                    gear.amount -= 1
-                                    if gear.amount <= 0:
-                                        shield_inventory.remove(gear)
-                                if gear in all_game_spells:
-                                    gear.amount -= 1
-                                    if gear.amount <= 0:
-                                        spell_inventory.remove(gear)
-
-                                if gear in all_game_weapons:
-                                    del equiped_weapon[:]
-                                if gear in all_game_armor:
-                                    del equiped_armor[:]
-                                if gear in all_game_helmets:
-                                    del equiped_helmet[:]
-                                if gear in all_game_shields:
-                                    del equiped_shield[:]
-
-                                if gear in all_game_weapons:
-                                    equiped_weapon.append(gear)
-                                if gear in all_game_armor:
-                                    equiped_armor.append(gear)
-                                if gear in all_game_helmets:
-                                    equiped_helmet.append(gear)
-                                if gear in all_game_shields:
-                                    equiped_shield.append(gear)
-                                if gear in all_game_spells:
-                                    equiped_spells.append(gear)
-
-                                print(gear.print_name + " equipped!")
-
-                                if current_gear != "0":
-                                    if gear in all_game_weapons:
-                                        for weapon in all_game_weapons:
-                                            if weapon.name == current_gear:
-                                                if weapon not in weapon_inventory:
-                                                    weapon_inventory.append(weapon)
-                                                    weapon.amount = 1
-                                                else:
-                                                    for weapon in weapon_inventory:
-                                                        if weapon.name == current_gear:
-                                                            weapon.amount += 1
-                                                break
-
-                                    if gear in all_game_armor:
-                                        for armor in all_game_armor:
-                                            if armor.name == current_gear:
-                                                if armor not in armor_inventory:
-                                                    armor_inventory.append(armor)
-                                                    armor.amount = 1
-                                                else:
-                                                    for armor in armor_inventory:
-                                                        if armor.name == current_gear:
-                                                            armor.amount += 1
-                                                break
-
-                                    if gear in all_game_helmets:
-                                        for helmet in all_game_helmets:
-                                            if helmet.name == current_gear:
-                                                if helmet not in helmet_inventory:
-                                                    helmet_inventory.append(helmet)
-                                                    helmet.amount = 1
-                                                else:
-                                                    for helmet in helmet_inventory:
-                                                        if helmet.name == current_gear:
-                                                            helmet.amount += 1
-                                                break
-
-                                    if gear in all_game_shields:
-                                        for shield in all_game_shields:
-                                            if shield.name == current_gear:
-                                                if shield not in shield_inventory:
-                                                    shield_inventory.append(shield)
-                                                    shield.amount = 1
-                                                else:
-                                                    for shield in shield_inventory:
-                                                        if shield.name == current_gear:
-                                                            shield.amount += 1
-                                                break
-
-
-                                current_gear = gear.name
-
-                            if has_level == True and has_space == False:
-                                print("You already have " + gear.print_name + " equiped!")
-                            if has_level == False and has_space == False:
-                                # print("\nYou are not high enough level to equip this!\n")
-                                pass
-                            if has_level == False and has_space == True:
-                                # print("\nYou are not high enough level to equip this!\n")
-                                pass
-                            break
 
 def func_inv(gear,player_gear_inv):
     target_gear = "0"
@@ -4515,7 +4335,7 @@ def func_gen_class_stats(player_class_string):
     #dev loadout
     if dev_mode >= 2:
 
-        equiped_helmet.append(leather_armor)
+        equiped_helmet.append(leather_cap)
         equiped_shield.append(wooden_round_shield)
         equiped_weapon.append(iron_sword)
         equiped_armor.append(iron_chain_mail)
@@ -4524,10 +4344,11 @@ def func_gen_class_stats(player_class_string):
         spell_inventory.append(snare)
         spell_inventory.append(fireblast)
 
-
-
         weapon_inventory.append(super_bird_sword)
         weapon_inventory.append(gladius)
+        weapon_inventory.append(iron_axe)
+        weapon_inventory.append(iron_dagger)
+        weapon_inventory.append(iron_knife)
 
         armor_inventory.append(iron_chain_mail)
         armor_inventory.append(steel_chain_mail)
@@ -4607,10 +4428,10 @@ player1.hp = player1.maxhp # has to be last as max hp is calculated from all oth
 player1.mp = player1.maxmp
 
 if dev_mode >= 2:
-    player1.gp = 12400
-    player1.xp = 4000
+    player1.gp = 999999
+    player1.xp = 999999
 
-for tile in all_scene_types:
+for tile in interactive_tiles:
     tile.enforce_tile_attributes()
 
 
@@ -4626,10 +4447,10 @@ print("\n  Function Keys:\n  F1: Dev Window (WINDOWS ONLY DO NOT OPEN ON MAC OS)
 
 print("\npress any key to start! \n")
 
-active_scene_types = []
-for scene_type in all_scene_types:
-    if scene_type.zpos == steps_z:
-        active_scene_types.append(scene_type)
+active_tiles = []
+for tile in interactive_tiles:
+    if tile.zpos == steps_z:
+        active_tiles.append(tile)
 
 func_check_tile_anims()
 
@@ -5771,33 +5592,37 @@ while game_start == 1:
                                 if current_menu.children:
                                     current_menu = current_menu.children[menu_cursor_pos-1]
                                     func_reset_cursor_pos()
-                                else:
-                                    if current_menu.data: 
+                                    print(f'menu: {current_menu.name}')
+                                    
+                                else: 
+                                    print(f'leaf menu: {current_menu.name}')
+                                    #if leaf node is currently active
+                                    if current_menu.data:
                                         #checking that the list is not empty before referencing it prevents error
                                         if isinstance(current_menu.data[0],item):
                                             #intereract with the object stored in the list  
                                             func_use(inventory)
                                         elif isinstance(current_menu.data[0],weapon):
                                             #intereract with the object stored in the list
-                                            pass
-                                            #func_equip(inventory)
+                                            func_equip(weapon_inventory,equiped_weapon)
+
                                         elif isinstance(current_menu.data[0],armor):
                                             #intereract with the object stored in the list
-                                            pass
-                                            #func_equip(inventory)
+                                            func_equip(armor_inventory,equiped_armor)
+
                                         elif isinstance(current_menu.data[0],helmet):
                                             #intereract with the object stored in the list
-                                            pass
-                                            #func_equip(inventory)
+                                            func_equip(equiped_helmet,equiped_helmet)
+
                                         elif isinstance(current_menu.data[0],shield):
                                             #intereract with the object stored in the list
-                                            pass
-                                            #func_equip(inventory)
+                                            func_equip(shield_inventory,equiped_shield)
+                                            
                                         elif isinstance(current_menu.data[0],spell):
                                             #intereract with the object stored in the list
-                                            pass
-                                            #func_equip(inventory)
-                                    
+                                            func_equip(spell_inventory,equiped_spells)
+                                    else:
+                                        print(f'leaf menu: {current_menu.name} - no data in leaf object')
                                     
 
                                 continue
