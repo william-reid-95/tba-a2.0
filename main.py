@@ -3914,9 +3914,9 @@ def func_equip(player_gear_inv,equip_slot):
     '''
     player_gear_inv = the list to equip from,
     equip_slot = the list to equip to
+
     '''
-    has_level = False
-    has_space = False
+ 
     # for gear in player_gear_inv: #def. list to print in gui
     #     print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + gear.type + " || lvl: " + str(gear.level) + " || ATK: " + str(gear.attack_bonus) + " || STR: " + str(gear.strength_bonus) + " || MGK: " + str(gear.magic_bonus) + " || DEF: " + str(gear.defence_bonus) + " || HP: " + str(gear.maxhp_bonus) + " || " + str(gear.value) + " gp. ")
         
@@ -3927,45 +3927,50 @@ def func_equip(player_gear_inv,equip_slot):
 
     # print("\nwhat do you want to equip\n")
 
-    unequiped_gear = None
-    equiped_gear = player_gear_inv[menu_cursor_pos - 1]
+    if len(player_gear_inv) > menu_cursor_pos - 1:
+        
+        unequiped_gear = None
+        equiped_gear = player_gear_inv[menu_cursor_pos - 1]
 
-    #TODO: CHECK IF GEAR IS SPELL 
-    if not isinstance(equiped_gear,spell):
-        if equiped_gear.level <= player1.level:
+        if not isinstance(equiped_gear,spell):
+            #if equiped gear is not a spell
+            if equiped_gear.level <= player1.level:
+                if equip_slot:
+                    unequiped_gear = equip_slot[0]
 
-            if equip_slot:
-                unequiped_gear = equip_slot[0]
+                    if unequiped_gear not in player_gear_inv:
+                        unequiped_gear.amount = 1
+                        player_gear_inv.append(unequiped_gear)
+                    else:
+                        for gear in player_gear_inv:
+                            if gear.name == unequiped_gear.name:
+                                gear.amount += 1
 
-                if unequiped_gear not in player_gear_inv:
-                    unequiped_gear.amount = 1
-                    player_gear_inv.append(unequiped_gear)
+                    del equip_slot[:]
+                
+                #Remove gear from inventory
+                equiped_gear.amount -= 1
+                if equiped_gear.amount <= 0:
+                    player_gear_inv.remove(equiped_gear)
+
+                equip_slot.append(equiped_gear)
+
+            else:
+                print(f"not high enough level to equip {equiped_gear.name}")
+        else:
+            #if equiped gear is a spell
+            if equiped_gear.level <= player1.level:
+                if equiped_gear not in equip_slot: #equip_slot is the spellbook in this case
+                    equiped_gear.amount -= 1
+                    if equiped_gear.amount <= 0:
+                        player_gear_inv.remove(equiped_gear)
+
+                    equip_slot.append(equiped_gear)
                 else:
-                    for gear in player_gear_inv:
-                        if gear.name == unequiped_gear.name:
-                            gear.amount += 1
-
-                del equip_slot[:]
-            
-            #Remove gear from inventory
-            equiped_gear.amount -= 1
-            if equiped_gear.amount <= 0:
-                player_gear_inv.remove(equiped_gear)
-
-            equip_slot.append(equiped_gear)
-
-        else:
-            print(f"not high enough level to equip {equiped_gear.name}")
-    else:
-        if equiped_gear not in equip_slot: #equip_slot is the spellbook in this case
-            equiped_gear.amount -= 1
-            if equiped_gear.amount <= 0:
-                player_gear_inv.remove(equiped_gear)
-
-            equip_slot.append(equiped_gear)
-        else:
-            print(f"You already have f{equiped_gear.name} in your spellbook")
-            #add spell to equiped spells, remove from inventory
+                    print(f"You already have {equiped_gear.name} in your spellbook")
+                    #add spell to equiped spells, remove from inventory
+            else:
+                print(f"You are not a high enough level to learn {equiped_gear.name}")
 
 
 def func_inv(gear,player_gear_inv):
@@ -4111,7 +4116,7 @@ def func_check_level():
             print("\nyour cooking level is now: ", player_skills.cooking)
             func_check_level()
 
-def func_HUD():
+def func_HUD(): 
     status_list = []
     for status_condition in player1.status_effect_list:
         status_list.append(status_condition.name)
@@ -5174,15 +5179,6 @@ while game_start == 1:
                     dev_mode = 0
                 print("dev mode " + str(dev_mode))
 
-            if event.key == pygame.K_F5:
-                grid_mode += 1
-                if grid_mode > 2:
-                    grid_mode = 0
-                print("grid mode " + str(grid_mode))
-
-            if event.key == pygame.K_F6:
-                pass
-            
             if event.key == pygame.K_F12:
                 in_fight = True
 
