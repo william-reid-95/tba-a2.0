@@ -3929,29 +3929,43 @@ def func_equip(player_gear_inv,equip_slot):
 
     unequiped_gear = None
     equiped_gear = player_gear_inv[menu_cursor_pos - 1]
-    #TODO: CHECK LEVEL REQUIREMENT BEFORE EQUIPPING!
 
-    if equiped_gear.level <= player1.level:
+    #TODO: CHECK IF GEAR IS SPELL 
+    if not isinstance(equiped_gear,spell):
+        if equiped_gear.level <= player1.level:
 
-        if equip_slot:
-            unequiped_gear = equip_slot[0]
+            if equip_slot:
+                unequiped_gear = equip_slot[0]
 
-            if unequiped_gear not in player_gear_inv:
-                unequiped_gear.amount = 1
-                player_gear_inv.append(unequiped_gear)
-            else:
-                for gear in player_gear_inv:
-                    if gear.name == unequiped_gear.name:
-                        gear.amount += 1
+                if unequiped_gear not in player_gear_inv:
+                    unequiped_gear.amount = 1
+                    player_gear_inv.append(unequiped_gear)
+                else:
+                    for gear in player_gear_inv:
+                        if gear.name == unequiped_gear.name:
+                            gear.amount += 1
 
-            del equip_slot[:]
-        
-        equip_slot.append(equiped_gear)
-        
+                del equip_slot[:]
+            
+            #Remove gear from inventory
+            equiped_gear.amount -= 1
+            if equiped_gear.amount <= 0:
+                player_gear_inv.remove(equiped_gear)
 
+            equip_slot.append(equiped_gear)
 
+        else:
+            print(f"not high enough level to equip {equiped_gear.name}")
     else:
-        print(f"not high enough level to equip {equiped_gear.name}")
+        if equiped_gear not in equip_slot: #equip_slot is the spellbook in this case
+            equiped_gear.amount -= 1
+            if equiped_gear.amount <= 0:
+                player_gear_inv.remove(equiped_gear)
+
+            equip_slot.append(equiped_gear)
+        else:
+            print(f"You already have f{equiped_gear.name} in your spellbook")
+            #add spell to equiped spells, remove from inventory
 
 
 def func_inv(gear,player_gear_inv):
@@ -4334,15 +4348,19 @@ def func_gen_class_stats(player_class_string):
 
     #dev loadout
     if dev_mode >= 2:
-
+ 
         equiped_helmet.append(leather_cap)
         equiped_shield.append(wooden_round_shield)
         equiped_weapon.append(iron_sword)
         equiped_armor.append(iron_chain_mail)
 
         spell_inventory.append(fireblast)
+        spell_inventory.append(necro_surge)
+
         spell_inventory.append(snare)
-        spell_inventory.append(fireblast)
+        spell_inventory.append(fire_bolt)
+        spell_inventory.append(earthblast)
+
 
         weapon_inventory.append(super_bird_sword)
         weapon_inventory.append(gladius)
@@ -5599,9 +5617,13 @@ while game_start == 1:
                                     #if leaf node is currently active
                                     if current_menu.data:
                                         #checking that the list is not empty before referencing it prevents error
+
+                                        #inventory menu
                                         if isinstance(current_menu.data[0],item):
                                             #intereract with the object stored in the list  
                                             func_use(inventory)
+
+                                        #equip menus
                                         elif isinstance(current_menu.data[0],weapon):
                                             #intereract with the object stored in the list
                                             func_equip(weapon_inventory,equiped_weapon)

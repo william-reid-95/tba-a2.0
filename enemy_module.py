@@ -164,11 +164,13 @@ class enemy_stats:
         self.hp -= damage
         return damage
 
+### imp
+
 imp1 = enemy_stats(
     name = "imp1",
     print_name = "imp",
     level = 2,
-    xp = 2,
+    xp = 20,
     maxhp = 400,
     maxmp = 400,
     magic = 1,
@@ -189,6 +191,34 @@ imp3.name = "imp3"
 imp4 = copy.copy(imp1)
 imp4.name = "imp4"
 
+### slime
+
+slime1 = enemy_stats(
+    name = "slime1",
+    print_name = "slime",
+    level = 3,
+    xp = 20,
+    maxhp = 320,
+    maxmp = 800,
+    magic = 10,
+    strength = 1,
+    attack = 1,
+    defence = 20,
+    gp = 0,
+    attribute = "earth",
+    weakness = "ice",
+    sprite = spr_eye_demon)
+
+slime2 = copy.copy(slime1)
+slime2.name = "slime2"
+
+slime3 = copy.copy(slime1)
+slime3.name = "slime3"
+
+slime4 = copy.copy(slime1)
+slime4.name = "slime4"
+
+### 
 
 # goon = enemy_stats(False,"goon",2,3,300,300,100,100,1,16,14,8,4,"earth","fire",[],[bones],[],[],[],[],0,"imp")
 # big_rat = enemy_stats(False,"big rat",2,3,100,100,100,100,10,16,14,8,4,"water","fire",[],[meat,bones],[],[],[],[],0,"imp2")
