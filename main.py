@@ -2116,13 +2116,13 @@ def func_choose_enemy():
             in_fight = False
             break
 
-def func_drop_loot(dead_enemy,drop_table_always,drop_table,all_ground_game_type,scene_inv_type):
+def func_drop_loot(dead_enemy,drop_table_always,drop_table,inv_type):
     
     #drop_table_always = item,weapon,helmet,armor etc.
     #drop_table = item,weapon,helmet,armor etc.
 
     #all_ground_game_type = the ground variant of the dropped item/gear
-    #scene_inv_type = the scene_inventory variant of the dropped item/gear
+    #inv_type = the scene_inventory variant of the dropped item/gear
 
     #TODO: shuffle drop tables when they are built
     
@@ -2132,40 +2132,34 @@ def func_drop_loot(dead_enemy,drop_table_always,drop_table,all_ground_game_type,
 
     if len(drop_table_always) != 0:
         for item in drop_table_always:
-            loot_chance_item = 1
-            if loot_chance_item == 1:
-                for ground_item in all_ground_game_type:
-                    item_dropped = False
-                    if item_dropped == False and ground_item.name == item.name and ground_item not in scene_inv_type:
-                        scene_inv_type.append(ground_item)
-                        print(dead_enemy.print_name + " dropped " + item.print_name + " \n")
-                        item_dropped = True
 
-                    if item_dropped == False and ground_item.name == item.name and ground_item in scene_inv_type:
-                        for ground_item in scene_inv_type:
-                            if ground_item.name == item.name:
-                                ground_item.amount += 1
-                        print(dead_enemy.print_name + " dropped " + item.print_name)
-                        item_dropped = True
+            if item not in inv_type:
+                inv_type.append(item)
+                print(dead_enemy.print_name + " dropped " + item.print_name + " \n")
+
+            elif item in inv_type:
+                for inv_item in inv_type:
+                    if item.name == inv_item.name:
+                        inv_item.amount += 1
+                print(dead_enemy.print_name + " dropped " + item.print_name)
+
 
     if random.randint(0,2) == 1 or always_drop == True:
         if len(drop_table) != 0:
             for item in drop_table:
                 loot_chance_item = random.randint(0,loot_modifier)
                 if loot_chance_item == 1:
-                    for ground_item in all_ground_game_type:
-                        item_dropped = False
-                        if item_dropped == False and ground_item.name == item.name and ground_item not in scene_inv_type:
-                            scene_inv_type.append(ground_item)
-                            print(dead_enemy.print_name + " dropped " + item.print_name)
-                            item_dropped = True
+                    for item in drop_table_always:
 
-                        if item_dropped == False and ground_item.name == item.name and ground_item in scene_inv_type:
-                            for ground_item in scene_inv_type:
-                                if ground_item.name == item.name:
-                                    ground_item.amount += 1
-                            print(enemy_stats.print_name + " dropped " + item.print_name)
-                            item_dropped = True
+                        if item not in inv_type:
+                            inv_type.append(item)
+                            print(dead_enemy.print_name + " dropped " + item.print_name + " \n")
+
+                        elif item in inv_type:
+                            for inv_item in inv_type:
+                                if item.name == inv_item.name:
+                                    inv_item.amount += 1
+                            print(dead_enemy.print_name + " dropped " + item.print_name)
 
 def func_enemy_dead(enemy_stats):
 
@@ -2191,35 +2185,30 @@ def func_enemy_dead(enemy_stats):
                 enemy_stats,
                 enemy_stats.drop_table_items_always,
                 enemy_stats.drop_table_items,
-                all_ground_game_items,
                 inventory)
 
             func_drop_loot(
                 enemy_stats,
                 enemy_stats.drop_table_weapons_always,
                 enemy_stats.drop_table_weapons,
-                all_game_weapons,
                 weapon_inventory)
 
             func_drop_loot(
                 enemy_stats,
                 enemy_stats.drop_table_armor_always,
                 enemy_stats.drop_table_armor,
-                all_game_armor,
                 armor_inventory)
 
             func_drop_loot(
                 enemy_stats,
                 enemy_stats.drop_table_helmets_always,
                 enemy_stats.drop_table_helmets,
-                all_game_helmets,
                 helmet_inventory)
 
             func_drop_loot(
                 enemy_stats,
                 enemy_stats.drop_table_shields_always,
                 enemy_stats.drop_table_shields,
-                all_game_shields,
                 shield_inventory)
 
 def func_get_target():
@@ -2633,7 +2622,7 @@ def func_enemy_attack(enemy_stats):
     else:
         for spell in enemy_stats.spellbook:
             
-            print(enemy_stats.print_name + "is preparing a spell")
+            print(enemy_stats.print_name + " is preparing a spell")
             spellchance = 1
 
             if spellchance == 1:

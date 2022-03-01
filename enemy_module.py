@@ -159,7 +159,7 @@ class enemy_stats:
         if damage > self.hp:
             damage = self.hp
 
-        print("you hit the " + self.name + " for " + Fore.RED + Style.BRIGHT + str(damage) + " " + colour_attribute + attribute + " " + "damage!")
+        print("you hit the " + self.print_name + " for " + Fore.RED + Style.BRIGHT + str(damage) + " " + colour_attribute + attribute + " " + "damage!")
         
         self.hp -= damage
         return damage
@@ -207,16 +207,21 @@ slime1 = enemy_stats(
     gp = 0,
     attribute = "earth",
     weakness = "ice",
-    sprite = spr_slime)
+    sprite = spr_slime,
+    drop_table_items_always = [bones])
+
 
 slime2 = copy.copy(slime1)
 slime2.name = "slime2"
+all_game_enemies.append(slime2)
 
 slime3 = copy.copy(slime1)
 slime3.name = "slime3"
+all_game_enemies.append(slime3)
 
 slime4 = copy.copy(slime1)
 slime4.name = "slime4"
+all_game_enemies.append(slime4)
 
 ### 
 
