@@ -196,7 +196,7 @@ imp4.name = "imp4"
 slime1 = enemy_stats(
     name = "slime1",
     print_name = "slime",
-    level = 3,
+    level = 100,
     xp = 20,
     maxhp = 320,
     maxmp = 800,
@@ -207,7 +207,7 @@ slime1 = enemy_stats(
     gp = 0,
     attribute = "earth",
     weakness = "ice",
-    sprite = spr_eye_demon)
+    sprite = spr_slime)
 
 slime2 = copy.copy(slime1)
 slime2.name = "slime2"

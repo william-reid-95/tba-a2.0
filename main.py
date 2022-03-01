@@ -1274,7 +1274,6 @@ def func_blit_enemy_HUD(hud_val):
 
         blit_HUD_active = myfont.render("ACTIVE", True, (150, 50, 0))
         blit_HUD_inactive = myfont.render("ACTIVE", True, (10, 10, 10))
-        print(enemy_stats.print_name)
         blit_HUD_name = myfont.render(enemy_stats.print_name, True, (0, 0, 0))
         blit_HUD_lvl = myfont.render("Lvl: " + str(enemy_stats.level), True, (0, 0, 0))
         blit_HUD_att = myfont.render("Att: " + enemy_stats.attribute, True, (0, 0, 0))
@@ -2093,25 +2092,25 @@ def func_choose_enemy():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_start = 0
-        for scene_type in location:
-            if scene_type.zpos <= -1000:
-                scene_level = ((scene_type.zpos + 1000) * -1) * 5
-            else:
-                scene_level = player1.level
-            if dev_mode >= 1:
-                print("looking for enemy level " + str(scene_level) + " +/- 3")
-            for enemy_stats in all_game_enemies:
-                if dev_mode >= 2:
-                    print("\ndifficulty: " + str(scene_type.difficulty - 1) + "  - " +str(scene_type.difficulty + 5))
-                    print(enemy_stats.print_name + ", lvl: " + str(enemy_stats.level))
-                if enemy_stats.level <= scene_level + 5 and enemy_stats.level >= scene_level - 1 and enemy_stats.is_npc == False:
-                    compatible_enemies_found = True
+                break
+                
+        scene_level = player1.level
+        if dev_mode >= 1:
+            print("looking for enemy level " + str(scene_level) + " +/- 3")
+        for enemy_stats in all_game_enemies:
+            if dev_mode >= 2:
+                print("\ndifficulty: " + str(scene_level - 1) + "  - " + str(scene_level + 5))
+                print(enemy_stats.print_name + ", lvl: " + str(enemy_stats.level))
+            if enemy_stats.level <= scene_level + 5 and enemy_stats.level >= scene_level - 1 and enemy_stats.is_npc == False:
+                compatible_enemies_found = True
+
         if compatible_enemies_found == True:
             for enemy_stats in all_game_enemies:
                 encounter_chance = 0
                 encounter_chance = random.randint(1,10)
                 if encounter_chance == 1 and enemy_stats not in current_enemies and len(current_enemies) < enemy_count and enemy_stats.level <= scene_level + 5 and enemy_stats.level >= scene_level - 1 and enemy_stats.is_npc == False:
                     current_enemies.append(enemy_stats)
+
         if compatible_enemies_found == False:
             print("not enough compatitible enemies found for difficulty level of scene!")
             in_fight = False
@@ -2193,35 +2192,35 @@ def func_enemy_dead(enemy_stats):
                 enemy_stats.drop_table_items_always,
                 enemy_stats.drop_table_items,
                 all_ground_game_items,
-                scene_type.scene_inventory)
+                inventory)
 
             func_drop_loot(
                 enemy_stats,
                 enemy_stats.drop_table_weapons_always,
                 enemy_stats.drop_table_weapons,
-                all_ground_game_weapons,
-                scene_type.scene_weapon_inventory)
+                all_game_weapons,
+                weapon_inventory)
 
             func_drop_loot(
                 enemy_stats,
                 enemy_stats.drop_table_armor_always,
                 enemy_stats.drop_table_armor,
-                all_ground_game_armor,
-                scene_type.scene_armor_inventory)
+                all_game_armor,
+                armor_inventory)
 
             func_drop_loot(
                 enemy_stats,
                 enemy_stats.drop_table_helmets_always,
                 enemy_stats.drop_table_helmets,
-                all_ground_game_helmets,
-                scene_type.scene_helmet_inventory)
+                all_game_helmets,
+                helmet_inventory)
 
             func_drop_loot(
                 enemy_stats,
                 enemy_stats.drop_table_shields_always,
                 enemy_stats.drop_table_shields,
-                all_ground_game_shields,
-                scene_type.scene_shield_inventory)
+                all_game_shields,
+                shield_inventory)
 
 def func_get_target():
     #
@@ -4625,8 +4624,7 @@ while game_start == 1:
                 print("battle intro finished")
             print(Fore.RED + "\n//////////// YOU ARE NOW IN COMBAT //////////// \n")
 
-            print("\nLocation: " + scene_type.name)
-
+    
             print("\nturns left: " + str(player_turns))
 
             if dev_mode >= 2:
@@ -5179,7 +5177,7 @@ while game_start == 1:
                     dev_mode = 0
                 print("dev mode " + str(dev_mode))
 
-            if event.key == pygame.K_F12:
+            if event.key == pygame.K_F5:
                 in_fight = True
 
             if event.key == pygame.K_w:
