@@ -5604,9 +5604,10 @@ while game_start == 1:
                                 sfx_cursor_select.play()
                                 #equip 
                                 if current_menu.children:
-                                    current_menu = current_menu.children[menu_cursor_pos-1]
-                                    func_reset_cursor_pos()
-                                    print(f'menu: {current_menu.name}')
+                                    if len(current_menu.children) > menu_cursor_pos - 1:
+                                        current_menu = current_menu.children[menu_cursor_pos-1]
+                                        func_reset_cursor_pos()
+                                        print(f'menu: {current_menu.name}')
                                     
                                 else: 
                                     print(f'leaf menu: {current_menu.name}')
