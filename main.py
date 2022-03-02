@@ -2415,11 +2415,15 @@ def func_player_spell():
             else:
                 print(Fore.RED + "\nNOT ENOUGH MANA!\n")
                 break
+    
+    func_check_enemy_dead()
 
     in_submenu = False
     in_submenu_cast_combat = False
     in_submenu2 = False
     in_submenu_spell_target_combat2 = False
+
+    
 
 def func_player_spell_non_combat(cast_spell):
     for spell in equiped_spells:
@@ -3920,7 +3924,7 @@ def func_equip(player_gear_inv,equip_slot):
         unequiped_gear = None
         equiped_gear = player_gear_inv[menu_cursor_pos - 1]
 
-        if not isinstance(equiped_gear,spell):
+        if not isinstance(equiped_gear,Spell):
             #if equiped gear is not a spell
             if equiped_gear.level <= player1.level:
                 if equip_slot:
@@ -3959,7 +3963,6 @@ def func_equip(player_gear_inv,equip_slot):
                     #add spell to equiped spells, remove from inventory
             else:
                 print(f"You are not a high enough level to learn {equiped_gear.name}")
-
 
 def func_inv(gear,player_gear_inv):
     target_gear = "0"
@@ -4381,7 +4384,7 @@ def func_gen_class_stats(player_class_string):
         inventory.append(rope)
         inventory.append(torch)
 
-
+        equiped_spells.append(mega)
         equiped_spells.append(atk_down)
         equiped_spells.append(str_up)
         equiped_spells.append(fire_bolt)
@@ -5603,28 +5606,28 @@ while game_start == 1:
                                         #checking that the list is not empty before referencing it prevents error
 
                                         #inventory menu
-                                        if isinstance(current_menu.data[0],item):
+                                        if isinstance(current_menu.data[0],Item):
                                             #intereract with the object stored in the list  
                                             func_use(inventory)
 
                                         #equip menus
-                                        elif isinstance(current_menu.data[0],weapon):
+                                        elif isinstance(current_menu.data[0],Weapon):
                                             #intereract with the object stored in the list
                                             func_equip(weapon_inventory,equiped_weapon)
 
-                                        elif isinstance(current_menu.data[0],armor):
+                                        elif isinstance(current_menu.data[0],Armor):
                                             #intereract with the object stored in the list
                                             func_equip(armor_inventory,equiped_armor)
 
-                                        elif isinstance(current_menu.data[0],helmet):
+                                        elif isinstance(current_menu.data[0],Helmet):
                                             #intereract with the object stored in the list
                                             func_equip(equiped_helmet,equiped_helmet)
 
-                                        elif isinstance(current_menu.data[0],shield):
+                                        elif isinstance(current_menu.data[0],Shield):
                                             #intereract with the object stored in the list
                                             func_equip(shield_inventory,equiped_shield)
                                             
-                                        elif isinstance(current_menu.data[0],spell):
+                                        elif isinstance(current_menu.data[0],Spell):
                                             #intereract with the object stored in the list
                                             func_equip(spell_inventory,equiped_spells)
                                     else:
