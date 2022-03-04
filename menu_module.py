@@ -12,7 +12,6 @@ class MenuNode:
         child.parent = self
         self.children.append(child)
 
-#def build_menu_tree():
 
 root = MenuNode("Menu")
 
@@ -42,7 +41,59 @@ root.add_child(equip)
 root.add_child(quests)
 root.add_child(drop)
 
-    #return root
+##dialouge
+
+dialouge_root = MenuNode("Dialouge Menu")
+
+#dialouge options with children
+dialouge_shop_buy = MenuNode("Buy") # purchase items/spells/gear
+dialouge_shop_sell = MenuNode("Sell") # sell items/spells/gear
+
+#leaves with data
+dialouge_quests = MenuNode("Quests") # start/finish quests
+dialouge_talk = MenuNode("Talk") # get informaiton about npc/world classic dialouge menu
+
+#leaves with no data - actions
+dialouge_attack = MenuNode("Fight")#init combat with npc
+dialouge_heal = MenuNode("Heal")#heal the player and/or restore mana of party (SHOULD COST GOLD?)
+dialouge_give = MenuNode("Give")#have npc give player an item
 
 
-#menu = build_menu_tree()
+#item lists / inventories
+
+buy_item = MenuNode("Buy Items", stackable_data = True)
+buy_spell = MenuNode("Buy Spell", stackable_data = True)
+buy_weapon = MenuNode("Buy Weapon", stackable_data = True)
+buy_armor = MenuNode("Buy Armor", stackable_data = True)
+buy_helmet = MenuNode("Buy Helmet", stackable_data = True)
+buy_shield = MenuNode("Buy Shield", stackable_data = True)
+
+sell_item = MenuNode("Sell Items", stackable_data = True)
+sell_spell = MenuNode("Sell Spell", stackable_data = True)
+sell_weapon = MenuNode("Sell Weapon", stackable_data = True)
+sell_armor = MenuNode("Sell Armor", stackable_data = True)
+sell_helmet = MenuNode("Sell Helmet", stackable_data = True)
+sell_shield = MenuNode("Sell Shield", stackable_data = True)
+
+dialouge_shop_buy.add_child(buy_item)
+dialouge_shop_buy.add_child(buy_spell)
+dialouge_shop_buy.add_child(buy_weapon)
+dialouge_shop_buy.add_child(buy_armor)
+dialouge_shop_buy.add_child(buy_helmet)
+dialouge_shop_buy.add_child(buy_shield)
+
+dialouge_shop_sell.add_child(sell_item)
+dialouge_shop_sell.add_child(sell_spell)
+dialouge_shop_sell.add_child(sell_weapon)
+dialouge_shop_sell.add_child(sell_armor)
+dialouge_shop_sell.add_child(sell_helmet)
+dialouge_shop_sell.add_child(sell_shield)
+
+dialouge_root.add_child(dialouge_shop_buy)
+dialouge_root.add_child(dialouge_shop_sell)
+
+dialouge_root.add_child(dialouge_quests)
+dialouge_root.add_child(dialouge_talk)
+dialouge_root.add_child(dialouge_attack)
+dialouge_root.add_child(dialouge_heal)
+dialouge_root.add_child(dialouge_give)
