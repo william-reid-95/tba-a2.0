@@ -19,7 +19,7 @@ containers for npcs
 
 '''
 
-class Interactive_Tile:
+class InteractiveTile:
     def __init__(self, xpos, ypos, zpos, treasure = False, has_tp = False, tp_location = None, npc_list = []):
         self.xpos = xpos
         self.ypos = ypos
@@ -69,14 +69,14 @@ def func_place_deco(x,y,z,sprite,solid = False, size = (1,1)):
                             if other_tile.xpos == x and other_tile.ypos == y + i and other_tile.zpos == z:
                                 other_tile.passable = False
 
-def get_interactive_tile_from_xyz(x :int,y :int,z :int) -> Interactive_Tile:
+def get_interactive_tile_from_xyz(x :int,y :int,z :int) -> InteractiveTile:
     for i in interactive_tiles:
         if i.x == x and i.y == y and i.z == z:
             return i
 
-small_cave_entrance = Interactive_Tile(28, 9, 0, has_tp = True, tp_location = (3,3,1))
-small_cave_exit = Interactive_Tile(3, 2, 1, has_tp = True, tp_location = (28,10,0))
+small_cave_entrance = InteractiveTile(28, 9, 0, has_tp = True, tp_location = (3,3,1))
+small_cave_exit = InteractiveTile(3, 2, 1, has_tp = True, tp_location = (28,10,0))
 
-npc_1 = Interactive_Tile(10, 11, 0, npc_list = [npc.npc_cow])
+npc_1 = InteractiveTile(10, 11, 0, npc_list = [npc.npc_cow])
 
 

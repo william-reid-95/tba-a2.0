@@ -272,7 +272,7 @@ blit_player_damage_amount = 0
 ############################----DROP_TABLES-###########################
 
 
-npc_cow.npc_inventory.append(apple)
+npc_cow.npc_inventory.extend(all_game_items)
 
 ## default drop tables
 
@@ -2429,8 +2429,6 @@ def func_player_spell():
     in_submenu2 = False
     in_submenu_spell_target_combat2 = False
 
-    
-
 def func_player_spell_non_combat(cast_spell):
     for spell in equiped_spells:
         if spell.name == cast_spell:
@@ -2824,7 +2822,7 @@ def check_cursor_moved(event):
         elif event.key == pygame.K_s:
             func_move_cursor(False)
 
-def func_shop(gear,npc_gear_inv):
+def func_shop_old(gear,npc_gear_inv):
     global menu_cursor_pos
     global in_submenu3
     global in_submenu_buy3
@@ -3019,6 +3017,25 @@ def func_shop(gear,npc_gear_inv):
         print("gp = -1, func_shop aborted")
         in_submenu3 = False
         in_submenu_buy3 = False
+
+def func_shop(buyers_inv,sellers_inv):
+    '''
+    function which trasfers an item between 2 inventories, 
+    removing gold form the buyer and giving it to the seller.
+
+    '''
+    #TODO: remove goal form players inv
+
+    if len(sellers_inv) > menu_cursor_pos - 1:
+        bought_item = sellers_inv[menu_cursor_pos - 1]
+
+        if bought_item not in buyers_inv:
+            bought_item.amount = 1
+            buyers_inv.append(bought_item)
+        else:
+            for gear in buyers_inv:
+                if gear.name == bought_item.name:
+                    gear.amount += 1
 
 def func_sell(gear,player_gear_inv):
     global in_menu_item
@@ -3230,8 +3247,6 @@ def func_cast(gear,player_gear_inv):
         func_check_level()
         func_refresh_pygame(False,0)
 
-
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_start = 0
@@ -3268,120 +3283,6 @@ def func_cast(gear,player_gear_inv):
                                 print("you have no use for that spell right now")
                     if has_spell == 0:
                         print("Invalid spell!")
-
-def func_choose_equip_menu():
-    global game_start
-
-    global menu_cursor_pos
-
-    global in_menu
-    global in_submenu
-    global in_submenu_equip
-    
-    global in_submenu2
-    global in_submenu_equip2
-    global in_menu_item
-    global in_menu_spell
-    global in_menu_weapon
-    global in_menu_armor
-    global in_menu_helmet
-    global in_menu_shield
-    
-
-    if len(equiped_weapon) != 0:
-        for weapon in equiped_weapon:
-            current_weapon = weapon.name
-    else:
-        current_weapon = "0"
-
-    if len(equiped_armor) != 0:
-        for armor in equiped_armor:
-            current_armor = armor.name
-    else:
-        current_armor = "0"
-
-    if len(equiped_helmet) != 0:
-        for helmet in equiped_helmet:
-            current_helmet = helmet.name
-    else:
-        current_helmet = "0"
-
-    if len(equiped_shield) != 0:
-        for shield in equiped_shield:
-            current_shield = shield.name
-    else:
-        current_shield = "0"
-
-    current_spell = "0"
-
-    in_submenu = True
-    in_submenu_equip = True
-
-    while in_submenu_equip == True:
-        #func_check_level()
-        func_refresh_pygame(False,0)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                game_start = 0
-                func_close_all_menus()
-
-            elif event.type == pygame.KEYDOWN:
-
-                if event.key == pygame.K_w:
-                    func_move_cursor(True)
-
-                if event.key == pygame.K_s:
-                    func_move_cursor(False)
-
-                if event.key == pygame.K_q:
-                    func_reset_cursor_pos()
-                    in_submenu_equip = False
-                    in_submenu = False
-                    print("equip menu quit")
-                    break # break the in_submenu_equip while loop
-
-                if event.key == pygame.K_e:
-                    sfx_cursor_select.play()
-                    if menu_cursor_pos == 1:
-                        if len(weapon_inventory) != 0:
-                            func_equip(weapon,weapon_inventory,current_weapon)
-                        else:
-                            print("you have no weapons in your inventory...")
-                    elif menu_cursor_pos == 2:
-                        if len(armor_inventory) != 0:
-                            func_equip(armor,armor_inventory,current_armor)
-                        else:
-                            print("you have no armor in your inventory...")
-                    elif menu_cursor_pos == 3:
-                        if len(helmet_inventory) != 0:
-                            func_equip(helmet,helmet_inventory,current_helmet)
-                        else:
-                            print("you have no helmets in your inventory...")
-                    elif menu_cursor_pos == 4:
-                        if len(shield_inventory) != 0:
-                            func_equip(shield,shield_inventory,current_shield)
-                        else:
-                            print("you have no shields in your inventory...")
-                    elif menu_cursor_pos == 5:
-                        if len(spell_inventory) != 0:
-                            func_equip(spell,spell_inventory,current_spell)
-                        else:
-                            print("you have no spell scrolls in your inventory...")
-                    else:
-                        print("\ninvalid choice!\n")
-
-                    func_check_stat_bonus()
-                    # in_submenu = False
-                    # in_submenu_equip = False
-                    in_submenu2 = False
-                    in_submenu_equip2 = False
-                    in_menu_item = False
-                    in_menu_spell = False
-                    in_menu_weapon = False
-                    in_menu_armor = False
-                    in_menu_helmet = False
-                    in_menu_shield = False
 
 #############################----SCENE_FUNCTIONS----#########################
 
@@ -3748,7 +3649,7 @@ def func_check_light():
 
 ###########################---PLAYER STATS/SKILLS/INVENTORY----############################
 
-def func_move_cursor(is_up,limit = 18):
+def func_move_cursor(is_up, limit = 18):
 
     global menu_cursor_pos
     if is_up == True:
@@ -3769,7 +3670,7 @@ def func_move_cursor(is_up,limit = 18):
         if dev_mode >= 4:
             print(menu_cursor_pos)
 
-def func_move_combat_cursor(is_up,limit = 18):
+def func_move_combat_cursor(is_up, limit = 18):
     global combat_cursor_pos
     if is_up == True:
         if combat_cursor_pos <= 1:
@@ -4160,22 +4061,22 @@ def check_player_direction():
     if player_direction == 3:
         spr_player = spr_player_w
 
-def player_north_check() -> Interactive_Tile:
+def player_north_check() -> InteractiveTile:
     for interactable in interactive_tiles:
         if steps_y-1 == interactable.ypos and steps_x == interactable.xpos and steps_z == interactable.zpos:
             return interactable
 
-def player_south_check() -> Interactive_Tile:
+def player_south_check() -> InteractiveTile:
     for interactable in interactive_tiles:
         if steps_y+1 == interactable.ypos and steps_x == interactable.xpos and steps_z == interactable.zpos:
             return interactable
 
-def player_east_check() -> Interactive_Tile:
+def player_east_check() -> InteractiveTile:
     for interactable in interactive_tiles:
         if steps_y == interactable.ypos and steps_x+1 == interactable.xpos and steps_z == interactable.zpos:
             return interactable
 
-def player_west_check() -> Interactive_Tile:
+def player_west_check() -> InteractiveTile:
     for interactable in interactive_tiles:
         if steps_y == interactable.ypos and steps_x-1 == interactable.xpos and steps_z == interactable.zpos:
             return interactable
@@ -5300,8 +5201,8 @@ while game_start == 1:
                                                 #inventory menu
                                                 if isinstance(current_menu.data[0],Item):
                                                     #intereract with the object stored in the list  
-                                                    pass #TODO buy.sell the item with 
-                                                    #func_shop()
+                                                    #TODO buy.sell the item with 
+                                                    func_shop(inventory, menus.buy_item.data)
                                                     
 
 
