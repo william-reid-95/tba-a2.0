@@ -1,5 +1,7 @@
 import random
 
+import npc_module as npc
+
 from colorama import init
 from colorama import Fore, Back, Style
 
@@ -14,8 +16,6 @@ including:
 doors and teleporters 
 treasure chests and objects with inventories
 containers for npcs
-
-they contain information about
 
 '''
 
@@ -76,4 +76,7 @@ def get_interactive_tile_from_xyz(x :int,y :int,z :int) -> Interactive_Tile:
 
 small_cave_entrance = Interactive_Tile(28, 9, 0, has_tp = True, tp_location = (3,3,1))
 small_cave_exit = Interactive_Tile(3, 2, 1, has_tp = True, tp_location = (28,10,0))
+
+npc_1 = Interactive_Tile(10, 11, 0, npc_list = [npc.npc_cow])
+
 

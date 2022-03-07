@@ -271,6 +271,9 @@ blit_player_damage_amount = 0
 
 ############################----DROP_TABLES-###########################
 
+
+npc_cow.npc_inventory.append(apple)
+
 ## default drop tables
 
 weapons_drop_table = []
@@ -1401,7 +1404,10 @@ def func_refresh_pygame(battle_intro, animation):
                 else:                
                     win_map.blit(tile, ( ((cx-16) + ((x - steps_x)*32)), ((cy-16) + ((y- steps_y)*32)) )  )                            
                         
-    func_blit_grid_coords()
+    #func_blit_grid_coords()
+    for tile in interactive_tiles:
+        if tile.npc_list:
+            win_map.blit(spr_player, ( ((cx-14) + ((tile.xpos - steps_x)*32)), ((cy-14) + ((tile.ypos - steps_y)*32)) )  )
 
     if battle_intro == True:
         pygame.mixer.music.stop()
@@ -5243,10 +5249,66 @@ while game_start == 1:
                 if interacted_tile: # if interated tile has a telport location, tp the player to that location
                     if interacted_tile.has_tp:
                         func_tp(interacted_tile.tp_location)
+                    
+                    elif interacted_tile.npc_list:
+                        print(interacted_tile.npc_list)
+                        sfx_player_select.play()
+                        func_reset_cursor_pos()
+                        current_menu = menus.dialouge_root
+                        in_menu = True
 
-                del nearby_npc_list [:]
+                        menus.buy_item.data = interacted_tile.npc_list[0].npc_inventory
 
-                if interacted_tile: #if you interacted with something
+                        while in_menu == True:
+                            func_check_level()
+                            func_refresh_pygame(False,0)
+                            for event in pygame.event.get():
+
+                                check_quit(event)
+                                check_cursor_moved(event)
+        
+                                if event.type == pygame.KEYDOWN:
+                                    if event.key == pygame.K_q:
+                                        func_reset_cursor_pos()
+                                        if current_menu.parent == None:
+                                            in_menu = False
+                                            print(f"top menu quit")
+                                            current_menu = None
+                                        else:
+                                            old_menu = current_menu
+                                            print(f"{current_menu.name} menu quit")
+                                            current_menu = current_menu.parent
+                                            menu_cursor_pos = current_menu.children.index(old_menu)+1
+
+                                        break
+
+                                    if event.key == pygame.K_e:
+                                        sfx_cursor_select.play() 
+                                        if current_menu.children:
+                                            if len(current_menu.children) > menu_cursor_pos - 1:
+                                                current_menu = current_menu.children[menu_cursor_pos-1]
+                                                func_reset_cursor_pos()
+                                                print(f'menu: {current_menu.name}')
+                                            
+                                        else:
+
+                                            print(f'leaf menu: {current_menu.name}')
+                                            #TODO: display the data list based on which dialouge menu is open
+                                            # eg. if in shop_weapons dispaly the current npc inventory
+                                            # 
+                                            if current_menu.data: #checking that the list is not empty before referencing it prevents error
+                                                #inventory menu
+                                                if isinstance(current_menu.data[0],Item):
+                                                    #intereract with the object stored in the list  
+                                                    pass #TODO buy.sell the item with 
+                                                    #func_shop()
+                                                    
+
+
+
+                #del nearby_npc_list [:]
+
+                if interacted_tile and False: #if you interacted with something
                     if interacted_tile.npc_list:
                             in_menu = True
                             if True:
@@ -5563,6 +5625,7 @@ while game_start == 1:
 
             if event.key == pygame.K_SPACE:
                 sfx_player_select.play()
+                
                 func_reset_cursor_pos()
                 current_menu = menus.root
                 in_menu = True
