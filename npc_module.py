@@ -2,6 +2,7 @@ import random
 from time import sleep
 from colorama import init
 from colorama import Fore, Back, Style
+
 import pygame
 
 pygame.init()
@@ -52,9 +53,6 @@ dialouge_quest4 = dialouge_option("do you have a quest?",False,False,False,False
 dialouge_quest5 = dialouge_option("do you have a quest?",False,False,False,False,False,False,False,False,False,False,False,True,"Chop Wood",False)
 
 
-
-dialouge_quit= dialouge_option("Goodbye",True,False,False,False,False,False,False,False,False,False,False,False,"0",False)
-
 all_npcs = []
 
 class npc:
@@ -86,17 +84,6 @@ class npc:
 
         self.sprite_val = sprite_val
         self.npc_sprite = spr_npc
-        if self.sprite_val == "m1":
-            self.npc_sprite = spr_npc
-        if self.sprite_val == "m2":
-            self.npc_sprite = spr_npc
-        if self.sprite_val == "g1":
-            self.npc_sprite = spr_npc
-        if self.sprite_val == "cow":
-            self.npc_sprite = spr_npc
-        if self.sprite_val == "sheep":
-            self.npc_sprite = spr_npc
-
 
         self.is_dead = False
 

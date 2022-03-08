@@ -105,16 +105,31 @@
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="20" duration="300"/>
+   <frame tileid="150" duration="300"/>
+   <frame tileid="280" duration="300"/>
+  </animation>
  </tile>
  <tile id="21">
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="21" duration="300"/>
+   <frame tileid="151" duration="300"/>
+   <frame tileid="281" duration="300"/>
+  </animation>
  </tile>
  <tile id="22">
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="22" duration="300"/>
+   <frame tileid="152" duration="300"/>
+   <frame tileid="282" duration="300"/>
+  </animation>
  </tile>
  <tile id="23">
   <properties>
@@ -250,6 +265,11 @@
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="46" duration="300"/>
+   <frame tileid="176" duration="300"/>
+   <frame tileid="306" duration="300"/>
+  </animation>
  </tile>
  <tile id="47">
   <properties>
@@ -260,6 +280,11 @@
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="48" duration="300"/>
+   <frame tileid="178" duration="300"/>
+   <frame tileid="308" duration="300"/>
+  </animation>
  </tile>
  <tile id="49">
   <properties>
@@ -390,16 +415,31 @@
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="72" duration="300"/>
+   <frame tileid="202" duration="300"/>
+   <frame tileid="332" duration="300"/>
+  </animation>
  </tile>
  <tile id="73">
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="73" duration="300"/>
+   <frame tileid="203" duration="300"/>
+   <frame tileid="333" duration="300"/>
+  </animation>
  </tile>
  <tile id="74">
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="74" duration="300"/>
+   <frame tileid="204" duration="300"/>
+   <frame tileid="334" duration="300"/>
+  </animation>
  </tile>
  <tile id="75">
   <properties>
@@ -540,31 +580,61 @@
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="98" duration="300"/>
+   <frame tileid="228" duration="300"/>
+   <frame tileid="358" duration="300"/>
+  </animation>
  </tile>
  <tile id="99">
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="99" duration="300"/>
+   <frame tileid="229" duration="300"/>
+   <frame tileid="359" duration="300"/>
+  </animation>
  </tile>
  <tile id="100">
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="100" duration="300"/>
+   <frame tileid="230" duration="300"/>
+   <frame tileid="360" duration="300"/>
+  </animation>
  </tile>
  <tile id="101">
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="101" duration="300"/>
+   <frame tileid="231" duration="300"/>
+   <frame tileid="361" duration="300"/>
+  </animation>
  </tile>
  <tile id="102">
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="102" duration="300"/>
+   <frame tileid="232" duration="300"/>
+   <frame tileid="362" duration="300"/>
+  </animation>
  </tile>
  <tile id="103">
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="103" duration="300"/>
+   <frame tileid="233" duration="300"/>
+   <frame tileid="363" duration="300"/>
+  </animation>
  </tile>
  <tile id="104">
   <properties>
@@ -675,31 +745,61 @@
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="124" duration="300"/>
+   <frame tileid="254" duration="300"/>
+   <frame tileid="384" duration="300"/>
+  </animation>
  </tile>
  <tile id="125">
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="125" duration="300"/>
+   <frame tileid="255" duration="300"/>
+   <frame tileid="385" duration="300"/>
+  </animation>
  </tile>
  <tile id="126">
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="126" duration="300"/>
+   <frame tileid="256" duration="300"/>
+   <frame tileid="386" duration="300"/>
+  </animation>
  </tile>
  <tile id="127">
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="127" duration="300"/>
+   <frame tileid="257" duration="300"/>
+   <frame tileid="387" duration="300"/>
+  </animation>
  </tile>
  <tile id="128">
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="128" duration="300"/>
+   <frame tileid="258" duration="300"/>
+   <frame tileid="388" duration="300"/>
+  </animation>
  </tile>
  <tile id="129">
   <properties>
    <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="129" duration="300"/>
+   <frame tileid="259" duration="300"/>
+   <frame tileid="389" duration="300"/>
+  </animation>
  </tile>
  <tile id="130">
   <properties>
@@ -1175,6 +1275,11 @@
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="224" duration="300"/>
+   <frame tileid="223" duration="300"/>
+   <frame tileid="222" duration="300"/>
+  </animation>
  </tile>
  <tile id="225">
   <properties>
@@ -1305,6 +1410,11 @@
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="250" duration="300"/>
+   <frame tileid="249" duration="300"/>
+   <frame tileid="248" duration="300"/>
+  </animation>
  </tile>
  <tile id="251">
   <properties>
@@ -1435,6 +1545,11 @@
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="276" duration="300"/>
+   <frame tileid="275" duration="300"/>
+   <frame tileid="274" duration="300"/>
+  </animation>
  </tile>
  <tile id="277">
   <properties>
@@ -1570,16 +1685,31 @@
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="303" duration="300"/>
+   <frame tileid="300" duration="300"/>
+   <frame tileid="297" duration="300"/>
+  </animation>
  </tile>
  <tile id="304">
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="304" duration="300"/>
+   <frame tileid="301" duration="300"/>
+   <frame tileid="298" duration="300"/>
+  </animation>
  </tile>
  <tile id="305">
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="305" duration="300"/>
+   <frame tileid="302" duration="300"/>
+   <frame tileid="299" duration="300"/>
+  </animation>
  </tile>
  <tile id="306">
   <properties>
@@ -1700,16 +1830,31 @@
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="329" duration="300"/>
+   <frame tileid="326" duration="300"/>
+   <frame tileid="323" duration="300"/>
+  </animation>
  </tile>
  <tile id="330">
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="330" duration="300"/>
+   <frame tileid="327" duration="300"/>
+   <frame tileid="324" duration="300"/>
+  </animation>
  </tile>
  <tile id="331">
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="331" duration="300"/>
+   <frame tileid="328" duration="300"/>
+   <frame tileid="325" duration="300"/>
+  </animation>
  </tile>
  <tile id="332">
   <properties>
@@ -1830,16 +1975,31 @@
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="355" duration="300"/>
+   <frame tileid="352" duration="300"/>
+   <frame tileid="349" duration="300"/>
+  </animation>
  </tile>
  <tile id="356">
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="356" duration="300"/>
+   <frame tileid="353" duration="300"/>
+   <frame tileid="350" duration="300"/>
+  </animation>
  </tile>
  <tile id="357">
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="357" duration="300"/>
+   <frame tileid="354" duration="300"/>
+   <frame tileid="351" duration="300"/>
+  </animation>
  </tile>
  <tile id="358">
   <properties>

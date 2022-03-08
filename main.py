@@ -1308,7 +1308,7 @@ def func_blit_enemy_HUD(hud_val):
 def func_blit_title(title_string,gui_val):
     blit_title = myfont.render(title_string, True, (0, 0, 0))
     pygame.draw.rect(win_map, (100,100,100), (32+((gui_val-1)*200), 0, 136, 16))
-    win_map.blit(blit_title,(32+((gui_val-1)*200),0))
+    win_map.blit(blit_title,(32+((gui_val-1)*200),-2))
 
 def func_blit_grid_coords():
     global grid_x
@@ -1386,8 +1386,20 @@ def func_refresh_pygame(battle_intro, animation):
     layercount = 0
     for layer in tmx_data: #blit the map from the tmx file
         layercount +=1
-        if layercount == 6:#???? tiled counts deleted layers think? 
-            win_map.blit(spr_player,(cx-16, cy-16-32,))
+        if layercount == 6:#???? tiled counts deleted layers think?
+            
+            for tile in interactive_tiles:#draw interactive objects behind player
+                if tile.ypos <= steps_y:
+                    if tile.npc_list:
+                        win_map.blit(spr_player, ( ((cx-16) + ((tile.xpos - steps_x)*32)), ((cy-16-32) + ((tile.ypos - steps_y)*32)) )  )
+                    
+            win_map.blit(spr_player,(cx-16, cy-16-32,)) #draw player
+
+            for tile in interactive_tiles: #draw interactive objects infront of player
+                if tile.ypos > steps_y:
+                    if tile.npc_list:
+                        win_map.blit(spr_player, ( ((cx-16) + ((tile.xpos - steps_x)*32)), ((cy-16-32) + ((tile.ypos - steps_y)*32)) )  )
+
             #tile is a list
             #[0] = x pos of tile, [1] y pos of tile, [2] = tile image
         for x,y,tile in layer.tiles(): #tile is a pygame surface
@@ -1405,9 +1417,7 @@ def func_refresh_pygame(battle_intro, animation):
                     win_map.blit(tile, ( ((cx-16) + ((x - steps_x)*32)), ((cy-16) + ((y- steps_y)*32)) )  )                            
                         
     #func_blit_grid_coords()
-    for tile in interactive_tiles:
-        if tile.npc_list:
-            win_map.blit(spr_player, ( ((cx-14) + ((tile.xpos - steps_x)*32)), ((cy-14) + ((tile.ypos - steps_y)*32)) )  )
+    
 
     if battle_intro == True:
         pygame.mixer.music.stop()
@@ -1537,6 +1547,7 @@ def func_refresh_pygame(battle_intro, animation):
         func_blit_player_gear2(4)
         func_blit_list(equiped_spells,5,False)
 
+        func_blit_title( " " + current_menu.name + ":",1)
         func_blit_menu_cursor(1) 
 
         if current_menu.children:# if menu is a node print children
@@ -2822,305 +2833,50 @@ def check_cursor_moved(event):
         elif event.key == pygame.K_s:
             func_move_cursor(False)
 
-def func_shop_old(gear,npc_gear_inv):
-    global menu_cursor_pos
-    global in_submenu3
-    global in_submenu_buy3
-    global game_start
-    global in_menu_item
-    global in_menu_weapon
-    global in_menu_armor
-    global in_menu_helmet
-    global in_menu_shield
-    global in_menu_spell
-
-    target_gear = "0"
-    if player1.gp != -1:
-        if True:
-            print("gold: ", player1.gp)
-            print("shop inventory:\n")
-            for gear in npc_gear_inv:
-                if gear in all_game_weapons:
-                    in_menu_weapon = True
-                    print("|| " + str((npc_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
-                if gear in all_game_armor:
-                    in_menu_armor = True
-                    print("|| " + str((npc_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
-                if gear in all_game_helmets:
-                    in_menu_helmet = True
-                    print("|| " + str((npc_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
-                if gear in all_game_shields:
-                    in_menu_shield = True
-                    print("|| " + str((npc_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
-                if gear in all_game_items:
-                    in_menu_item = True
-                    print("|| " + str((npc_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + str(gear.value) + " gp. ")
-                if gear in all_game_spells:
-                    in_menu_spell = True
-                    print("|| " + str((npc_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + str(gear.value) + " gp. ")
-
-            in_submenu3 = True
-            in_submenu_buy3 = True
-            while in_submenu_buy3 == True:
-
-                #pygame.time.delay(tick_delay_time)
-
-                func_check_level()
-                func_refresh_pygame(False,0)
-
-
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        game_start = 0
-                        in_fight = False
-                        in_submenu3 = False
-                        in_submenu_buy3 = False
-                        in_menu = False
-                    elif event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_w:
-                            func_move_cursor(True)
-                        if event.key == pygame.K_s:
-                            func_move_cursor(False)
-                        if event.key == pygame.K_q:
-                            func_reset_cursor_pos()
-                            in_submenu3 = False
-                            in_submenu_buy3 = False
-                            in_menu_weapon = False
-                            in_menu_armor = False
-                            in_menu_helmet = False
-                            in_menu_shield = False
-                            in_menu_spell = False
-
-                        if event.key == pygame.K_e:
-                            sfx_cursor_select.play()
-                            val_bought_item = menu_cursor_pos
-                            val_shop = val_bought_item - 1
-                            for gear in npc_gear_inv:
-                                if val_shop == npc_gear_inv.index(gear):
-                                    target_gear = gear.name
-
-                            has_item = False
-                            has_item_multiple = False
-
-                            has_weapon_multiple = False
-                            has_armor_multiple = False
-                            has_helmet_multiple = False
-                            has_shield_multiple = False
-                            has_spell_multiple = False
-
-                            for gear in npc_gear_inv:
-                                if target_gear == gear.name:
-                                    has_item = True
-                                    if player1.gp >= gear.value:
-                                        player1.gp -= gear.value
-
-                                        if gear in all_game_weapons:
-                                            for weapon in weapon_inventory:
-                                                if weapon.name == target_gear:
-                                                    has_weapon_multiple = True
-                                                    weapon.amount += 1
-                                                    break
-                                            if has_weapon_multiple == False:
-                                                for weapon in all_game_weapons:
-                                                    if weapon.name == target_gear:
-                                                        weapon_inventory.append(weapon)
-                                                        break
-
-                                        if gear in all_game_armor:
-                                            for armor in armor_inventory:
-                                                if armor.name == target_gear:
-                                                    has_armor_multiple = True
-                                                    armor.amount += 1
-                                                    break
-                                            if has_armor_multiple == False:
-                                                for armor in all_game_armor:
-                                                    if armor.name == target_gear:
-                                                        armor_inventory.append(armor)
-                                                        break
-
-                                        if gear in all_game_helmets:
-                                            for helmet in helmet_inventory:
-                                                if helmet.name == target_gear:
-                                                    has_helmet_multiple = True
-                                                    helmet.amount += 1
-                                                    break
-                                            if has_helmet_multiple == False:
-                                                for helmet in all_game_helmets:
-                                                    if helmet.name == target_gear:
-                                                        helmet_inventory.append(helmet)
-                                                        break
-
-                                        if gear in all_game_shields:
-                                            for shield in shield_inventory:
-                                                if shield.name == target_gear:
-                                                    has_shield_multiple = True
-                                                    shield.amount += 1
-                                                    break
-                                            if has_shield_multiple == False:
-                                                for shield in all_game_shields:
-                                                    if shield.name == target_gear:
-                                                        shield_inventory.append(shield)
-                                                        break
-
-                                        if gear in all_game_items:
-                                            for item in inventory:
-                                                if item.name == target_gear:
-                                                    has_item_multiple = True
-                                                    item.amount += 1
-                                                    break
-                                            if has_item_multiple == False:
-                                                for item in all_game_items:
-                                                    if item.name == target_gear:
-                                                        inventory.append(item)
-                                                        break
-
-                                        if gear in all_game_spells:
-                                            for spell in spell_inventory:
-                                                if spell.name == target_gear:
-                                                    has_spell_multiple = True
-                                                    spell.amount += 1
-                                                    print("\nadded " + gear.name + "\n")
-
-                                                    break
-                                            if has_spell_multiple == False:
-                                                for spell in all_game_spells:
-                                                    if spell.name == target_gear:
-                                                        spell_inventory.append(spell)
-                                                        print("\naquired " + gear.name + "\n")
-
-                                                        break
-
-                                        print("\nthanks, enjoy your " + gear.name + "\n")
-                                        func_check_quest_items()
-                                        # in_submenu3 = False
-                                        # in_submenu_buy3 = False
-                                        # in_menu_item = False
-                                        # in_menu_weapon = False
-                                        # in_menu_armor = False
-                                        # in_menu_helmet = False
-                                        # in_menu_shield = False
-                                        # in_menu_spell = False
-
-                                    else:
-                                        print("You can't afford that!")
-                                        # in_submenu3 = False
-                                        # in_submenu_buy3 = False
-                            # in_submenu3 = False
-                            # in_submenu_buy3 = False
-
-
-        else:
-            print("game_start = 0 func_shop aborted")
-            in_submenu3 = False
-            in_submenu_buy3 = False
-    else:
-        print("gp = -1, func_shop aborted")
-        in_submenu3 = False
-        in_submenu_buy3 = False
-
-def func_shop(buyers_inv,sellers_inv):
+def func_shop(buyers_inv,sellers_inv, buyer = player1):
     '''
-    function which trasfers an item between 2 inventories, 
-    removing gold form the buyer and giving it to the seller.
+    function which trasfers an item from sellers inv to buyers inv
+
+    buyer argument should be either None or player1 (defaults to player1)
 
     '''
-    #TODO: remove goal form players inv
+
+    if buyer != player1 and buyer != None and dev_mode != 0:
+        print("invalid buyer check arguments")
+
+    #TODO: remove gold from player if they are the buyer
 
     if len(sellers_inv) > menu_cursor_pos - 1:
         bought_item = sellers_inv[menu_cursor_pos - 1]
 
-        if bought_item not in buyers_inv:
-            bought_item.amount = 1
-            buyers_inv.append(bought_item)
-        else:
-            for gear in buyers_inv:
-                if gear.name == bought_item.name:
-                    gear.amount += 1
+        can_afford = True
+        if buyer == player1:
+            if player1.gp >= bought_item.value:
+                player1.gp -= bought_item.value
+            else:
+                can_afford = False
 
-def func_sell(gear,player_gear_inv):
-    global in_menu_item
-    global in_menu_weapon
-    global in_menu_armor
-    global in_menu_helmet
-    global in_menu_shield
-    global in_menu_spell
-    global menu_cursor_pos
-    global in_submenu4
-    global in_submenu_sell4
-    target_gear = "0"
-    for gear in player_gear_inv:
-        if gear in all_game_weapons:
-            in_menu_weapon = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
-        if gear in all_game_armor:
-            in_menu_armor = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
-        if gear in all_game_helmets:
-            in_menu_helmet = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
-        if gear in all_game_shields:
-            in_menu_shield = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
-        if gear in all_game_items:
-            in_menu_item = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + str(gear.value) + " gp. ")
-        if gear in all_game_spells:
-            in_menu_spell = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + str(gear.value) + " gp. ")
+        if can_afford:
+            if bought_item not in buyers_inv:
+                bought_item.amount = 1
+                buyers_inv.append(bought_item)
+            else:
+                for gear in buyers_inv:
+                    if gear.name == bought_item.name:
+                        gear.amount += 1
 
-    in_submenu4 = True
-    in_submenu_sell4 = True
-    while in_submenu_sell4 == True:
+def func_sell(player_gear_inv):
+    '''
+    removes an item from the players inventory and give the player gold based on the value of the item
+    '''
 
-        #pygame.time.delay(tick_delay_time)
+    if len(player_gear_inv) > menu_cursor_pos - 1:
+        sold_gear = player_gear_inv[menu_cursor_pos - 1]
+        sold_gear.amount -= 1
+        if sold_gear.amount <= 0:
+            player_gear_inv.remove(sold_gear)
 
-        func_check_level()
-        func_refresh_pygame(False,0)
-
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                game_start = 0
-                in_fight = False
-                in_submenu4 = False
-                in_submenu_sell4 = False
-                in_menu = False
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w:
-                    func_move_cursor(True)
-                if event.key == pygame.K_s:
-                    func_move_cursor(False, limit = len(player_gear_inv))
-                if event.key == pygame.K_q:
-                    func_reset_cursor_pos()
-                    in_submenu4 = False
-                    in_submenu_sell4 = False
-                    in_menu_item = False
-                    in_menu_weapon = False
-                    in_menu_armor = False
-                    in_menu_helmet = False
-                    in_menu_shield = False
-                    in_menu_spell = False
-
-                if event.key == pygame.K_e:
-                    sfx_cursor_select.play()
-                    has_item = False
-                    val_sold_item = menu_cursor_pos
-                    val_sell = val_sold_item - 1
-                    for gear in player_gear_inv:
-                        if val_sell == player_gear_inv.index(gear):
-                            target_gear = gear.name
-
-                    for gear in player_gear_inv:
-                        if target_gear == gear.name:
-                            has_item = True
-                            print("you sold " + gear.print_name + " for " + str(gear.value) + " gp.\n")
-                            player1.gp += gear.value
-                            gear.amount -= 1
-                            if gear.amount <= 0:
-                                player_gear_inv.remove(gear)
-                            # in_submenu4 = False
-                            # in_submenu_sell4 = False
-                            break
+        player1.gp += (sold_gear.value - (sold_gear.value // 4)) # player sells items for 25% less than they are worth
 
 def func_use(player_gear_inv):
     global time
@@ -3810,6 +3566,7 @@ def func_create_item(ing1_name,ing2_name,ingreq_1,ingreq_2,skill_lvl_req,made_it
         has_cooked = False
 
 def func_equip(player_gear_inv,equip_slot):
+
     '''
     player_gear_inv = the list to equip from,
     equip_slot = the list to equip to
@@ -5153,14 +4910,30 @@ while game_start == 1:
                     
                     elif interacted_tile.npc_list:
                         print(interacted_tile.npc_list)
+
                         sfx_player_select.play()
                         func_reset_cursor_pos()
+
                         current_menu = menus.dialouge_root
                         in_menu = True
 
                         menus.buy_item.data = interacted_tile.npc_list[0].npc_inventory
+                        menus.buy_spell.data = interacted_tile.npc_list[0].npc_spell_inventory
 
-                        while in_menu == True:
+                        menus.buy_weapon.data = interacted_tile.npc_list[0].npc_weapon_inventory
+                        menus.buy_armor.data = interacted_tile.npc_list[0].npc_armor_inventory
+                        menus.buy_helmet.data = interacted_tile.npc_list[0].npc_helmet_inventory
+                        menus.buy_shield.data = interacted_tile.npc_list[0].npc_shield_inventory
+
+                        menus.sell_item.data = inventory
+                        menus.sell_spell.data = spell_inventory
+
+                        menus.sell_weapon.data = weapon_inventory
+                        menus.sell_armor.data = armor_inventory
+                        menus.sell_helmet.data = helmet_inventory
+                        menus.sell_shield.data = shield_inventory
+
+                        while in_menu:
                             func_check_level()
                             func_refresh_pygame(False,0)
                             for event in pygame.event.get():
@@ -5185,344 +4958,62 @@ while game_start == 1:
 
                                     if event.key == pygame.K_e:
                                         sfx_cursor_select.play() 
-                                        if current_menu.children:
+                                        if current_menu.children: #branches
                                             if len(current_menu.children) > menu_cursor_pos - 1:
                                                 current_menu = current_menu.children[menu_cursor_pos-1]
                                                 func_reset_cursor_pos()
                                                 print(f'menu: {current_menu.name}')
                                             
-                                        else:
-
+                                        else: #leaves
                                             print(f'leaf menu: {current_menu.name}')
-                                            #TODO: display the data list based on which dialouge menu is open
-                                            # eg. if in shop_weapons dispaly the current npc inventory
-                                            # 
                                             if current_menu.data: #checking that the list is not empty before referencing it prevents error
+                                                
                                                 #inventory menu
                                                 if isinstance(current_menu.data[0],Item):
                                                     #intereract with the object stored in the list  
-                                                    #TODO buy.sell the item with 
-                                                    func_shop(inventory, menus.buy_item.data)
+                                                    if current_menu.shop_var == 0:
+                                                        func_shop(inventory, current_menu.data)
+                                                    else:
+                                                        func_sell(inventory)
+
+                                                #gear menus
+                                                elif isinstance(current_menu.data[0],Weapon):
+                                                    #intereract with the object stored in the list
+                                                    if current_menu.shop_var == 0:
+                                                        func_shop(weapon_inventory,current_menu.data)
+                                                    else:
+                                                        func_sell(weapon_inventory)
+
+                                                elif isinstance(current_menu.data[0],Armor):
+                                                    #intereract with the object stored in the list
+                                                    if current_menu.shop_var == 0:
+                                                        func_shop(armor_inventory,current_menu.data)
+                                                    else:
+                                                        func_sell(armor_inventory)
+
+                                                elif isinstance(current_menu.data[0],Helmet):
+                                                    #intereract with the object stored in the list
+                                                    if current_menu.shop_var == 0:
+                                                        func_shop(helmet_inventory,current_menu.data)
+                                                    else:
+                                                        func_sell(helmet_inventory)
+
+                                                elif isinstance(current_menu.data[0],Shield):
+                                                    #intereract with the object stored in the list
+                                                    if current_menu.shop_var == 0:
+                                                        func_shop(shield_inventory,current_menu.data)
+                                                    else:
+                                                        func_sell(shield_inventory)
                                                     
+                                                elif isinstance(current_menu.data[0],Spell):
+                                                    #intereract with the object stored in the list
+                                                    if current_menu.shop_var == 0:
+                                                        func_shop(spell_inventory,current_menu.data)
+                                                    else:
+                                                        func_sell(spell_inventory)   
 
-
-
-                #del nearby_npc_list [:]
-
-                if interacted_tile and False: #if you interacted with something
-                    if interacted_tile.npc_list:
-                            in_menu = True
-                            if True:
-                                target_npc = "0"
-                                for npc in interacted_tile.npc_list:
-                                    print("|| " + npc.first_name + " " + npc.last_name + ", " + npc.title + " || " + npc.npc_desc)
-
-                                print("\nWho will you talk too? \n")
-
-                                in_submenu = True
-                                in_submenu_talk = True
-                                npc_found = False
-                                while in_submenu_talk == True:
-
-                                    func_check_level()
-                                    func_refresh_pygame(False,0)
-
-
-                                    for event in pygame.event.get():
-                                        if event.type == pygame.QUIT:
-                                            game_start = 0
-                                            func_close_all_menus()
-                                        elif event.type == pygame.KEYDOWN:
-                                            if event.key == pygame.K_w:
-                                                func_move_cursor(True)
-                                            if event.key == pygame.K_s:
-                                                func_move_cursor(False)
-                                            if event.key == pygame.K_q:
-                                                func_reset_cursor_pos()
-                                                func_close_all_menus()
-
-                                            if event.key == pygame.K_e:
-                                                sfx_cursor_select.play()
-                                                val_dropped_item = menu_cursor_pos
-                                                val_drop = val_dropped_item - 1
-                                                for npc in nearby_npc_list:
-                                                    if val_drop == nearby_npc_list.index(npc):
-                                                        target_npc = npc.first_name
-                                                        npc_found = True
-
-                                                        for npc in nearby_npc_list:
-                                                            if npc.first_name == target_npc:
-                                                                current_npc.append(npc)
-                                                                if npc.is_animal == True:
-                                                                    print("in front of you is a " + npc.gender + " " + npc.race + "\n")
-
-                                                                else:
-                                                                    print("in front of you is a " + npc.race + " " + npc.gender + " in " + npc.attire + "\n")
-
-                                                                    if npc.faction != "0":
-                                                                        print(npc.greeting + ", I am " + npc.first_name + " " + npc.last_name + ", the " + npc.title + " of the " + npc.faction + "\n")
-                                                                    else:
-                                                                        print(npc.greeting + ", I am " + npc.first_name + " " + npc.last_name + ", the " + npc.title + "\n")
-
-                                                                print(npc.npc_desc)
-
-                                                                if len(npc.dialouge_options_list) > 1:
-                                                                    print("")
-                                                                    target_dialouge = "0"
-                                                                    for dialouge_option in npc.dialouge_options_list:
-                                                                        print("|| " + str((npc.dialouge_options_list.index(dialouge_option)+1)) + " || " + dialouge_option.text)
-                                                                print("\nWhat will you say? \n")
-                                                                in_submenu2 = True
-                                                                in_submenu_talk2 = True
-                                                                while in_submenu_talk2 == True:
-
-                                                                    #pygame.time.delay(tick_delay_time)
-
-                                                                    func_check_level()
-                                                                    func_refresh_pygame(False,0)
-
-
-
-                                                                    for event in pygame.event.get():
-                                                                        if event.type == pygame.QUIT:
-                                                                            game_start = 0
-                                                                            in_fight = False
-                                                                            in_submenu2 = False
-                                                                            in_submenu_talk2 = False
-                                                                            in_menu = False
-                                                                        elif event.type == pygame.KEYDOWN:
-                                                                            if event.key == pygame.K_w:
-                                                                                func_move_cursor(True)
-                                                                            if event.key == pygame.K_s:
-                                                                                func_move_cursor(False)
-                                                                            if event.key == pygame.K_q:
-                                                                                func_reset_cursor_pos()
-                                                                                in_submenu2 = False
-                                                                                in_submenu_talk2 = False
-
-                                                                            if event.key == pygame.K_e:
-                                                                                sfx_cursor_select.play()
-                                                                                if len(npc.dialouge_options_list) > 1:
-                                                                                    val_target_input = menu_cursor_pos
-                                                                                    val_dialouge = val_target_input - 1
-                                                                                    for dialouge_option in npc.dialouge_options_list:
-                                                                                        if val_dialouge == npc.dialouge_options_list.index(dialouge_option):
-                                                                                            target_dialouge = dialouge_option.text
-
-                                                                                            for dialouge_option in npc.dialouge_options_list:
-                                                                                                if dialouge_option.text == target_dialouge:
-
-                                                                                                    if dialouge_option.is_quit == True:
-                                                                                                        print("Goodbye!")
-                                                                                                        in_submenu2 = False
-                                                                                                        in_submenu_talk2 = False
-                                                                                                        break
-
-                                                                                                    if dialouge_option.is_buy_weapon == True:
-                                                                                                        func_shop(weapon,npc.npc_weapon_inventory)
-                                                                                                        # in_submenu2 = False
-                                                                                                        # in_submenu_talk2 = False
-                                                                                                        break
-                                                                                                    if dialouge_option.is_buy_armor == True:
-                                                                                                        func_shop(armor,npc.npc_armor_inventory)
-                                                                                                        # in_submenu2 = False
-                                                                                                        # in_submenu_talk2 = False
-                                                                                                        break
-                                                                                                    if dialouge_option.is_buy_helmet == True:
-                                                                                                        func_shop(helmet,npc.npc_helmet_inventory)
-                                                                                                        # in_submenu2 = False
-                                                                                                        # in_submenu_talk2 = False
-                                                                                                        break
-                                                                                                    if dialouge_option.is_buy_shield == True:
-                                                                                                        func_shop(armor,npc.npc_shield_inventory)
-                                                                                                        # in_submenu2 = False
-                                                                                                        # in_submenu_talk2 = False
-                                                                                                        break
-
-                                                                                                    if dialouge_option.is_buy_item == True:
-                                                                                                        func_shop(item,npc.npc_inventory)
-                                                                                                        # in_submenu2 = False
-                                                                                                        # in_submenu_talk2 = False
-                                                                                                        # break
-                                                                                                    if dialouge_option.is_buy_spell == True:
-                                                                                                        func_shop(spell,npc.npc_spell_inventory)
-                                                                                                        # in_submenu2 = False
-                                                                                                        # in_submenu_talk2 = False
-                                                                                                        break
-
-                                                                                                    if dialouge_option.is_talk == True:
-                                                                                                        if npc.is_animal == True:
-                                                                                                            print("You cannot speak with animals")
-                                                                                                        if npc.is_animal == False:
-                                                                                                            print(npc.talk_text)
-                                                                                                            for quest in quest_list:
-                                                                                                                if quest.started == True and quest.quest_talk_npc == True:
-                                                                                                                    if quest.quest_npc_fname == target_npc:
-                                                                                                                        quest.finished = True
-                                                                                                                        print(quest.name + " is ready to turn in!")
-
-
-                                                                                                    if dialouge_option.is_sell == True:
-                                                                                                        if dev_mode >= 2:
-                                                                                                            print("")
-                                                                                                            print("|| 1 || Items")
-                                                                                                            print("|| 2 || Weapons")
-                                                                                                            print("|| 3 || Armor")
-                                                                                                            print("|| 4 || Helmets")
-                                                                                                            print("|| 5 || Shields")
-                                                                                                            print("|| 6 || Spells")
-                                                                                                        in_submenu3 = True
-                                                                                                        in_submenu_sell3 = True
-                                                                                                        while in_submenu_sell3 == True:
-
-                                                                                                            #pygame.time.delay(tick_delay_time)
-
-                                                                                                            func_check_level()
-                                                                                                            func_refresh_pygame(False,0)
-
-
-
-                                                                                                            for event in pygame.event.get():
-                                                                                                                if event.type == pygame.QUIT:
-                                                                                                                    game_start = 0
-                                                                                                                    in_fight = False
-                                                                                                                    in_submenu3 = False
-                                                                                                                    in_submenu_sell3 = False
-                                                                                                                    in_menu = False
-                                                                                                                if event.type == pygame.KEYDOWN:
-                                                                                                                    if event.key == pygame.K_w:
-                                                                                                                        func_move_cursor(True)
-                                                                                                                    if event.key == pygame.K_s:
-                                                                                                                        func_move_cursor(False)
-                                                                                                                    if event.key == pygame.K_q:
-                                                                                                                        func_reset_cursor_pos()
-                                                                                                                        in_submenu3 = False
-                                                                                                                        in_submenu_sell3 = False
-                                                                                                                    if event.key == pygame.K_e:
-                                                                                                                        sfx_cursor_select.play()
-                                                                                                                        if menu_cursor_pos == 1:
-                                                                                                                            func_sell(item,inventory)
-                                                                                                                            func_check_quest_items()
-                                                                                                                            # in_submenu3 = False
-                                                                                                                            # in_submenu_sell3 = False
-                                                                                                                            # # break
-                                                                                                                        if menu_cursor_pos == 2:
-                                                                                                                            func_sell(weapon,weapon_inventory)
-                                                                                                                            # in_submenu3 = False
-                                                                                                                            # in_submenu_sell3 = False
-                                                                                                                            # break
-                                                                                                                        if menu_cursor_pos == 3:
-                                                                                                                            func_sell(armor,armor_inventory)
-                                                                                                                            # in_submenu3 = False
-                                                                                                                            # in_submenu_sell3 = False
-                                                                                                                            # break
-                                                                                                                        if menu_cursor_pos == 4:
-                                                                                                                            func_sell(helmet,helmet_inventory)
-                                                                                                                            # in_submenu3 = False
-                                                                                                                            # in_submenu_sell3 = False
-                                                                                                                            # break
-                                                                                                                        if menu_cursor_pos == 5:
-                                                                                                                            func_sell(shield,shield_inventory)
-                                                                                                                            # in_submenu3 = False
-                                                                                                                            # in_submenu_sell3 = False
-                                                                                                                            # break
-                                                                                                                        if menu_cursor_pos == 6:
-                                                                                                                            func_sell(spell,spell_inventory)
-
-                                                                                                    if dialouge_option.is_assault == True:
-                                                                                                        print(npc.assault_dialouge)
-                                                                                                        current_enemies.extend(npc.combat_enemy_list)
-                                                                                                        npc_enemy_fname = npc.first_name
-                                                                                                        npc_enemy_lname = npc.last_name
-
-                                                                                                        is_talking = False
-                                                                                                        in_submenu2 = False
-                                                                                                        in_submenu_talk2 = False
-                                                                                                        in_menu = False
-
-                                                                                                        in_fight = True
-                                                                                                        npc_fight = True
-
-                                                                                                        break
-
-                                                                                                    if dialouge_option.is_give == True:
-                                                                                                        print("execute func_give_item")
-                                                                                                        # in_submenu2 = False
-                                                                                                        # in_submenu_talk2 = False
-                                                                                                        # break
-
-                                                                                                    if dialouge_option.is_quest == True:
-                                                                                                        for quest in quest_list:
-                                                                                                            if quest.name == dialouge_option.quest_name and quest.started == False:
-                                                                                                                print("starting " + dialouge_option.quest_name)
-                                                                                                                quest.started = True
-                                                                                                                break
-
-                                                                                                            if quest.name == dialouge_option.quest_name and quest.started == True and quest.finished == False:
-                                                                                                                print("you have already started! " + dialouge_option.quest_name)
-                                                                                                                break
-
-                                                                                                            if quest.name == dialouge_option.quest_name and quest.finished == True and quest.reward_collected == True:
-                                                                                                                print("you have already finished! " + dialouge_option.quest_name)
-                                                                                                                break
-
-                                                                                                            if quest.name == dialouge_option.quest_name and quest.finished == True and quest.reward_collected == False:
-                                                                                                                if quest.quest_collect_item == True:
-                                                                                                                    for item in inventory:
-                                                                                                                        if item.name == quest.quest_item_name:
-                                                                                                                            item.amount -= quest.quest_item_amount
-                                                                                                                            if item.amount <= 0:
-                                                                                                                                inventory.remove(item)
-
-                                                                                                                print(dialouge_option.quest_name + " completed!")
-                                                                                                                print("Thankyou, " + player1.name + " here is your reward ")
-
-                                                                                                                if len(quest.reward_list) != 0:
-                                                                                                                    for item in quest.reward_list:
-                                                                                                                        inventory.append(item)
-                                                                                                                        print("\nYou received a " + item.name)
-
-                                                                                                                print("\nGained " + str(quest.xp) + " xp and " + str(quest.gp) + " gp.")
-                                                                                                                quest.reward_collected = True
-                                                                                                                player1.xp += quest.xp
-                                                                                                                player1.gp += quest.gp
-
-                                                                                                                break
-
-
-                                                                                                        break
-
-                                                                                                    if dialouge_option.is_heal == True:
-                                                                                                        print("\nHealed by the doctor!\n")
-                                                                                                        player1.hp = player1.maxhp
-
-                                                                                                        break
-
-                                                                                                    # break
-
-                                                                                # in_submenu2 = False
-                                                                                # in_submenu_talk2 = False
-                                                                                # break
-
-
-
-                                                                current_npc.remove(npc)
-
-                                                in_submenu = False
-                                                in_submenu_talk = False
-                                                break
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    else:
-                        pass
-
-                in_menu = False
-                break
+                # in_menu = False
+                # break
 
             if event.key == pygame.K_SPACE:
                 sfx_player_select.play()
@@ -5530,7 +5021,8 @@ while game_start == 1:
                 func_reset_cursor_pos()
                 current_menu = menus.root
                 in_menu = True
-                while in_menu == True:
+
+                while in_menu:
                     func_check_level()
                     func_refresh_pygame(False,0)
   
@@ -5544,7 +5036,7 @@ while game_start == 1:
                                 func_reset_cursor_pos()
                                 if current_menu.parent == None:
                                     in_menu = False
-                                    print(f"top menu quit")
+                                    print("top menu quit")
                                     current_menu = None
                                 else:
                                     old_menu = current_menu
@@ -5596,277 +5088,6 @@ while game_start == 1:
                                             func_equip(spell_inventory,equiped_spells)
                                     else:
                                         print(f'leaf menu: {current_menu.name} - no data in leaf object')
-                                    
-
-                                continue
-                                if menu_cursor_pos == 4:
-                                    func_choose_equip_menu()
-                                    
-                                #quest log
-                                elif menu_cursor_pos == 6:
-                                    in_submenu = True
-                                    in_submenu_questlog = True
-                                    while in_submenu_questlog == True:
-
-                                        #pygame.time.delay(tick_delay_time)
-
-                                        func_check_level()
-                                        func_refresh_pygame(False,0)
-
-                                        for event in pygame.event.get():
-                                            if event.type == pygame.QUIT:
-                                                game_start = 0
-                                                in_fight = False
-                                                in_submenu = False
-                                                in_submenu_questlog = False
-                                                in_menu = False
-                                            elif event.type == pygame.KEYDOWN:
-                                                if event.key == pygame.K_w:
-                                                    func_move_cursor(True)
-
-                                                if event.key == pygame.K_s:
-                                                    func_move_cursor(False)
-
-                                                if event.key == pygame.K_q:
-                                                    func_reset_cursor_pos()
-                                                    in_submenu = False
-                                                    in_submenu_questlog = False
-
-                                                if event.key == pygame.K_e:
-
-                                                    val_selected_quest = menu_cursor_pos
-                                                    val_quest = val_selected_quest - 1
-                                                    for quest in quest_list:
-                                                        if val_quest == quest_list.index(quest):
-                                                            selected_quest = quest.name
-
-                                                    for quest in quest_list:
-                                                        if quest.name == selected_quest:
-                                                            print("\n" + quest.name)
-                                                            print("\n" + quest.quest_desc)
-                                                            print(quest.quest_info)
-
-                                #drop
-                                elif menu_cursor_pos == 7:
-                                    print("")
-                                    if dev_mode >= 2:
-                                        print("|| 1 || Items")
-                                        print("|| 2 || Weapons")
-                                        print("|| 3 || Armor")
-                                        print("|| 4 || Helmets")
-                                        print("|| 5 || Shields")
-                                        print("|| 6 || Spells")
-                                        print("\nwhich bag to drop from?\n")
-                                    in_submenu = True
-                                    in_submenu_drop = True
-                                    while in_submenu_drop == True:
-
-                                        #pygame.time.delay(tick_delay_time)
-
-                                        func_check_level()
-                                        func_refresh_pygame(False,0)
-
-
-
-
-                                        for event in pygame.event.get():
-                                            if event.type == pygame.QUIT:
-                                                game_start = 0
-                                                in_fight = False
-                                                in_submenu = False
-                                                in_submenu_drop = False
-                                                in_menu = False
-                                            elif event.type == pygame.KEYDOWN:
-                                                if event.key == pygame.K_w:
-                                                    func_move_cursor(True)
-                                                if event.key == pygame.K_s:
-                                                    func_move_cursor(False)
-                                                if event.key == pygame.K_q:
-                                                    func_reset_cursor_pos()
-                                                    in_submenu = False
-                                                    in_submenu_drop = False
-
-                                                if event.key == pygame.K_e:
-                                                    sfx_cursor_select.play()
-                                                    if menu_cursor_pos == 1:
-                                                        if len(inventory) != 0:
-                                                            func_drop(item,inventory)
-                                                        else:
-                                                            print("you have no items in your inventory...")
-                                                    elif menu_cursor_pos == 2:
-                                                        if len(weapon_inventory) != 0:
-                                                            func_drop(weapon,weapon_inventory)
-                                                        else:
-                                                            print("you have no weapons in your inventory...")
-                                                    elif menu_cursor_pos == 3:
-                                                        if len(armor_inventory) != 0:
-                                                            func_drop(armor,armor_inventory)
-                                                        else:
-                                                            print("you have no armor in your inventory...")
-                                                    elif menu_cursor_pos == 4:
-                                                        if len(helmet_inventory) != 0:
-                                                            func_drop(helmet,helmet_inventory)
-                                                        else:
-                                                            print("you have no helmets in your inventory...")
-                                                    elif menu_cursor_pos == 5:
-                                                        if len(shield_inventory) != 0:
-                                                            func_drop(shield,shield_inventory)
-                                                        else:
-                                                            print("you have no shields in your inventory...")
-                                                    elif menu_cursor_pos == 6:
-                                                        if len(spell_inventory) != 0:
-                                                            func_drop(spell,spell_inventory)
-                                                        else:
-                                                            print("you have no spell scrolls in your inventory...")
-                                                    else:
-                                                        print("\ninvalid choice!\n")
-                                                    in_submenu = False
-                                                    in_submenu_drop = False
-                                                    break
-                               
-                                #use
-                                elif menu_cursor_pos == 2:
-                                    func_use(item,inventory)
-                                #skills
-                                elif menu_cursor_pos == 1:
-
-                                    in_submenu = True
-                                    in_submenu_action = True
-                                    while in_submenu_action == True:
-
-                                        #pygame.time.delay(tick_delay_time)
-
-                                        func_check_level()
-                                        func_refresh_pygame(False,0)
-
-                                        for event in pygame.event.get():
-                                            if event.type == pygame.QUIT:
-                                                game_start = 0
-                                                in_fight = False
-                                                in_submenu = False
-                                                in_submenu_action = False
-                                                in_menu = False
-                                            elif event.type == pygame.KEYDOWN:
-                                                if event.key == pygame.K_w:
-                                                    func_move_cursor(True)
-                                                if event.key == pygame.K_s:
-                                                    func_move_cursor(False)
-
-                                                if event.key == pygame.K_q:
-                                                    func_reset_cursor_pos()
-                                                    in_submenu = False
-                                                    in_submenu_action = False
-
-                                                if event.key == pygame.K_e:
-                                                    sfx_cursor_select.play()
-
-                                                    if menu_cursor_pos == 1:
-                                                        stolen_item = "0"
-                                                        for scene_type in location:
-                                                            if scene_type.can_steal == True:
-                                                                for item in all_game_items:
-                                                                    steal_chance = random.randint(0,10)
-                                                                    if steal_chance == 10:
-                                                                        print("you steal " + item.name)
-                                                                        player1_skills.thieving_xp += item.value
-                                                                        func_check_level()
-                                                                        stolen_item = item.name
-                                                                        break
-
-                                                                has_item_multiple = False
-
-                                                                for item in inventory:
-                                                                    if item.name == stolen_item:
-                                                                        has_item_multiple = True
-                                                                        item.amount += 1
-                                                                        break
-                                                                if has_item_multiple == False:
-                                                                    for item in all_game_items:
-                                                                        if item.name == stolen_item:
-                                                                            inventory.append(item)
-                                                                            break
-
-                                                            else:
-                                                                print("You cannot steal from here")
-
-                                                    if menu_cursor_pos == 2:
-                                                        fish_caught = "0"
-                                                        has_rod = False
-                                                        for scene_type in location:
-                                                            if scene_type.can_fish == True:
-                                                                for item in inventory:
-                                                                    if item.name == "fishing rod":
-                                                                        has_rod = True
-
-                                                                if has_rod == True:
-                                                                    for item in all_game_items:
-                                                                        if item.is_fish == True:
-                                                                            fish_chance = random.randint(0,10)
-                                                                            if fish_chance == 10:
-                                                                                print("you catch a " + item.name)
-                                                                                player1_skills.fishing_xp += item.value
-                                                                                func_check_level()
-                                                                                fish_caught = item.name
-                                                                                break
-                                                                else:
-                                                                    print("you do not have a fishing rod!")
-
-                                                                has_item_multiple = False
-
-                                                                for item in inventory:
-                                                                    if item.name == fish_caught:
-                                                                        has_item_multiple = True
-                                                                        item.amount += 1
-                                                                        break
-                                                                if has_item_multiple == False:
-                                                                    for item in all_game_items:
-                                                                        if item.name == fish_caught:
-                                                                            inventory.append(item)
-                                                                            break
-
-                                                            else:
-                                                                print("You cannot fish here")
-
-                                                    if menu_cursor_pos == 3:
-                                                        func_cook(item,inventory)
-
-                                                    if menu_cursor_pos == 4:
-                                                        print("func_alchemy")
-
-                                                    if menu_cursor_pos == 5:
-                                                        for scene_type in location:
-                                                            if scene_type.treasure == True:
-                                                                func_search_treasure(location)
-                                                                scene_type.treasure = False
-                                                            else:
-                                                                print("there is nothing here...\n")
-
-                            ################################################
-
-                                #cast
-                                elif menu_cursor_pos == 3:
-                                    func_cast(spell,equiped_spells)
-                                #spellbook
-                                elif menu_cursor_pos == 5:
-                                    print("\nequiped spells:")
-                                    for spell in equiped_spells:
-                                        print("|| " + spell.print_name + " || " + spell.print_attribute + " || " + spell.spell_desc)
-                                    print("")
-                                    print("spell scrolls:")
-                                    for spell in spell_inventory:
-                                        print("|| " + spell.print_name + " || " + spell.print_attribute + " || " + spell.spell_desc)
-                                    print("")
-
-
-                            ################################################
-
-                                elif menu_cursor_pos == 18:
-                                    game_start = 0
-                                    break
-
-                                else:
-                                    print("invalid command\n")
-
 
 #######################################################################################
 

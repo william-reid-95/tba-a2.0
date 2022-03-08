@@ -77,6 +77,9 @@ def get_interactive_tile_from_xyz(x :int,y :int,z :int) -> InteractiveTile:
 small_cave_entrance = InteractiveTile(28, 9, 0, has_tp = True, tp_location = (3,3,1))
 small_cave_exit = InteractiveTile(3, 2, 1, has_tp = True, tp_location = (28,10,0))
 
+dungeon1_entrance = InteractiveTile(44, 4, 0, has_tp = True, tp_location = (3,3,1))
+dungeon1_exit = InteractiveTile(3, 45, 2, has_tp = True, tp_location = (28,10,0))
+
 npc_1 = InteractiveTile(10, 11, 0, npc_list = [npc.npc_cow])
 
 
