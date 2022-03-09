@@ -20,10 +20,10 @@ containers for npcs
 '''
 
 class InteractiveTile:
-    def __init__(self, xpos, ypos, zpos, treasure = False, has_tp = False, tp_location = None, npc_list = []):
+    def __init__(self, xpos, ypos, map_key, treasure = False, has_tp = False, tp_location = None, npc_list = []):
         self.xpos = xpos
         self.ypos = ypos
-        self.zpos = zpos
+        self.map_key = map_key
         self.treasure = treasure #has a chest
         self.has_tp = has_tp
         self.tp_location = tp_location # tuple (x,y,z)
@@ -54,32 +54,32 @@ class InteractiveTile:
                
 
 
-def func_place_deco(x,y,z,sprite,solid = False, size = (1,1)):
+def func_place_deco(x,y,map_key,sprite,solid = False, size = (1,1)):
     for tile in all_scene_types:
-        if tile.xpos == x and tile.ypos == y and tile.zpos == z:
+        if tile.xpos == x and tile.ypos == y and tile.map_key == map_key:
             tile.deco_sprite = sprite
             if solid:
                 tile.passable = False
                 if size[0] > 1 or size [1] > 1:
                     for other_tile in all_scene_types:
                         for i in range(1,size[0]):
-                            if other_tile.xpos == x + i and other_tile.ypos == y and other_tile.zpos == z:
+                            if other_tile.xpos == x + i and other_tile.ypos == y and other_tile.map_key == map_key:
                                 other_tile.passable = False
                         for i in range(1,size[1]):
-                            if other_tile.xpos == x and other_tile.ypos == y + i and other_tile.zpos == z:
+                            if other_tile.xpos == x and other_tile.ypos == y + i and other_tile.map_key == map_key:
                                 other_tile.passable = False
 
-def get_interactive_tile_from_xyz(x :int,y :int,z :int) -> InteractiveTile:
+def get_interactive_tile_from_xy_mk(x :int,y :int,map_key :str) -> InteractiveTile:
     for i in interactive_tiles:
-        if i.x == x and i.y == y and i.z == z:
+        if i.x == x and i.y == y and i.map_key == map_key:
             return i
 
-small_cave_entrance = InteractiveTile(28, 9, 0, has_tp = True, tp_location = (3,3,1))
-small_cave_exit = InteractiveTile(3, 2, 1, has_tp = True, tp_location = (28,10,0))
+small_cave_entrance = InteractiveTile(28, 9, "overworld_1", has_tp = True, tp_location = (3,3,"small_cave"))
+small_cave_exit = InteractiveTile(3, 2, "small_cave", has_tp = True, tp_location = (28,10,"overworld_1"))
 
-dungeon1_entrance = InteractiveTile(44, 4, 0, has_tp = True, tp_location = (3,3,1))
-dungeon1_exit = InteractiveTile(3, 45, 2, has_tp = True, tp_location = (28,10,0))
+dungeon1_entrance = InteractiveTile(44, 4, "overworld_1", has_tp = True, tp_location = (3,46,"dungeon_1"))
+dungeon1_exit = InteractiveTile(3, 45, "dungeon_1", has_tp = True, tp_location = (44,5,"overworld_1"))
 
-npc_1 = InteractiveTile(10, 11, 0, npc_list = [npc.npc_cow])
+npc_1 = InteractiveTile(10, 11, "overworld_1", npc_list = [npc.npc_cow])
 
 

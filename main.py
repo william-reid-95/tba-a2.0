@@ -89,7 +89,7 @@ restock_ticks = 0
 
 steps_x = 11
 steps_y = 11
-steps_z = 0
+current_map_key = "overworld_1"
 
 player_direction = 2
 
@@ -1378,7 +1378,7 @@ def func_refresh_pygame(battle_intro, animation):
     if dev_mode >= 6:
         print("\nrefreshing pygame window // \n")
 
-    if steps_z <= 0:
+    if "ow" in current_map_key:
         win_map.fill((77,101,180)) #blue if on surface
     else:
         win_map.fill((15,15,15)) #black if underground
@@ -1388,14 +1388,14 @@ def func_refresh_pygame(battle_intro, animation):
         layercount +=1
         if layercount == 6:#???? tiled counts deleted layers think?
             
-            for tile in interactive_tiles:#draw interactive objects behind player
+            for tile in active_tiles:#draw interactive objects behind player
                 if tile.ypos <= steps_y:
                     if tile.npc_list:
                         win_map.blit(spr_player, ( ((cx-16) + ((tile.xpos - steps_x)*32)), ((cy-16-32) + ((tile.ypos - steps_y)*32)) )  )
                     
             win_map.blit(spr_player,(cx-16, cy-16-32,)) #draw player
 
-            for tile in interactive_tiles: #draw interactive objects infront of player
+            for tile in active_tiles: #draw interactive objects infront of player
                 if tile.ypos > steps_y:
                     if tile.npc_list:
                         win_map.blit(spr_player, ( ((cx-16) + ((tile.xpos - steps_x)*32)), ((cy-16-32) + ((tile.ypos - steps_y)*32)) )  )
@@ -1431,21 +1431,6 @@ def func_refresh_pygame(battle_intro, animation):
                 game_start = 0
                 battle_intro = False
                 break
-
-        while battle_intro_ticks < 18:
-            pygame.time.delay(tick_delay_time)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    game_start = 0
-                    battle_intro_ticks = 18
-                    break
-            for scene_type in all_scene_types:
-                if scene_type.zpos == steps_z:
-                    tile_r = 100
-                    tile_g = 100
-                    tile_b = 100
-
-                    pygame.draw.rect(win_map, (tile_r,tile_g,tile_b), ( ((cx-16) + ((scene_type.xpos - steps_x)*32*random.randint(1,3))), ((cy-16) + ((scene_type.ypos - steps_y)*(32*random.randint(1,3)))), map_tile_width, map_tile_height))
 
             battle_intro_ticks += 1
             pygame.display.update()
@@ -2941,7 +2926,7 @@ def func_use(player_gear_inv):
                             player_stats.hp = player_stats.maxhp
                             player_stats.mp = player_stats.maxmp
 
-                if item.name == "rope":
+                if item.name == "rope" and False:
                     can_climb = False
                     can_use = True
                     for scene_type in location:
@@ -3043,163 +3028,36 @@ def func_cast(gear,player_gear_inv):
 #############################----SCENE_FUNCTIONS----#########################
 
 def func_tp(coordinates :tuple):
+    '''
+    Takes a tuple and a string, where the first 2 values are 2d coords and the lat value is a key (string) for the map dict
+    '''
+
     global steps_x
     global steps_y
-    global steps_z
+    global current_map_key
 
     global tmx_data
     global tmx_list
 
-    old_z = steps_z
+    old_map = current_map_key
 
     x = coordinates[0]
     y = coordinates[1]
-    z = coordinates[2]
+    
+    map_key = coordinates[2]
 
     steps_x = x
     steps_y = y
-    steps_z = z
+    current_map_key = map_key
 
-    if z != old_z:
+    if map_key != old_map:
         #load new tmx
-        tmx_data = tmx_list[z]
+        tmx_data = tmx_list[map_key]
 
     if dev_mode >= 1:
-        print("you teleported to: ",x,y,z)
+        print(f"you teleported to: {x},{y} {map_key}")
 
     location_desc()
-
-def func_drop(gear,player_gear_inv):
-    global in_menu_item
-    global in_menu_weapon
-    global in_menu_armor
-    global in_menu_helmet
-    global in_menu_shield
-    global in_menu_spell
-    global menu_cursor_pos
-    global in_submenu2
-    global in_submenu_drop2
-    target_gear = "0"
-    for gear in player_gear_inv:
-        if gear in all_game_weapons:
-            in_menu_weapon = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
-        if gear in all_game_armor:
-            in_menu_armor = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
-        if gear in all_game_helmets:
-            in_menu_helmet = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
-        if gear in all_game_shields:
-            in_menu_shield = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || lvl: " + str(gear.level) + " || " + str(gear.value) + " gp. ")
-        if gear in all_game_items:
-            in_menu_item = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || x " + str(gear.amount) + " || " + str(gear.value * gear.amount) + " gp. " )
-        if gear in all_game_spells:
-            in_menu_spell = True
-            print("|| " + str((player_gear_inv.index(gear)+1)) + " || " + gear.print_name + " || " + gear.print_attribute + " || " + str(gear.value) + " gp. ")
-
-    print("\nwhat do you want to drop\n")
-    in_submenu2 = True
-    in_submenu_drop2 = True
-    while in_submenu_drop2 == True:
-
-        #pygame.time.delay(tick_delay_time)
-
-        func_check_level()
-        func_refresh_pygame(False,0)
-
-
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                in_menu_item = False
-                in_menu_weapon = False
-                in_menu_armor = False
-                in_menu_helmet = False
-                in_menu_shield = False
-                in_menu_spell = False
-                in_submenu2 = False
-                in_submenu_drop2 = False
-                in_menu = False
-                game_start = 0
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w:
-                    func_move_cursor(True)
-                if event.key == pygame.K_s:
-                    func_move_cursor(False, limit = len(player_gear_inv))
-                if event.key == pygame.K_q:
-                    func_reset_cursor_pos()
-                    in_submenu2 = False
-                    in_submenu_drop2 = False
-                    in_menu_item = False
-                    in_menu_weapon = False
-                    in_menu_armor = False
-                    in_menu_helmet = False
-                    in_menu_shield = False
-                    in_menu_spell = False
-                if event.key == pygame.K_e:
-                    sfx_cursor_select.play()
-
-                    has_item = False
-                    has_item_multiple = False
-                    ground_has_item_multiple = False
-
-                    val_dropped_item = menu_cursor_pos
-                    val_drop = val_dropped_item - 1
-                    for gear in player_gear_inv:
-                        if val_drop == player_gear_inv.index(gear):
-                            target_gear = gear.name
-
-                    for gear in player_gear_inv:
-                        if target_gear == gear.name:
-                            has_item = True
-
-                            if gear in all_game_items:
-                                print("you drop " + gear.print_name + " x 1" + "\n")
-                                for item in inventory:
-                                    if item.name == target_gear and item.amount > 1:
-                                        has_item_multiple = True
-                                        item.amount -= 1
-                                if has_item_multiple == False:
-                                    for item in inventory:
-                                        if item.name == target_gear:
-                                            inventory.remove(item)
-                            else:
-                                print("was not an item " + gear.print_name + "\n")
-                                player_gear_inv.remove(gear)
-                            break
-                    if has_item == True:
-                        for scene_type in location:
-                            if gear in all_game_items:
-                                end_drop = False
-                                for ground_item in scene_type.scene_inventory:
-                                    if end_drop == False and ground_item.name == target_gear and ground_item.amount >= 1:
-                                        ground_has_item_multiple = True
-                                        ground_item.amount += 1
-                                        end_drop = True
-                                        break
-
-                                if end_drop == False and ground_has_item_multiple == False:
-                                    for ground_item in all_ground_game_items:
-                                        if ground_item.name == target_gear:
-                                            scene_type.scene_inventory.append(ground_item)
-                                    for ground_item in scene_type.scene_inventory:
-                                        if ground_item.name == target_gear:
-                                            ground_item.amount = 1
-                                    end_drop = True
-
-                            if gear in all_game_weapons:
-                                pass # WEAPONS AND ARMOR WILL BE REMOVED FROM INVENTORY, BUT WILL NOT APPEAR ON THE GROUND
-                            if gear in all_game_armor:
-                                pass # WEAPONS AND ARMOR WILL BE REMOVED FROM INVENTORY, BUT WILL NOT APPEAR ON THE GROUND
-                            if gear in all_game_helmets:
-                                pass # WEAPONS AND ARMOR WILL BE REMOVED FROM INVENTORY, BUT WILL NOT APPEAR ON THE GROUND
-                            if gear in all_game_shields:
-                                pass # WEAPONS AND ARMOR WILL BE REMOVED FROM INVENTORY, BUT WILL NOT APPEAR ON THE GROUND
-
-                    break
 
 def func_search_treasure(location):
             scene_difficulty = 0
@@ -3354,54 +3212,6 @@ def func_check_season():
         season = 2
     if months >= 9 and months <= 12:
         season = 3
-
-def func_check_light():
-    has_torch = False
-    for scene_type in location:
-        if steps_z <= -1:
-            for item in inventory:
-                if item.name == "torch":
-                    has_torch = True
-                    scene_type.light = (Fore.YELLOW + Style.DIM + " and very dark, but slightly illuminated by your torch" + Style.RESET_ALL)
-                else:
-                    scene_type.light = (Fore.BLACK + Style.BRIGHT + " and very dark" + Style.RESET_ALL)
-
-        else:
-            is_night = False
-            if time >= 12:
-                is_night = True
-            if is_night == True:
-                for item in inventory:
-                    if item.name == "torch":
-                        has_torch = True
-                if has_torch == True:
-                    if raining == 1 and steps_z >= 0:
-                        scene_type.light = (Fore.BLACK + Style.BRIGHT + ", very dark and lightly raining, your torch illuminates the area" + Style.RESET_ALL)
-                    if raining >= 2 and steps_z >= 0:
-                        scene_type.light = (Fore.BLACK + Style.BRIGHT + ", very dark and raining heavily, your torch illuminates the area" + Style.RESET_ALL)
-                    if raining == 0 and steps_z >= 0:
-                        scene_type.light = (Fore.YELLOW + Style.DIM + " and very dark, but slightly illuminated by your torch" + Style.RESET_ALL)
-                else:
-                    if raining == 1 and steps_z >= 0:
-                        scene_type.light = (Fore.BLUE + Style.DIM + ", very dark and lightly raining" + Style.RESET_ALL)
-                    if raining >= 2 and steps_z >= 0:
-                        scene_type.light = (Fore.BLUE + Style.DIM + ", very dark and raining heavily" + Style.RESET_ALL)
-                    if raining == 0 and steps_z >= 0:
-                        scene_type.light = (Fore.BLACK + Style.BRIGHT + " and very dark" + Style.RESET_ALL)
-            if is_night == False and season == 3:
-                if raining == 1 and steps_z >= 0:
-                    scene_type.light = (Fore.CYAN + Style.DIM + " and lightly raining" + Style.RESET_ALL)
-                if raining >= 2 and steps_z >= 0:
-                    scene_type.light = (Fore.BLUE + Style.NORMAL + " and raining heavily" + Style.RESET_ALL)
-                if raining == 0 and steps_z >= 0:
-                    scene_type.light = (Fore.CYAN + Style.DIM + " and very overcast" + Style.RESET_ALL)
-            if is_night == False and season != 3:
-                if raining == 1 and steps_z >= 0:
-                    scene_type.light = (Fore.CYAN + Style.NORMAL + " and lightly raining" + Style.RESET_ALL)
-                if raining >= 2 and steps_z >= 0:
-                    scene_type.light = (Fore.BLUE + Style.NORMAL + " and raining heavily" + Style.RESET_ALL)
-                if raining == 0 and steps_z >= 0:
-                    scene_type.light = (Fore.YELLOW + Style.BRIGHT + " and very sunny" + Style.RESET_ALL)
 
 ###########################---PLAYER STATS/SKILLS/INVENTORY----############################
 
@@ -3820,28 +3630,27 @@ def check_player_direction():
 
 def player_north_check() -> InteractiveTile:
     for interactable in interactive_tiles:
-        if steps_y-1 == interactable.ypos and steps_x == interactable.xpos and steps_z == interactable.zpos:
+        if steps_y-1 == interactable.ypos and steps_x == interactable.xpos and current_map_key == interactable.map_key:
             return interactable
 
 def player_south_check() -> InteractiveTile:
     for interactable in interactive_tiles:
-        if steps_y+1 == interactable.ypos and steps_x == interactable.xpos and steps_z == interactable.zpos:
+        if steps_y+1 == interactable.ypos and steps_x == interactable.xpos and current_map_key == interactable.map_key:
             return interactable
 
 def player_east_check() -> InteractiveTile:
     for interactable in interactive_tiles:
-        if steps_y == interactable.ypos and steps_x+1 == interactable.xpos and steps_z == interactable.zpos:
+        if steps_y == interactable.ypos and steps_x+1 == interactable.xpos and current_map_key == interactable.map_key:
             return interactable
 
 def player_west_check() -> InteractiveTile:
     for interactable in interactive_tiles:
-        if steps_y == interactable.ypos and steps_x-1 == interactable.xpos and steps_z == interactable.zpos:
+        if steps_y == interactable.ypos and steps_x-1 == interactable.xpos and current_map_key == interactable.map_key:
             return interactable
 
 def location_desc():
     func_check_season()
     func_check_weather()
-    func_check_light()
     if dev_mode >= 1:
         print("\n///   DEV MODE " + str(dev_mode) +"!  ///\n")
         if dev_mode >= 2:
@@ -3943,10 +3752,9 @@ def location_desc():
             
             print("x: ", steps_x)
             print("y: ", steps_y)
-            print("z: ", steps_z)
+            print("map: ", current_map_key)
             print("last x: ", prev_x)
             print("last y: ", prev_y)
-            print("last z: ", prev_z)
 
     func_rain()
             
@@ -4092,11 +3900,13 @@ def func_gen_class_stats(player_class_string):
 
 #####################################
 
-tmx_list = [
-    load_pygame("tmx_maps/overworld_1.tmx"),
-    load_pygame("tmx_maps/small_cave.tmx")]
+tmx_list = {
+    "overworld_1": load_pygame("tmx_maps/overworld_1.tmx"),
+    "small_cave" : load_pygame("tmx_maps/small_cave.tmx"),
+    "dungeon_1" : load_pygame("tmx_maps/dungeon_1.tmx"),
+    }
 
-tmx_data = tmx_list[0]
+tmx_data = tmx_list["overworld_1"]
 
 func_gen_class_stats(player_class_string)
 func_check_stat_bonus()
@@ -4127,7 +3937,7 @@ print("\npress any key to start! \n")
 
 active_tiles = []
 for tile in interactive_tiles:
-    if tile.zpos == steps_z:
+    if tile.map_key == current_map_key:
         active_tiles.append(tile)
 
 func_check_tile_anims()
@@ -4168,10 +3978,9 @@ while game_start == 1:
             for scene_type in location:
                 if scene_type.safe == False:
                     if in_fight == False:
-                        if time >= 1200 and steps_z >= - 1000:
-                            combat_chance = random.randint(0,50)
-                        if time < 1200 or steps_z <= - 1000:
-                            combat_chance = random.randint(0,100)
+                        
+                        combat_chance = random.randint(0,50)
+                        
 
                         if dev_mode >= 3:
                             combat_chance = 50
