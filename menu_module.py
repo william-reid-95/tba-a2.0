@@ -16,11 +16,11 @@ class MenuNode:
         self.data = data
         self.stackable_data = stackable_data #is the object in the data list stackable
         self.shop_var = shop_var
-        
+
         self.children = []
         self.parent = None
 
-    
+
     def add_child(self,child):
         child.parent = self
         self.children.append(child)
@@ -113,3 +113,21 @@ dialouge_root.add_child(dialouge_talk)
 dialouge_root.add_child(dialouge_attack)
 dialouge_root.add_child(dialouge_heal)
 dialouge_root.add_child(dialouge_give)
+
+#####
+
+travel_root = MenuNode("Travel Menu")
+
+class TravelLocation:
+    def __init__ (self, name, data):
+        self.name = name
+        self.data = data
+
+island1 = TravelLocation("Island", (8,7,"start_island"))
+home1 = TravelLocation("Dismurth", (14,40,"overworld_1"))
+dungeon_1_1 = TravelLocation("Cave", (12,39,"dungeon_1"))
+
+
+travel_root.data = [island1,home1,dungeon_1_1]
+
+#etc...

@@ -1880,6 +1880,11 @@
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="375" duration="300"/>
+   <frame tileid="374" duration="300"/>
+   <frame tileid="373" duration="300"/>
+  </animation>
  </tile>
  <tile id="376">
   <properties>
@@ -2053,7 +2058,7 @@
  </tile>
  <tile id="410">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="411">
@@ -3410,6 +3415,11 @@
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="681" duration="300"/>
+   <frame tileid="682" duration="300"/>
+   <frame tileid="683" duration="300"/>
+  </animation>
  </tile>
  <tile id="682">
   <properties>
@@ -3585,6 +3595,11 @@
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="716" duration="300"/>
+   <frame tileid="717" duration="300"/>
+   <frame tileid="718" duration="300"/>
+  </animation>
  </tile>
  <tile id="717">
   <properties>

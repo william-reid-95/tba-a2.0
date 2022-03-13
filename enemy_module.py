@@ -196,7 +196,7 @@ imp4.name = "imp4"
 slime1 = enemy_stats(
     name = "slime1",
     print_name = "slime",
-    level = 100,
+    level = 1,
     xp = 20,
     maxhp = 320,
     maxmp = 800,
@@ -222,6 +222,71 @@ all_game_enemies.append(slime3)
 slime4 = copy.copy(slime1)
 slime4.name = "slime4"
 all_game_enemies.append(slime4)
+
+### goblin
+
+goblin1 = enemy_stats(
+    name = "goblin1",
+    print_name = "goblin",
+    level = 4,
+    xp = 20,
+    maxhp = 400,
+    maxmp = 100,
+    magic = 1,
+    strength = 20,
+    attack = 20,
+    defence = 2,
+    gp = 100,
+    attribute = "earth",
+    weakness = "fire",
+    sprite = spr_goblin,
+    drop_table_items_always = [bones,apple,meat])
+
+
+goblin2 = copy.copy(goblin1)
+goblin2.name = "goblin2"
+all_game_enemies.append(goblin2)
+
+goblin3 = copy.copy(goblin1)
+goblin3.name = "goblin3"
+all_game_enemies.append(goblin3)
+
+goblin4 = copy.copy(goblin1)
+goblin4.name = "goblin4"
+all_game_enemies.append(goblin4)
+
+### 
+
+rat1 = enemy_stats(
+    name = "rat1",
+    print_name = "rat",
+    level = 5,
+    xp = 50,
+    maxhp = 600,
+    maxmp = 100,
+    magic = 10,
+    strength = 20,
+    attack = 25,
+    defence = 18,
+    gp = 100,
+    attribute = "water",
+    weakness = "fire",
+    sprite = spr_rat,
+    drop_table_items_always = [bones,apple,meat])
+
+
+rat2 = copy.copy(rat1)
+rat2.name = "rat2"
+all_game_enemies.append(rat2)
+
+rat3 = copy.copy(rat1)
+rat3.name = "rat3"
+all_game_enemies.append(rat3)
+
+rat4 = copy.copy(rat1)
+rat4.name = "rat4"
+all_game_enemies.append(rat4)
+
 
 ### 
 

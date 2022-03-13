@@ -295,10 +295,10 @@ iron_square_shield = Shield(301,"iron square shield",100,"heavy",9,"air",1,2,2,1
 steel_square_shield = Shield(301,"steel square shield",100,"heavy",18,"air",1,4,2,20,500)
 mage_book = Shield(301,"mage book",100,"light",99,"air",100,0,0,40,1000)
 
-wooden_round_shield = Shield(301,"wooden round shield",100,"light",1,"air",0,0,0,40,100)
+wooden_round_shield = Shield(301,"wooden round shield",100,"light",1,"air",0,0,0,5,50)
 magic_orb = Shield(301,"magic orb",100,"light",1,"air",30,0,0,0,0)
 
-buckler = Shield(301,"buckler",500,"light",5,"air",0,0,0,60,650)
+buckler = Shield(301,"buckler",500,"light",5,"air",0,0,0,10,100)
 red_magic_gem = Shield(301,"red magic gem",1000,"light",5,"fire",50,40,0,0,0)
 green_magic_gem = Shield(301,"green magic gem",1000,"light",5,"earth",40,10,10,10,0)
 blue_magic_gem = Shield(301,"blue magic gem",1000,"light",5,"water",40,0,0,40,1000)

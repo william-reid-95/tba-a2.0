@@ -3,17 +3,17 @@
  <image source="../tilemaps/Raven Fantasy - Pixel Art Tileset - Miner's Cave/All Tileset/32x32.png" width="832" height="928"/>
  <tile id="0">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="1">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="2">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="3">
@@ -58,18 +58,33 @@
  </tile>
  <tile id="11">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="11" duration="300"/>
+   <frame tileid="219" duration="300"/>
+   <frame tileid="349" duration="300"/>
+  </animation>
  </tile>
  <tile id="12">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="12" duration="300"/>
+   <frame tileid="220" duration="300"/>
+   <frame tileid="350" duration="300"/>
+  </animation>
  </tile>
  <tile id="13">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="13" duration="300"/>
+   <frame tileid="221" duration="300"/>
+   <frame tileid="351" duration="300"/>
+  </animation>
  </tile>
  <tile id="14">
   <properties>
@@ -133,17 +148,17 @@
  </tile>
  <tile id="26">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="27">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="28">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="29">
@@ -188,18 +203,28 @@
  </tile>
  <tile id="37">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="37" duration="300"/>
+   <frame tileid="245" duration="300"/>
+   <frame tileid="375" duration="300"/>
+  </animation>
  </tile>
  <tile id="38">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="39">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="39" duration="300"/>
+   <frame tileid="247" duration="300"/>
+   <frame tileid="377" duration="300"/>
+  </animation>
  </tile>
  <tile id="40">
   <properties>
@@ -263,17 +288,17 @@
  </tile>
  <tile id="52">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="53">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="54">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="55">
@@ -318,18 +343,33 @@
  </tile>
  <tile id="63">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="63" duration="300"/>
+   <frame tileid="271" duration="300"/>
+   <frame tileid="401" duration="300"/>
+  </animation>
  </tile>
  <tile id="64">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="64" duration="300"/>
+   <frame tileid="272" duration="300"/>
+   <frame tileid="402" duration="300"/>
+  </animation>
  </tile>
  <tile id="65">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
+  <animation>
+   <frame tileid="65" duration="300"/>
+   <frame tileid="273" duration="300"/>
+   <frame tileid="403" duration="300"/>
+  </animation>
  </tile>
  <tile id="66">
   <properties>
@@ -705,6 +745,11 @@
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="140" duration="300"/>
+   <frame tileid="139" duration="300"/>
+   <frame tileid="138" duration="300"/>
+  </animation>
  </tile>
  <tile id="141">
   <properties>
@@ -835,6 +880,11 @@
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="166" duration="300"/>
+   <frame tileid="165" duration="300"/>
+   <frame tileid="164" duration="300"/>
+  </animation>
  </tile>
  <tile id="167">
   <properties>
@@ -965,6 +1015,11 @@
   <properties>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="192" duration="300"/>
+   <frame tileid="191" duration="300"/>
+   <frame tileid="190" duration="300"/>
+  </animation>
  </tile>
  <tile id="193">
   <properties>
@@ -2103,7 +2158,7 @@
  </tile>
  <tile id="420">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="421">
@@ -2993,37 +3048,37 @@
  </tile>
  <tile id="598">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="599">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="600">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="601">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="602">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="603">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="604">
   <properties>
-   <property name="solid" type="int" value="0"/>
+   <property name="solid" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="605">
