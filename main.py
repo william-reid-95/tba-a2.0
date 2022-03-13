@@ -320,6 +320,7 @@ class player_stats:
         self.strength = 1
         self.attack = 1
         self.defence = 1
+        self.stat_points = 0
 
         self.maxhp = 1 # hit points maximum value
         self.nobonus_maxhp = 1 #  hit points max without gear bonus
@@ -2738,28 +2739,29 @@ def func_check_stat_bonus():
 def func_check_level():
 
     for player_stats in players:
-        if player_stats.magic_xp >= (player_stats.magic ** 2)*10:
-            player_stats.magic += 1
-            print("\nyour magic level is now: ", player_stats.magic)
-            func_check_level()
-
-        if player_stats.strength_xp >= (player_stats.strength ** 2)*10:
-            player_stats.strength += 1
-            print("\nyour strength level is now: ", player_stats.strength)
-            func_check_level()
-
-        if player_stats.attack_xp >= (player_stats.attack ** 2)*10:
-            player_stats.attack += 1
-            print("\nyour attack level is now: ", player_stats.attack)
-            func_check_level()
-
-        if player_stats.defence_xp >= (player_stats.defence ** 2)*10:
-            player_stats.defence += 1
-            print("\nyour defence level is now: ", player_stats.defence)
-            func_check_level()
+        # if player_stats.magic_xp >= (player_stats.magic ** 2)*10:
+        #     player_stats.magic += 1
+        #     print("\nyour magic level is now: ", player_stats.magic)
+        #     func_check_level()
+        #
+        # if player_stats.strength_xp >= (player_stats.strength ** 2)*10:
+        #     player_stats.strength += 1
+        #     print("\nyour strength level is now: ", player_stats.strength)
+        #     func_check_level()
+        #
+        # if player_stats.attack_xp >= (player_stats.attack ** 2)*10:
+        #     player_stats.attack += 1
+        #     print("\nyour attack level is now: ", player_stats.attack)
+        #     func_check_level()
+        #
+        # if player_stats.defence_xp >= (player_stats.defence ** 2)*10:
+        #     player_stats.defence += 1
+        #     print("\nyour defence level is now: ", player_stats.defence)
+        #     func_check_level()
 
         if player_stats.xp >= (player_stats.level ** 2)*10:
             player_stats.level += 1
+            player_stats.stat_points += 1
             print("\nLEVELED UP \nyou are now level: ", player_stats.level)
             func_check_level()
 
