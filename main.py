@@ -1996,7 +1996,7 @@ def func_use_combat(gear,player_gear_inv):
                     in_submenu_use_combat = False
 
 #############################--MENU FUNCTIONS--#######################
-
+                           
 def check_quit(event):
     global game_start
     if event.type == pygame.QUIT:
